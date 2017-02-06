@@ -2,6 +2,18 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:LICENSE.md">
+   </FileRef>
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:Cartfile">
+   </FileRef>
+   <FileRef
+      location = "group:Cartfile.resolved">
+   </FileRef>
+   <FileRef
       location = "group:CloudUI/CloudUI.xcodeproj">
    </FileRef>
 </Workspace>

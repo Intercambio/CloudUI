@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F63F52341E48AFAA006DAF83"
-               BuildableName = "iOS.framework"
+               BuildableName = "CloudUI.framework"
                BlueprintName = "iOS"
                ReferencedContainer = "container:CloudUI.xcodeproj">
             </BuildableReference>
@@ -34,7 +34,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F63F523D1E48AFAA006DAF83"
-               BuildableName = "iOSTests.xctest"
+               BuildableName = "CloudUITests.xctest"
                BlueprintName = "iOSTests"
                ReferencedContainer = "container:CloudUI.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F63F52341E48AFAA006DAF83"
-            BuildableName = "iOS.framework"
+            BuildableName = "CloudUI.framework"
             BlueprintName = "iOS"
             ReferencedContainer = "container:CloudUI.xcodeproj">
          </BuildableReference>
@@ -66,7 +66,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F63F52341E48AFAA006DAF83"
-            BuildableName = "iOS.framework"
+            BuildableName = "CloudUI.framework"
             BlueprintName = "iOS"
             ReferencedContainer = "container:CloudUI.xcodeproj">
          </BuildableReference>
@@ -84,7 +84,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F63F52341E48AFAA006DAF83"
-            BuildableName = "iOS.framework"
+            BuildableName = "CloudUI.framework"
             BlueprintName = "iOS"
             ReferencedContainer = "container:CloudUI.xcodeproj">
          </BuildableReference>
