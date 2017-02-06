@@ -13,7 +13,11 @@ import CloudStore
 class ResourceListDataSource: NSObject, FTDataSource {
     
     let resourceManager: ResourceManager
-    let resource: Resource
+    private(set) var resource: Resource? {
+        didSet {
+            reload()
+        }
+    }
     
     init(resourceManager: ResourceManager, resource: Resource) {
         self.resourceManager = resourceManager
@@ -33,22 +37,34 @@ class ResourceListDataSource: NSObject, FTDataSource {
     @objc private func resourceManagerDidChange(_ notification: Notification) {
         DispatchQueue.main.async {
             
-            if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [Resource] {
-                for resource in insertedOrUpdate {
-                    if self.resource.path.starts(with: resource.path)  {
-                        self.reload()
-                        return
+            var needsReload: Bool = false
+            
+            if let resource = self.resource {
+                if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [Resource] {
+                    for updatedResource in insertedOrUpdate {
+                        if resource == updatedResource {
+                            self.resource = updatedResource
+                            return
+                        } else if resource.path.starts(with: updatedResource.path) {
+                            needsReload = true
+                        }
+                    }
+                }
+                if let deleted = notification.userInfo?[DeletedResourcesKey] as? [Resource] {
+                    for deletedResource in deleted {
+                        if resource == deletedResource {
+                            self.resource = nil
+                            return
+                        } else if resource.path.starts(with: deletedResource.path) {
+                            self.resource = nil
+                            return
+                        }
                     }
                 }
             }
             
-            if let deleted = notification.userInfo?[DeletedResourcesKey] as? [Resource] {
-                for resource in deleted {
-                    if self.resource.path.starts(with: resource.path)  {
-                        self.reload()
-                        return
-                    }
-                }
+            if needsReload {
+                self.reload()
             }
         }
     }
@@ -57,14 +73,32 @@ class ResourceListDataSource: NSObject, FTDataSource {
     
     private func reload() {
         do {
-            let resources = try resourceManager.content(at: resource.path)
+            
+            defer {
+                for observer in _observers.allObjects {
+                    observer.dataSourceDidReset?(self)
+                }
+            }
+            
             for observer in _observers.allObjects {
                 observer.dataSourceWillReset?(self)
             }
-            self.resources = resources
-            for observer in _observers.allObjects {
-                observer.dataSourceDidReset?(self)
+            
+            guard
+                let resource = self.resource
+                else {
+                    self.resources = []
+                    return
             }
+            
+            if resource.dirty {
+                resourceManager.updateResource(at: resource.path) { (error) in
+                    NSLog("Failed to update resources: \(error)")
+                }
+            }
+            
+            self.resources = try resourceManager.content(at: resource.path)
+
         } catch {
             NSLog("Failed to get resources: \(error)")
         }
