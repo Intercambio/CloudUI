@@ -20,6 +20,22 @@
 		F63F525E1E48B255006DAF83 /* Fountain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52541E48B24A006DAF83 /* Fountain.framework */; };
 		F63F525F1E48B255006DAF83 /* PureXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52551E48B24A006DAF83 /* PureXML.framework */; };
 		F63F52601E48B255006DAF83 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52561E48B24A006DAF83 /* SQLite.framework */; };
+		F63F52651E48B350006DAF83 /* UserInterfaceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52641E48B350006DAF83 /* UserInterfaceModule.swift */; };
+		F63F52711E48B3AC006DAF83 /* AccountListModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F526B1E48B3AC006DAF83 /* AccountListModule.swift */; };
+		F63F52721E48B3AC006DAF83 /* AccountListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F526C1E48B3AC006DAF83 /* AccountListPresenter.swift */; };
+		F63F52731E48B3AC006DAF83 /* AccountListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F526D1E48B3AC006DAF83 /* AccountListDataSource.swift */; };
+		F63F52741E48B3AC006DAF83 /* AccountListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F526E1E48B3AC006DAF83 /* AccountListView.swift */; };
+		F63F52751E48B3AC006DAF83 /* AccountListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F526F1E48B3AC006DAF83 /* AccountListViewController.swift */; };
+		F63F52761E48B3AC006DAF83 /* AccountListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52701E48B3AC006DAF83 /* AccountListCell.swift */; };
+		F63F52781E48B3B3006DAF83 /* MainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52771E48B3B3006DAF83 /* MainModule.swift */; };
+		F63F527A1E48B3B9006DAF83 /* ResourceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52791E48B3B9006DAF83 /* ResourceModule.swift */; };
+		F63F527C1E48B3C0006DAF83 /* ResourceBrowserModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F527B1E48B3C0006DAF83 /* ResourceBrowserModule.swift */; };
+		F63F52831E48B3CB006DAF83 /* ResourceListModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F527D1E48B3CB006DAF83 /* ResourceListModule.swift */; };
+		F63F52841E48B3CB006DAF83 /* ResourceListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F527E1E48B3CB006DAF83 /* ResourceListPresenter.swift */; };
+		F63F52851E48B3CB006DAF83 /* ResourceListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F527F1E48B3CB006DAF83 /* ResourceListDataSource.swift */; };
+		F63F52861E48B3CB006DAF83 /* ResourceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52801E48B3CB006DAF83 /* ResourceListView.swift */; };
+		F63F52871E48B3CB006DAF83 /* ResourceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52811E48B3CB006DAF83 /* ResourceListViewController.swift */; };
+		F63F52881E48B3CB006DAF83 /* ResourceListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52821E48B3CB006DAF83 /* ResourceListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +60,22 @@
 		F63F52541E48B24A006DAF83 /* Fountain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fountain.framework; path = ../Carthage/Build/iOS/Fountain.framework; sourceTree = "<group>"; };
 		F63F52551E48B24A006DAF83 /* PureXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PureXML.framework; path = ../Carthage/Build/iOS/PureXML.framework; sourceTree = "<group>"; };
 		F63F52561E48B24A006DAF83 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = ../Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
+		F63F52641E48B350006DAF83 /* UserInterfaceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInterfaceModule.swift; sourceTree = "<group>"; };
+		F63F526B1E48B3AC006DAF83 /* AccountListModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListModule.swift; sourceTree = "<group>"; };
+		F63F526C1E48B3AC006DAF83 /* AccountListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListPresenter.swift; sourceTree = "<group>"; };
+		F63F526D1E48B3AC006DAF83 /* AccountListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListDataSource.swift; sourceTree = "<group>"; };
+		F63F526E1E48B3AC006DAF83 /* AccountListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListView.swift; sourceTree = "<group>"; };
+		F63F526F1E48B3AC006DAF83 /* AccountListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListViewController.swift; sourceTree = "<group>"; };
+		F63F52701E48B3AC006DAF83 /* AccountListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListCell.swift; sourceTree = "<group>"; };
+		F63F52771E48B3B3006DAF83 /* MainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainModule.swift; sourceTree = "<group>"; };
+		F63F52791E48B3B9006DAF83 /* ResourceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceModule.swift; sourceTree = "<group>"; };
+		F63F527B1E48B3C0006DAF83 /* ResourceBrowserModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBrowserModule.swift; sourceTree = "<group>"; };
+		F63F527D1E48B3CB006DAF83 /* ResourceListModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceListModule.swift; sourceTree = "<group>"; };
+		F63F527E1E48B3CB006DAF83 /* ResourceListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceListPresenter.swift; sourceTree = "<group>"; };
+		F63F527F1E48B3CB006DAF83 /* ResourceListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceListDataSource.swift; sourceTree = "<group>"; };
+		F63F52801E48B3CB006DAF83 /* ResourceListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceListView.swift; sourceTree = "<group>"; };
+		F63F52811E48B3CB006DAF83 /* ResourceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceListViewController.swift; sourceTree = "<group>"; };
+		F63F52821E48B3CB006DAF83 /* ResourceListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +129,8 @@
 		F63F52371E48AFAA006DAF83 /* CloudUI */ = {
 			isa = PBXGroup;
 			children = (
+				F63F52621E48B33D006DAF83 /* Common */,
+				F63F52631E48B343006DAF83 /* Modules */,
 				F63F524F1E48AFC8006DAF83 /* Supporting Files */,
 			);
 			path = CloudUI;
@@ -138,6 +172,76 @@
 				F63F52561E48B24A006DAF83 /* SQLite.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F63F52621E48B33D006DAF83 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		F63F52631E48B343006DAF83 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				F63F52641E48B350006DAF83 /* UserInterfaceModule.swift */,
+				F63F52661E48B36C006DAF83 /* Account List */,
+				F63F52671E48B374006DAF83 /* Main */,
+				F63F52681E48B379006DAF83 /* Resource */,
+				F63F52691E48B37E006DAF83 /* Resource Browser */,
+				F63F526A1E48B386006DAF83 /* Resource List */,
+			);
+			name = Modules;
+			sourceTree = "<group>";
+		};
+		F63F52661E48B36C006DAF83 /* Account List */ = {
+			isa = PBXGroup;
+			children = (
+				F63F526B1E48B3AC006DAF83 /* AccountListModule.swift */,
+				F63F526C1E48B3AC006DAF83 /* AccountListPresenter.swift */,
+				F63F526D1E48B3AC006DAF83 /* AccountListDataSource.swift */,
+				F63F526E1E48B3AC006DAF83 /* AccountListView.swift */,
+				F63F526F1E48B3AC006DAF83 /* AccountListViewController.swift */,
+				F63F52701E48B3AC006DAF83 /* AccountListCell.swift */,
+			);
+			name = "Account List";
+			sourceTree = "<group>";
+		};
+		F63F52671E48B374006DAF83 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				F63F52771E48B3B3006DAF83 /* MainModule.swift */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		F63F52681E48B379006DAF83 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				F63F52791E48B3B9006DAF83 /* ResourceModule.swift */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
+		F63F52691E48B37E006DAF83 /* Resource Browser */ = {
+			isa = PBXGroup;
+			children = (
+				F63F527B1E48B3C0006DAF83 /* ResourceBrowserModule.swift */,
+			);
+			name = "Resource Browser";
+			sourceTree = "<group>";
+		};
+		F63F526A1E48B386006DAF83 /* Resource List */ = {
+			isa = PBXGroup;
+			children = (
+				F63F527D1E48B3CB006DAF83 /* ResourceListModule.swift */,
+				F63F527E1E48B3CB006DAF83 /* ResourceListPresenter.swift */,
+				F63F527F1E48B3CB006DAF83 /* ResourceListDataSource.swift */,
+				F63F52801E48B3CB006DAF83 /* ResourceListView.swift */,
+				F63F52811E48B3CB006DAF83 /* ResourceListViewController.swift */,
+				F63F52821E48B3CB006DAF83 /* ResourceListCell.swift */,
+			);
+			name = "Resource List";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,6 +307,7 @@
 				TargetAttributes = {
 					F63F52341E48AFAA006DAF83 = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Manual;
 					};
 					F63F523D1E48AFAA006DAF83 = {
@@ -273,6 +378,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F63F52851E48B3CB006DAF83 /* ResourceListDataSource.swift in Sources */,
+				F63F52721E48B3AC006DAF83 /* AccountListPresenter.swift in Sources */,
+				F63F52871E48B3CB006DAF83 /* ResourceListViewController.swift in Sources */,
+				F63F52761E48B3AC006DAF83 /* AccountListCell.swift in Sources */,
+				F63F527C1E48B3C0006DAF83 /* ResourceBrowserModule.swift in Sources */,
+				F63F52881E48B3CB006DAF83 /* ResourceListCell.swift in Sources */,
+				F63F52831E48B3CB006DAF83 /* ResourceListModule.swift in Sources */,
+				F63F52651E48B350006DAF83 /* UserInterfaceModule.swift in Sources */,
+				F63F52861E48B3CB006DAF83 /* ResourceListView.swift in Sources */,
+				F63F52751E48B3AC006DAF83 /* AccountListViewController.swift in Sources */,
+				F63F52841E48B3CB006DAF83 /* ResourceListPresenter.swift in Sources */,
+				F63F52731E48B3AC006DAF83 /* AccountListDataSource.swift in Sources */,
+				F63F527A1E48B3B9006DAF83 /* ResourceModule.swift in Sources */,
+				F63F52711E48B3AC006DAF83 /* AccountListModule.swift in Sources */,
+				F63F52781E48B3B3006DAF83 /* MainModule.swift in Sources */,
+				F63F52741E48B3AC006DAF83 /* AccountListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +519,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -411,6 +533,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = im.intercambio.CloudUI;
 				PRODUCT_NAME = CloudUI;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -419,6 +542,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -439,6 +563,7 @@
 		F63F524D1E48AFAA006DAF83 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS/";
 				INFOPLIST_FILE = CloudUITests/Info.plist;
@@ -452,6 +577,7 @@
 		F63F524E1E48AFAA006DAF83 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS/";
 				INFOPLIST_FILE = CloudUITests/Info.plist;
@@ -481,6 +607,7 @@
 				F63F524B1E48AFAA006DAF83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F63F524C1E48AFAA006DAF83 /* Build configuration list for PBXNativeTarget "iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -489,6 +616,7 @@
 				F63F524E1E48AFAA006DAF83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
