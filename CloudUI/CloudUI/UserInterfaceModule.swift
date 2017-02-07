@@ -18,7 +18,7 @@ public protocol ResourcePresenter {
     func present(_ resource: Resource, animated: Bool) -> Void
 }
 
-public protocol PasswordPromt {
+public protocol PasswordPrompt {
     func requestPassword(for account: Account, completion: @escaping (String?) -> Void) -> Void
 }
 

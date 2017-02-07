@@ -107,7 +107,7 @@ extension MainViewController: ResourcePresenter {
     }
 }
 
-extension MainViewController: PasswordPromt {
+extension MainViewController: PasswordPrompt {
     
     public func requestPassword(for account: Account, completion: @escaping (String?) -> Void) {
         
