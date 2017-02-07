@@ -12,15 +12,15 @@ import CloudStore
 
 class AccountListDataSource: NSObject, FTDataSource {
     
-    let accountManager: AccountManager
-    init(accountManager: AccountManager) {
-        self.accountManager = accountManager
+    let cloudService: CloudService
+    init(cloudService: CloudService) {
+        self.cloudService = cloudService
         let center = NotificationCenter.default
         super.init()
         center.addObserver(self,
-                           selector: #selector(accountManagerDidChange(_:)),
-                           name: Notification.Name.AccountManagerDidChange,
-                           object: accountManager)
+                           selector: #selector(cloudServiceDidChangeAccounts(_:)),
+                           name: Notification.Name.CloudServiceDidChangeAccounts,
+                           object: cloudService)
         reload()
     }
     
@@ -31,16 +31,16 @@ class AccountListDataSource: NSObject, FTDataSource {
     
     // MARK: Notification Handling
     
-    @objc private func accountManagerDidChange(_ notification: Notification) {
+    @objc private func cloudServiceDidChangeAccounts(_ notification: Notification) {
         DispatchQueue.main.async {
             self.reload()
         }
     }
     
-    private var accounts: [Account] = []
+    private var accounts: [CloudService.Account] = []
     
     private func reload() {
-        let accounts = accountManager.accounts
+        let accounts = cloudService.accounts
         for observer in _observers.allObjects {
             observer.dataSourceWillReset?(self)
         }
@@ -50,7 +50,7 @@ class AccountListDataSource: NSObject, FTDataSource {
         }
     }
     
-    func account(at indexPath: IndexPath) -> Account? {
+    func account(at indexPath: IndexPath) -> CloudService.Account? {
         if indexPath.section == 0 {
             return accounts[indexPath.item]
         } else {
@@ -107,9 +107,9 @@ class AccountListDataSource: NSObject, FTDataSource {
             return nil
         }
         
-        let account: Account
+        let account: CloudService.Account
         
-        init(account: Account) {
+        init(account: CloudService.Account) {
             self.account = account
         }
     }

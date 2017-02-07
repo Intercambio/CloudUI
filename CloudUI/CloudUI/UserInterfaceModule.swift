@@ -14,11 +14,11 @@ public protocol UserInterfaceModule {
 }
 
 public protocol ResourcePresenter {
-    var resource: Resource? { get }
-    func present(_ resource: Resource, animated: Bool) -> Void
+    var resource: CloudService.Resource? { get }
+    func present(_ resource: CloudService.Resource, animated: Bool) -> Void
 }
 
 public protocol PasswordPrompt {
-    func requestPassword(for account: Account, completion: @escaping (String?) -> Void) -> Void
+    func requestPassword(for account: CloudService.Account, completion: @escaping (String?) -> Void) -> Void
 }
 

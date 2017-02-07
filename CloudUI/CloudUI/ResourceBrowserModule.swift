@@ -32,11 +32,11 @@ public class ResourceBrowserModule: NSObject, UserInterfaceModule {
 }
 
 protocol ResourceBrowserNavigationControllerDelegate: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, viewControllerFor resource: Resource) -> UIViewController?
+    func navigationController(_ navigationController: UINavigationController, viewControllerFor resource: CloudService.Resource) -> UIViewController?
 }
 
 extension ResourceBrowserModule: ResourceBrowserNavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, viewControllerFor resource: Resource) -> UIViewController? {
+    func navigationController(_ navigationController: UINavigationController, viewControllerFor resource: CloudService.Resource) -> UIViewController? {
         var viewController: UIViewController? = nil
         if resource.isCollection == true {
             viewController = resourceListModule?.makeViewController()
@@ -52,7 +52,7 @@ extension ResourceBrowserModule: ResourceBrowserNavigationControllerDelegate {
 
 extension ResourceBrowserNavigationController: ResourcePresenter {
     
-    public var resource: Resource? {
+    public var resource: CloudService.Resource? {
         guard
             let resourcePresenter = topViewController as? ResourcePresenter
             else {
@@ -61,7 +61,7 @@ extension ResourceBrowserNavigationController: ResourcePresenter {
         return resourcePresenter.resource
     }
     
-    public func present(_ resource: Resource, animated: Bool) {
+    public func present(_ resource: CloudService.Resource, animated: Bool) {
         guard
             let delegate = self.delegate as? ResourceBrowserNavigationControllerDelegate,
             let viewController = delegate.navigationController(self, viewControllerFor: resource)

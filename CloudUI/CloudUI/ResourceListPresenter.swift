@@ -19,7 +19,7 @@ class ResourceListPresenter {
         }
     }
     
-    var resource: Resource? {
+    var resource: CloudService.Resource? {
         didSet {
             guard
                 let resource = self.resource
@@ -28,8 +28,7 @@ class ResourceListPresenter {
                     return
             }
             
-            let resourceManager = service.resourceManager(for: resource.account)
-            dataSource = ResourceListDataSource(resourceManager: resourceManager, resource: resource)
+            dataSource = ResourceListDataSource(cloudService: cloudService, resource: resource)
         }
     }
     
@@ -39,10 +38,10 @@ class ResourceListPresenter {
         }
     }
     
-    let service: Service
+    let cloudService: CloudService
     
-    init(service: Service) {
-        self.service = service
+    init(cloudService: CloudService) {
+        self.cloudService = cloudService
     }
     
     // MARK: - Actions

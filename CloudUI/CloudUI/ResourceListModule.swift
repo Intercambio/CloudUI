@@ -10,21 +10,21 @@ import UIKit
 import CloudStore
 
 public protocol ResourceListRouter: class {
-    func present(_ resource: Resource) -> Void
+    func present(_ resource: CloudService.Resource) -> Void
 }
 
 public class ResourceListModule: UserInterfaceModule {
     
     public weak var router: ResourceListRouter?
     
-    public let service: Service
-    public init(service: Service) {
-        self.service = service
+    public let cloudService: CloudService
+    public init(cloudService: CloudService) {
+        self.cloudService = cloudService
     }
     
     public func makeViewController() -> UIViewController {
         let viewControler = ResourceListViewController()
-        let presenter = ResourceListPresenter(service: service)
+        let presenter = ResourceListPresenter(cloudService: cloudService)
         presenter.view = viewControler
         presenter.router = router
         viewControler.presenter = presenter
@@ -34,11 +34,11 @@ public class ResourceListModule: UserInterfaceModule {
 
 extension ResourceListViewController: ResourcePresenter {
     
-    public var resource: Resource? {
+    public var resource: CloudService.Resource? {
         return presenter?.resource
     }
     
-    func present(_ resource: Resource, animated: Bool) {
+    func present(_ resource: CloudService.Resource, animated: Bool) {
         presenter?.resource = resource
     }
 }
