@@ -23,13 +23,13 @@ public class ResourceModule: UserInterfaceModule {
 
 class ResourceViewController: UIViewController, ResourcePresenter {
     
-    private(set) var resource: Resource? {
+    private(set) var resource: CloudService.Resource? {
         didSet {
             label.text = resource?.path.joined(separator: "/")
         }
     }
     
-    func present(_ resource: Resource, animated: Bool) {
+    func present(_ resource: CloudService.Resource, animated: Bool) {
         self.resource = resource
     }
     

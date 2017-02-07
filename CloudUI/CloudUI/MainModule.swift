@@ -38,7 +38,7 @@ public class MainModule: UserInterfaceModule {
 }
 
 protocol MainViewControllerDelegate: UISplitViewControllerDelegate {
-    func splitViewController(_ svc: UISplitViewController, detailViewControllerFor resource: Resource) -> UIViewController?
+    func splitViewController(_ svc: UISplitViewController, detailViewControllerFor resource: CloudService.Resource) -> UIViewController?
 }
 
 class MainViewController: UISplitViewController {
@@ -46,7 +46,7 @@ class MainViewController: UISplitViewController {
 }
 
 extension MainModule: MainViewControllerDelegate {
-    func splitViewController(_ svc: UISplitViewController, detailViewControllerFor resource: Resource) -> UIViewController? {
+    func splitViewController(_ svc: UISplitViewController, detailViewControllerFor resource: CloudService.Resource) -> UIViewController? {
         var viewController: UIViewController? = nil
         if resource.isCollection == false {
             viewController = resourceModule?.makeViewController()
@@ -83,7 +83,7 @@ extension MainModule: MainViewControllerDelegate {
 
 extension MainViewController: ResourcePresenter {
     
-    public var resource: Resource? {
+    public var resource: CloudService.Resource? {
         guard
             let resourcePresenter = viewControllers.first as? ResourcePresenter
             else { return nil }
@@ -91,7 +91,7 @@ extension MainViewController: ResourcePresenter {
         return resourcePresenter.resource
     }
     
-    public func present(_ resource: Resource, animated: Bool) {
+    public func present(_ resource: CloudService.Resource, animated: Bool) {
         guard
             let delegate = self.delegate as? MainViewControllerDelegate,
             let resourcePresenter = viewControllers.first as? ResourcePresenter
@@ -109,7 +109,7 @@ extension MainViewController: ResourcePresenter {
 
 extension MainViewController: PasswordPrompt {
     
-    public func requestPassword(for account: Account, completion: @escaping (String?) -> Void) {
+    public func requestPassword(for account: CloudService.Account, completion: @escaping (String?) -> Void) {
         
         let title = "Login"
         let message = "Password for '\(account.username)' at '\(account.url.absoluteString)'"

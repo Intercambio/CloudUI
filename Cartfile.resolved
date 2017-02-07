@@ -1,5 +1,5 @@
 github "anagromataf/Fountain" "2.5.4"
 github "Intercambio/PureXML" "1.2.1"
 github "stephencelis/SQLite.swift" "0.11.2"
-github "Intercambio/CloudAPI" "0.1"
-github "Intercambio/CloudStore" "0.1"
+github "Intercambio/CloudAPI" "0.1.2"
+github "Intercambio/CloudStore" "73fa8b30b4a019c89642eb5dee387ea8a38bf2a8"

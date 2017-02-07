@@ -12,21 +12,21 @@ import CloudStore
 
 class ResourceListDataSource: NSObject, FTDataSource {
     
-    let resourceManager: ResourceManager
-    private(set) var resource: Resource? {
+    let cloudService: CloudService
+    private(set) var resource: CloudService.Resource? {
         didSet {
             reload()
         }
     }
     
-    init(resourceManager: ResourceManager, resource: Resource) {
-        self.resourceManager = resourceManager
+    init(cloudService: CloudService, resource: CloudService.Resource) {
+        self.cloudService = cloudService
         self.resource = resource
         super.init()
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(resourceManagerDidChange(_:)),
-                                               name: Notification.Name.ResourceManagerDidChange,
-                                               object: resourceManager)
+                                               selector: #selector(cloudServiceDidChangeResources(_:)),
+                                               name: Notification.Name.CloudServiceDidChangeResources,
+                                               object: cloudService)
         reload()
     }
     
@@ -34,28 +34,28 @@ class ResourceListDataSource: NSObject, FTDataSource {
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc private func resourceManagerDidChange(_ notification: Notification) {
+    @objc private func cloudServiceDidChangeResources(_ notification: Notification) {
         DispatchQueue.main.async {
             
             var needsReload: Bool = false
             
             if let resource = self.resource {
-                if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [Resource] {
+                if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [CloudService.Resource] {
                     for updatedResource in insertedOrUpdate {
                         if resource == updatedResource {
                             self.resource = updatedResource
                             return
-                        } else if resource.path.starts(with: updatedResource.path) {
+                        } else if resource.account == updatedResource.account && resource.path.starts(with: updatedResource.path) {
                             needsReload = true
                         }
                     }
                 }
-                if let deleted = notification.userInfo?[DeletedResourcesKey] as? [Resource] {
+                if let deleted = notification.userInfo?[DeletedResourcesKey] as? [CloudService.Resource] {
                     for deletedResource in deleted {
                         if resource == deletedResource {
                             self.resource = nil
                             return
-                        } else if resource.path.starts(with: deletedResource.path) {
+                        } else if resource.account == deletedResource.account && resource.path.starts(with: deletedResource.path) {
                             self.resource = nil
                             return
                         }
@@ -69,7 +69,7 @@ class ResourceListDataSource: NSObject, FTDataSource {
         }
     }
  
-    private var resources: [Resource] = []
+    private var resources: [CloudService.Resource] = []
     
     private func reload() {
         do {
@@ -92,19 +92,19 @@ class ResourceListDataSource: NSObject, FTDataSource {
             }
             
             if resource.dirty {
-                resourceManager.updateResource(at: resource.path) { (error) in
+                cloudService.updateResource(at: resource.path, of: resource.account) { (error) in
                     NSLog("Failed to update resources: \(error)")
                 }
             }
             
-            self.resources = try resourceManager.content(at: resource.path)
+            self.resources = try cloudService.contents(of: resource.account, at: resource.path)
 
         } catch {
             NSLog("Failed to get resources: \(error)")
         }
     }
     
-    func resource(at indexPath: IndexPath) -> Resource? {
+    func resource(at indexPath: IndexPath) -> CloudService.Resource? {
         if indexPath.section == 0 {
             return resources[indexPath.item]
         } else {
@@ -161,9 +161,9 @@ class ResourceListDataSource: NSObject, FTDataSource {
             return resource.path.joined(separator: "/")
         }
         
-        let resource: Resource
+        let resource: CloudService.Resource
         
-        init(resource: Resource) {
+        init(resource: CloudService.Resource) {
             self.resource = resource
         }
     }

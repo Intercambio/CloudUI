@@ -22,11 +22,11 @@ class AccountListPresenter {
     
     private let dataSource: AccountListDataSource
     
-    let accountManager: AccountManager
+    let cloudService: CloudService
     
-    init(accountManager: AccountManager) {
-        self.accountManager = accountManager
-        dataSource = AccountListDataSource(accountManager: accountManager)
+    init(cloudService: CloudService) {
+        self.cloudService = cloudService
+        dataSource = AccountListDataSource(cloudService: cloudService)
     }
     
     // MARK: - Actions
