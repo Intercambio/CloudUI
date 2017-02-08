@@ -41,6 +41,9 @@ class SettingsViewController: FormViewController, SettingsView {
         super.viewDidLoad()
         title = "Settings"
     }
+    public func tableView(_: UITableView, setValue value: Any?, forRowAt indexPath: IndexPath) {
+        presenter.setValue(value, forItemAt: indexPath)
+    }
 }
 
 extension SettingsViewController: SettingsUserInterface {
@@ -50,18 +53,15 @@ extension SettingsViewController: SettingsUserInterface {
 }
 
 class SettingsPresenter {
-    
     let cloudService: CloudService
     init(cloudService: CloudService) {
         self.cloudService = cloudService
     }
-    
     weak var view: SettingsView? {
         didSet {
             view?.dataSource = dataSource
         }
     }
-    
     var account: CloudService.Account? {
         didSet {
             guard
@@ -70,15 +70,16 @@ class SettingsPresenter {
                 dataSource = nil
                 return
             }
-            
             dataSource = SettingsDataSource(cloudService: cloudService, account: account)
         }
     }
-    
-    var dataSource: FTDataSource? {
+    var dataSource: SettingsDataSource? {
         didSet {
             view?.dataSource = dataSource
         }
+    }
+    func setValue(_ value: Any?, forItemAt indexPath: IndexPath) {
+        dataSource?.setValue(value, forItemAt: indexPath)
     }
 }
 
