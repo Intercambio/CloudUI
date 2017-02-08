@@ -8,6 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		F63A78A31E4B2FDA004FE25E /* SettingsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */; };
+		F63A78A61E4B3EA7004FE25E /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A51E4B3EA7004FE25E /* Form.swift */; };
+		F63A78AA1E4B3EE8004FE25E /* FormValueItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A91E4B3EE8004FE25E /* FormValueItemData.swift */; };
+		F63A78AF1E4B3F0C004FE25E /* FormButtonItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78AB1E4B3F0C004FE25E /* FormButtonItemData.swift */; };
+		F63A78B01E4B3F0C004FE25E /* FormSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78AC1E4B3F0C004FE25E /* FormSectionData.swift */; };
+		F63A78B11E4B3F0C004FE25E /* FormTextItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78AD1E4B3F0C004FE25E /* FormTextItemData.swift */; };
+		F63A78B21E4B3F0C004FE25E /* FormURLItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78AE1E4B3F0C004FE25E /* FormURLItemData.swift */; };
+		F63A78B71E4B3F30004FE25E /* FormButtonItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78B31E4B3F30004FE25E /* FormButtonItemCell.swift */; };
+		F63A78B81E4B3F30004FE25E /* FormTextItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78B41E4B3F30004FE25E /* FormTextItemCell.swift */; };
+		F63A78B91E4B3F30004FE25E /* FormURLItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78B51E4B3F30004FE25E /* FormURLItemCell.swift */; };
+		F63A78BA1E4B3F30004FE25E /* FormValueItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78B61E4B3F30004FE25E /* FormValueItemCell.swift */; };
+		F63A78BE1E4B3FBA004FE25E /* UITableViewCellAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78BC1E4B3FBA004FE25E /* UITableViewCellAction.swift */; };
+		F63A78BF1E4B3FBA004FE25E /* UICollectionViewCellAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78BD1E4B3FBA004FE25E /* UICollectionViewCellAction.swift */; };
 		F63F523F1E48AFAA006DAF83 /* CloudUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52351E48AFAA006DAF83 /* CloudUI.framework */; };
 		F63F52441E48AFAA006DAF83 /* CloudUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52431E48AFAA006DAF83 /* CloudUITests.swift */; };
 		F63F52461E48AFAA006DAF83 /* CloudUI.h in Headers */ = {isa = PBXBuildFile; fileRef = F63F52381E48AFAA006DAF83 /* CloudUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -51,6 +63,18 @@
 
 /* Begin PBXFileReference section */
 		F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsModule.swift; sourceTree = "<group>"; };
+		F63A78A51E4B3EA7004FE25E /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
+		F63A78A91E4B3EE8004FE25E /* FormValueItemData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValueItemData.swift; sourceTree = "<group>"; };
+		F63A78AB1E4B3F0C004FE25E /* FormButtonItemData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormButtonItemData.swift; sourceTree = "<group>"; };
+		F63A78AC1E4B3F0C004FE25E /* FormSectionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormSectionData.swift; sourceTree = "<group>"; };
+		F63A78AD1E4B3F0C004FE25E /* FormTextItemData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextItemData.swift; sourceTree = "<group>"; };
+		F63A78AE1E4B3F0C004FE25E /* FormURLItemData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormURLItemData.swift; sourceTree = "<group>"; };
+		F63A78B31E4B3F30004FE25E /* FormButtonItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormButtonItemCell.swift; sourceTree = "<group>"; };
+		F63A78B41E4B3F30004FE25E /* FormTextItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextItemCell.swift; sourceTree = "<group>"; };
+		F63A78B51E4B3F30004FE25E /* FormURLItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormURLItemCell.swift; sourceTree = "<group>"; };
+		F63A78B61E4B3F30004FE25E /* FormValueItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValueItemCell.swift; sourceTree = "<group>"; };
+		F63A78BC1E4B3FBA004FE25E /* UITableViewCellAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewCellAction.swift; sourceTree = "<group>"; };
+		F63A78BD1E4B3FBA004FE25E /* UICollectionViewCellAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellAction.swift; sourceTree = "<group>"; };
 		F63F52351E48AFAA006DAF83 /* CloudUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CloudUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F63F52381E48AFAA006DAF83 /* CloudUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CloudUI.h; sourceTree = "<group>"; };
 		F63F52391E48AFAA006DAF83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -117,6 +141,48 @@
 			name = Settings;
 			sourceTree = "<group>";
 		};
+		F63A78A41E4B3E99004FE25E /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				F63A78A51E4B3EA7004FE25E /* Form.swift */,
+				F63A78A81E4B3ECA004FE25E /* Cell */,
+				F63A78A71E4B3EC2004FE25E /* Data */,
+			);
+			name = Form;
+			sourceTree = "<group>";
+		};
+		F63A78A71E4B3EC2004FE25E /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				F63A78A91E4B3EE8004FE25E /* FormValueItemData.swift */,
+				F63A78AB1E4B3F0C004FE25E /* FormButtonItemData.swift */,
+				F63A78AC1E4B3F0C004FE25E /* FormSectionData.swift */,
+				F63A78AD1E4B3F0C004FE25E /* FormTextItemData.swift */,
+				F63A78AE1E4B3F0C004FE25E /* FormURLItemData.swift */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		F63A78A81E4B3ECA004FE25E /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				F63A78B31E4B3F30004FE25E /* FormButtonItemCell.swift */,
+				F63A78B41E4B3F30004FE25E /* FormTextItemCell.swift */,
+				F63A78B51E4B3F30004FE25E /* FormURLItemCell.swift */,
+				F63A78B61E4B3F30004FE25E /* FormValueItemCell.swift */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		F63A78BB1E4B3FAF004FE25E /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				F63A78BD1E4B3FBA004FE25E /* UICollectionViewCellAction.swift */,
+				F63A78BC1E4B3FBA004FE25E /* UITableViewCellAction.swift */,
+			);
+			name = Additions;
+			sourceTree = "<group>";
+		};
 		F63F522B1E48AFAA006DAF83 = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +205,7 @@
 		F63F52371E48AFAA006DAF83 /* CloudUI */ = {
 			isa = PBXGroup;
 			children = (
+				F63A78BB1E4B3FAF004FE25E /* Additions */,
 				F63F52621E48B33D006DAF83 /* Common */,
 				F63F52631E48B343006DAF83 /* Modules */,
 				F63F524F1E48AFC8006DAF83 /* Supporting Files */,
@@ -187,6 +254,7 @@
 		F63F52621E48B33D006DAF83 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F63A78A41E4B3E99004FE25E /* Form */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -394,18 +462,30 @@
 				F63F52871E48B3CB006DAF83 /* ResourceListViewController.swift in Sources */,
 				F63F52761E48B3AC006DAF83 /* AccountListCell.swift in Sources */,
 				F63F527C1E48B3C0006DAF83 /* ResourceBrowserModule.swift in Sources */,
+				F63A78A61E4B3EA7004FE25E /* Form.swift in Sources */,
 				F63A78A31E4B2FDA004FE25E /* SettingsModule.swift in Sources */,
 				F63F52881E48B3CB006DAF83 /* ResourceListCell.swift in Sources */,
+				F63A78B81E4B3F30004FE25E /* FormTextItemCell.swift in Sources */,
+				F63A78BE1E4B3FBA004FE25E /* UITableViewCellAction.swift in Sources */,
+				F63A78AF1E4B3F0C004FE25E /* FormButtonItemData.swift in Sources */,
 				F63F52831E48B3CB006DAF83 /* ResourceListModule.swift in Sources */,
+				F63A78B71E4B3F30004FE25E /* FormButtonItemCell.swift in Sources */,
 				F63F52651E48B350006DAF83 /* UserInterfaceModule.swift in Sources */,
 				F63F52861E48B3CB006DAF83 /* ResourceListView.swift in Sources */,
+				F63A78AA1E4B3EE8004FE25E /* FormValueItemData.swift in Sources */,
+				F63A78BF1E4B3FBA004FE25E /* UICollectionViewCellAction.swift in Sources */,
+				F63A78B01E4B3F0C004FE25E /* FormSectionData.swift in Sources */,
 				F63F52751E48B3AC006DAF83 /* AccountListViewController.swift in Sources */,
+				F63A78B11E4B3F0C004FE25E /* FormTextItemData.swift in Sources */,
+				F63A78B91E4B3F30004FE25E /* FormURLItemCell.swift in Sources */,
 				F63F52841E48B3CB006DAF83 /* ResourceListPresenter.swift in Sources */,
 				F63F52731E48B3AC006DAF83 /* AccountListDataSource.swift in Sources */,
 				F63F527A1E48B3B9006DAF83 /* ResourceModule.swift in Sources */,
 				F63F52711E48B3AC006DAF83 /* AccountListModule.swift in Sources */,
 				F63F52781E48B3B3006DAF83 /* MainModule.swift in Sources */,
 				F63F52741E48B3AC006DAF83 /* AccountListView.swift in Sources */,
+				F63A78B21E4B3F0C004FE25E /* FormURLItemData.swift in Sources */,
+				F63A78BA1E4B3F30004FE25E /* FormValueItemCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
