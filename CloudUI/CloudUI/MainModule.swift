@@ -13,6 +13,7 @@ public class MainModule: UserInterfaceModule {
     
     public var resourceBrowserModule: UserInterfaceModule?
     public var resourceModule: UserInterfaceModule?
+    public var settingsModule: UserInterfaceModule?
     
     public init() {
     }
@@ -38,7 +39,8 @@ public class MainModule: UserInterfaceModule {
 }
 
 protocol MainViewControllerDelegate: UISplitViewControllerDelegate {
-    func splitViewController(_ svc: UISplitViewController, detailViewControllerFor resource: CloudService.Resource) -> UIViewController?
+    func mainViewController(_ mainViewController: MainViewController, detailViewControllerFor resource: CloudService.Resource) -> UIViewController?
+    func mainViewController(_ mainViewController: MainViewController, settingsViewControllerFor account: CloudService.Account) -> UIViewController?
 }
 
 class MainViewController: UISplitViewController {
@@ -46,7 +48,19 @@ class MainViewController: UISplitViewController {
 }
 
 extension MainModule: MainViewControllerDelegate {
-    func splitViewController(_ svc: UISplitViewController, detailViewControllerFor resource: CloudService.Resource) -> UIViewController? {
+    
+    func mainViewController(_ mainViewController: MainViewController, settingsViewControllerFor account: CloudService.Account) -> UIViewController? {
+        guard
+            let settingsViewController = settingsModule?.makeViewController()
+            else { return nil }
+        
+        if let settingsUserInterface = settingsViewController as? SettingsUserInterface {
+            settingsUserInterface.presentSettings(for: account, animated: false)
+        }
+        return settingsViewController
+    }
+    
+    func mainViewController(_ mainViewController: MainViewController, detailViewControllerFor resource: CloudService.Resource) -> UIViewController? {
         var viewController: UIViewController? = nil
         if resource.isCollection == false {
             viewController = resourceModule?.makeViewController()
@@ -97,7 +111,7 @@ extension MainViewController: ResourceUserInterface {
             let resourcePresenter = viewControllers.first as? ResourceUserInterface
             else { return }
         
-        if isCollapsed == false, let detailViewController = delegate.splitViewController(self, detailViewControllerFor: resource) {
+        if isCollapsed == false, let detailViewController = delegate.mainViewController(self, detailViewControllerFor: resource) {
             let navigationController = UINavigationController(rootViewController: detailViewController)
             detailViewController.navigationItem.leftBarButtonItem = displayModeButtonItem
             showDetailViewController(navigationController, sender: nil)
@@ -139,6 +153,29 @@ extension MainViewController: PasswordUserInterface {
         alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+}
+
+extension MainViewController: SettingsUserInterface {
+    
+    public func presentSettings(for account: CloudService.Account, animated: Bool) {
+        guard
+            let delegate = self.delegate as? MainViewControllerDelegate,
+            let settingsViewController = delegate.mainViewController(self, settingsViewControllerFor: account)
+            else { return }
+        
+        let dismissButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissSettings))
+        settingsViewController.navigationItem.leftBarButtonItem = dismissButton
+        
+        let navigationController = UINavigationController(rootViewController: settingsViewController)
+        navigationController.modalPresentationStyle = .formSheet
+        
+        present(navigationController, animated: animated, completion: nil)
+    }
+    
+    @objc private func dismissSettings() {
+        presentedViewController?.dismiss(animated: true, completion: nil)
     }
     
 }
