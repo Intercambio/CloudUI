@@ -93,7 +93,7 @@ class SettingsDataSource: NSObject, FormDataSource {
     // Options
     
     var supportedKeys: [String] {
-        return ["label", "baseurl", "username"]
+        return ["label", "baseurl", "username", "remove"]
     }
     
     private func indexPath(for option: String) -> IndexPath? {
@@ -103,6 +103,8 @@ class SettingsDataSource: NSObject, FormDataSource {
             return IndexPath(item: 0, section: 1)
         } else if option == "username" {
             return IndexPath(item: 1, section: 1)
+        } else if option == "remove" {
+            return IndexPath(item: 0, section: 2)
         } else {
             return nil
         }
@@ -119,6 +121,11 @@ class SettingsDataSource: NSObject, FormDataSource {
             switch indexPath.item {
             case 0: return "baseurl"
             case 1: return "username"
+            default: return nil
+            }
+        case 2:
+            switch indexPath.row {
+            case 0: return "remove"
             default: return nil
             }
         default:
@@ -152,19 +159,35 @@ class SettingsDataSource: NSObject, FormDataSource {
     }
     
     func performAction(_ action: Selector, forItemAt _: IndexPath) {
+        defer {
+            proxy.dataSourceDidChange(self)
+        }
+        proxy.dataSourceWillChange(self)
         
+        if action == #selector(removeAccount) {
+            removeAccount()
+        }
+    }
+    
+    func removeAccount() {
+        do {
+            try cloudService.remove(account)
+        } catch {
+            NSLog("Failed to remove account: \(error)")
+        }
     }
     
     // MARK: - FTDataSource
     
     public func numberOfSections() -> UInt {
-        return 2
+        return 3
     }
     
     public func numberOfItems(inSection section: UInt) -> UInt {
         switch section {
         case 0: return 1
         case 1: return 2
+        case 2: return 1
         default: return 0
         }
     }
@@ -175,12 +198,14 @@ class SettingsDataSource: NSObject, FormDataSource {
             let item = FormSectionData()
             item.title = "Description"
             return item
-            
         case 1:
             let item = FormSectionData()
             item.title = "Base URL & Username"
             return item
-
+        case 2:
+            let item = FormSectionData()
+            item.instructions = "Removing the account will also delete all resoruces from this device. This will not delete the account on the server."
+            return item
         default:
             return nil
         }
@@ -208,6 +233,13 @@ class SettingsDataSource: NSObject, FormDataSource {
             item.editable = false
             item.placeholder = "Username"
             item.text = account.username
+            return item
+        case "remove":
+            let item = FormButtonItemData(identifier: key, action: #selector(removeAccount))
+            item.title = "Remove Account"
+            item.enabled = true
+            item.destructive = true
+            item.destructionMessage = "Are you sure, that you want to remove this account from the device?"
             return item
         default:
             return nil
