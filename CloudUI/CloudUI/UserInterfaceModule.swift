@@ -21,3 +21,7 @@ public protocol ResourceUserInterface {
 public protocol PasswordUserInterface {
     func requestPassword(for account: CloudService.Account, completion: @escaping (String?) -> Void) -> Void
 }
+
+public protocol SettingsUserInterface {
+    func presentSettings(for account: CloudService.Account) -> Void
+}
