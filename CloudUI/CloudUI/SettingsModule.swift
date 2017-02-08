@@ -86,43 +86,151 @@ class SettingsDataSource: NSObject, FTDataSource {
     
     let cloudService: CloudService
     let account: CloudService.Account
+    private let proxy: FTObserverProxy
     public init(cloudService: CloudService, account: CloudService.Account) {
         self.cloudService = cloudService
         self.account = account
+        proxy = FTObserverProxy()
         super.init()
+        proxy.object = self
+    }
+    
+    // Options
+    
+    var supportedKeys: [String] {
+        return ["label", "baseurl", "username"]
+    }
+    
+    private func indexPath(for option: String) -> IndexPath? {
+        if option == "label" {
+            return IndexPath(item: 0, section: 0)
+        } else if option == "baseurl" {
+            return IndexPath(item: 0, section: 1)
+        } else if option == "username" {
+            return IndexPath(item: 1, section: 1)
+        } else {
+            return nil
+        }
+    }
+    
+    private func option(for indexPath: IndexPath) -> String? {
+        switch indexPath.section {
+        case 0:
+            switch indexPath.item {
+            case 0: return "label"
+            default: return nil
+            }
+        case 1:
+            switch indexPath.item {
+            case 0: return "baseurl"
+            case 1: return "username"
+            default: return nil
+            }
+        default:
+            return nil
+        }
+    }
+    
+    // KVO
+    
+    private var options: [AnyHashable: Any] = [:]
+    
+    override func value(forKey key: String) -> Any? {
+        if supportedKeys.contains(key) {
+            return options[key]
+        } else {
+            return super.value(forKey: key)
+        }
+    }
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        if supportedKeys.contains(key) {
+            if let indexPath = self.indexPath(for: key) {
+                proxy.dataSourceDidChange(self)
+                options[key] = value
+                proxy.dataSource(self, didChangeItemsAtIndexPaths: [indexPath])
+                proxy.dataSourceDidChange(self)
+            } else {
+                options[key] = value
+            }
+        } else {
+            super.setValue(value, forKey: key)
+        }
+    }
+    
+    // Save
+    
+    func save() throws {
+    }
+    
+    // Update
+    
+    func setValue(_ value: Any?, forItemAt indexPath: IndexPath) {
+        if let key = option(for: indexPath) {
+            setValue(value, forKey: key)
+        }
     }
     
     // MARK: - FTDataSource
     
     public func numberOfSections() -> UInt {
-        return 1
+        return 2
     }
     
     public func numberOfItems(inSection section: UInt) -> UInt {
-        return 0
-    }
-    
-    public func sectionItem(forSection section: UInt) -> Any! {
-        return nil
-    }
-    
-    public func item(at indexPath: IndexPath!) -> Any! {
-        return nil
-    }
-    
-    private let _observers: NSHashTable = NSHashTable<FTDataSourceObserver>.weakObjects()
-    
-    public func observers() -> [Any]! {
-        return _observers.allObjects
-    }
-    
-    public func addObserver(_ observer: FTDataSourceObserver!) {
-        if _observers.contains(observer) == false {
-            _observers.add(observer)
+        switch section {
+        case 0: return 1
+        case 1: return 2
+        default: return 0
         }
     }
     
-    public func removeObserver(_ observer: FTDataSourceObserver!) {
-        _observers.remove(observer)
+    public func sectionItem(forSection section: UInt) -> Any! {
+        switch section {
+        case 1:
+            let item = FormSectionData()
+            item.title = "Account"
+            return item
+
+        default:
+            return nil
+        }
+    }
+    
+    public func item(at indexPath: IndexPath!) -> Any! {
+        guard
+            let key = option(for: indexPath)
+            else { return nil }
+        switch key {
+        case "label":
+            let item = FormTextItemData(identifier: key)
+            item.placeholder = "Name"
+            item.text = account.label
+            return item
+        case "baseurl":
+            let item = FormURLItemData(identifier: key)
+            item.placeholder = "Base URL"
+            item.url = account.url
+            return item
+        case "username":
+            let item = FormTextItemData(identifier: key)
+            item.placeholder = "Username"
+            item.text = account.username
+            return item
+        default:
+            return nil
+        }
+    }
+    
+    func observers() -> [Any]! {
+        return proxy.observers()
+    }
+    
+    func addObserver(_ observer: FTDataSourceObserver!) {
+        proxy.addObserver(observer)
+    }
+    
+    func removeObserver(_ observer: FTDataSourceObserver!) {
+        proxy.removeObserver(observer)
     }
 }
