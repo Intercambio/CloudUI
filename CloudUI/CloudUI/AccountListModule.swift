@@ -12,6 +12,7 @@ import CloudStore
 public protocol AccountListRouter: class {
     func present(resourceAt path: [String], of account: CloudService.Account) -> Void
     func presentNewAccount() -> Void
+    func presentSettings(for account: CloudService.Account) -> Void
 }
 
 public class AccountListModule: UserInterfaceModule {
