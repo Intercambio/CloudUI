@@ -85,7 +85,7 @@ class SettingsPresenter {
 class SettingsDataSource: NSObject, FTDataSource {
     
     let cloudService: CloudService
-    let account: CloudService.Account
+    var account: CloudService.Account
     private let proxy: FTObserverProxy
     public init(cloudService: CloudService, account: CloudService.Account) {
         self.cloudService = cloudService
@@ -131,43 +131,28 @@ class SettingsDataSource: NSObject, FTDataSource {
         }
     }
     
-    // KVO
-    
-    private var options: [AnyHashable: Any] = [:]
-    
-    override func value(forKey key: String) -> Any? {
-        if supportedKeys.contains(key) {
-            return options[key]
-        } else {
-            return super.value(forKey: key)
-        }
-    }
-    
-    override func setValue(_ value: Any?, forKey key: String) {
-        if supportedKeys.contains(key) {
-            if let indexPath = self.indexPath(for: key) {
-                proxy.dataSourceDidChange(self)
-                options[key] = value
-                proxy.dataSource(self, didChangeItemsAtIndexPaths: [indexPath])
-                proxy.dataSourceDidChange(self)
-            } else {
-                options[key] = value
-            }
-        } else {
-            super.setValue(value, forKey: key)
-        }
-    }
-    
-    // Save
-    
-    func save() throws {
-    }
-    
     // Update
     
     func setValue(_ value: Any?, forItemAt indexPath: IndexPath) {
-        if let key = option(for: indexPath) {
-            setValue(value, forKey: key)
+        defer {
+            proxy.dataSource(self, didChangeItemsAtIndexPaths: [indexPath])
+            proxy.dataSourceDidChange(self)
+        }
+        proxy.dataSourceWillChange(self)
+        
+        guard
+            let key = option(for: indexPath)
+            else { return }
+        
+        do {
+            if key == "label" {
+                guard
+                    let label = value as? String?
+                    else { return }
+                self.account = try cloudService.update(account, with: label)
+            }
+        } catch {
+            NSLog("Failed to update account: \(error)")
         }
     }
     
