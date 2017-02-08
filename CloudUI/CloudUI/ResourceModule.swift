@@ -21,7 +21,7 @@ public class ResourceModule: UserInterfaceModule {
     
 }
 
-class ResourceViewController: UIViewController, ResourcePresenter {
+class ResourceViewController: UIViewController, ResourceUserInterface {
     
     private(set) var resource: CloudService.Resource? {
         didSet {

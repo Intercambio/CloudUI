@@ -51,7 +51,7 @@ extension MainModule: MainViewControllerDelegate {
         if resource.isCollection == false {
             viewController = resourceModule?.makeViewController()
         }
-        if let resourcePresenter = viewController as? ResourcePresenter {
+        if let resourcePresenter = viewController as? ResourceUserInterface {
             resourcePresenter.present(resource, animated: false)
         }
         return viewController
@@ -69,8 +69,8 @@ extension MainModule: MainViewControllerDelegate {
     
     public func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         guard
-            let primaryResourcePresenter = primaryViewController as? ResourcePresenter,
-            let secondaryResourcePresenter  = secondaryViewController as? ResourcePresenter,
+            let primaryResourcePresenter = primaryViewController as? ResourceUserInterface,
+            let secondaryResourcePresenter  = secondaryViewController as? ResourceUserInterface,
             let resource = secondaryResourcePresenter.resource
         else {
             return true
@@ -81,11 +81,11 @@ extension MainModule: MainViewControllerDelegate {
     }
 }
 
-extension MainViewController: ResourcePresenter {
+extension MainViewController: ResourceUserInterface {
     
     public var resource: CloudService.Resource? {
         guard
-            let resourcePresenter = viewControllers.first as? ResourcePresenter
+            let resourcePresenter = viewControllers.first as? ResourceUserInterface
             else { return nil }
         
         return resourcePresenter.resource
@@ -94,7 +94,7 @@ extension MainViewController: ResourcePresenter {
     public func present(_ resource: CloudService.Resource, animated: Bool) {
         guard
             let delegate = self.delegate as? MainViewControllerDelegate,
-            let resourcePresenter = viewControllers.first as? ResourcePresenter
+            let resourcePresenter = viewControllers.first as? ResourceUserInterface
             else { return }
         
         if isCollapsed == false, let detailViewController = delegate.splitViewController(self, detailViewControllerFor: resource) {
@@ -107,7 +107,7 @@ extension MainViewController: ResourcePresenter {
     }
 }
 
-extension MainViewController: PasswordPrompt {
+extension MainViewController: PasswordUserInterface {
     
     public func requestPassword(for account: CloudService.Account, completion: @escaping (String?) -> Void) {
         

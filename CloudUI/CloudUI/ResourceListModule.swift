@@ -32,7 +32,7 @@ public class ResourceListModule: UserInterfaceModule {
     }
 }
 
-extension ResourceListViewController: ResourcePresenter {
+extension ResourceListViewController: ResourceUserInterface {
     
     public var resource: CloudService.Resource? {
         return presenter?.resource

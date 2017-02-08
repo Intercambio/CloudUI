@@ -13,12 +13,11 @@ public protocol UserInterfaceModule {
     func makeViewController() -> UIViewController
 }
 
-public protocol ResourcePresenter {
+public protocol ResourceUserInterface {
     var resource: CloudService.Resource? { get }
     func present(_ resource: CloudService.Resource, animated: Bool) -> Void
 }
 
-public protocol PasswordPrompt {
+public protocol PasswordUserInterface {
     func requestPassword(for account: CloudService.Account, completion: @escaping (String?) -> Void) -> Void
 }
-

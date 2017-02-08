@@ -43,18 +43,18 @@ extension ResourceBrowserModule: ResourceBrowserNavigationControllerDelegate {
         } else {
             viewController = resourceModule?.makeViewController()
         }
-        if let resourcePresenter = viewController as? ResourcePresenter {
+        if let resourcePresenter = viewController as? ResourceUserInterface {
             resourcePresenter.present(resource, animated: false)
         }
         return viewController
     }
 }
 
-extension ResourceBrowserNavigationController: ResourcePresenter {
+extension ResourceBrowserNavigationController: ResourceUserInterface {
     
     public var resource: CloudService.Resource? {
         guard
-            let resourcePresenter = topViewController as? ResourcePresenter
+            let resourcePresenter = topViewController as? ResourceUserInterface
             else {
                 return nil
         }
@@ -75,7 +75,7 @@ extension ResourceBrowserNavigationController: ResourcePresenter {
 class ResourceBrowserNavigationController: UINavigationController {
     override func separateSecondaryViewController(for splitViewController: UISplitViewController) -> UIViewController? {
         guard
-            let resourcePresenter = topViewController as? ResourcePresenter,
+            let resourcePresenter = topViewController as? ResourceUserInterface,
             resourcePresenter.resource?.isCollection == false
             else { return nil }
         
