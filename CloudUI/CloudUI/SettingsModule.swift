@@ -24,7 +24,7 @@ public class SettingsModule: UserInterfaceModule {
 }
 
 protocol SettingsView: class {
-    var dataSource: FTDataSource? { get set }
+    var dataSource: FormDataSource? { get set }
 }
 
 class SettingsViewController: FormViewController, SettingsView {
@@ -40,9 +40,6 @@ class SettingsViewController: FormViewController, SettingsView {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Settings"
-    }
-    public func tableView(_: UITableView, setValue value: Any?, forRowAt indexPath: IndexPath) {
-        presenter.setValue(value, forItemAt: indexPath)
     }
 }
 
@@ -73,17 +70,14 @@ class SettingsPresenter {
             dataSource = SettingsDataSource(cloudService: cloudService, account: account)
         }
     }
-    var dataSource: SettingsDataSource? {
+    var dataSource: FormDataSource? {
         didSet {
             view?.dataSource = dataSource
         }
     }
-    func setValue(_ value: Any?, forItemAt indexPath: IndexPath) {
-        dataSource?.setValue(value, forItemAt: indexPath)
-    }
 }
 
-class SettingsDataSource: NSObject, FTDataSource {
+class SettingsDataSource: NSObject, FormDataSource {
     
     let cloudService: CloudService
     var account: CloudService.Account
@@ -132,7 +126,7 @@ class SettingsDataSource: NSObject, FTDataSource {
         }
     }
     
-    // Update
+    // MARK: - FormDataSource
     
     func setValue(_ value: Any?, forItemAt indexPath: IndexPath) {
         defer {
@@ -155,6 +149,10 @@ class SettingsDataSource: NSObject, FTDataSource {
         } catch {
             NSLog("Failed to update account: \(error)")
         }
+    }
+    
+    func performAction(_ action: Selector, forItemAt _: IndexPath) {
+        
     }
     
     // MARK: - FTDataSource

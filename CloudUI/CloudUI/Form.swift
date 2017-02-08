@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Fountain
 
 protocol FormItem {
     var identifier: String { get }
@@ -42,4 +43,9 @@ protocol FormButtonItem : FormItem {
 protocol FormSection {
     var title: String? { get }
     var instructions: String? { get }
+}
+
+protocol FormDataSource: FTDataSource {
+    func setValue(_ value: Any?, forItemAt indexPath: IndexPath) -> Void
+    func performAction(_ action: Selector, forItemAt _: IndexPath) -> Void
 }

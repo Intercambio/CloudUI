@@ -11,7 +11,7 @@ import Fountain
 
 class FormViewController: UITableViewController, UITableViewDelegateCellAction {
     
-    var dataSource: FTDataSource? {
+    var dataSource: FormDataSource? {
         didSet {
             tableViewAdapter?.dataSource = dataSource
         }
@@ -92,5 +92,12 @@ class FormViewController: UITableViewController, UITableViewDelegateCellAction {
         }
     }
     
+    public func tableView(_: UITableView, setValue value: Any?, forRowAt indexPath: IndexPath) {
+        dataSource?.setValue(value, forItemAt: indexPath)
+    }
+    
+    public override func tableView(_: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender _: Any?) {
+        dataSource?.performAction(action, forItemAt: indexPath)
+    }
 }
 
