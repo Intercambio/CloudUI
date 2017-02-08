@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F63A78A31E4B2FDA004FE25E /* SettingsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */; };
 		F63F523F1E48AFAA006DAF83 /* CloudUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52351E48AFAA006DAF83 /* CloudUI.framework */; };
 		F63F52441E48AFAA006DAF83 /* CloudUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52431E48AFAA006DAF83 /* CloudUITests.swift */; };
 		F63F52461E48AFAA006DAF83 /* CloudUI.h in Headers */ = {isa = PBXBuildFile; fileRef = F63F52381E48AFAA006DAF83 /* CloudUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsModule.swift; sourceTree = "<group>"; };
 		F63F52351E48AFAA006DAF83 /* CloudUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CloudUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F63F52381E48AFAA006DAF83 /* CloudUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CloudUI.h; sourceTree = "<group>"; };
 		F63F52391E48AFAA006DAF83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,6 +109,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F63A78A11E4B2FBF004FE25E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		F63F522B1E48AFAA006DAF83 = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +200,7 @@
 				F63F52681E48B379006DAF83 /* Resource */,
 				F63F52691E48B37E006DAF83 /* Resource Browser */,
 				F63F526A1E48B386006DAF83 /* Resource List */,
+				F63A78A11E4B2FBF004FE25E /* Settings */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -383,6 +394,7 @@
 				F63F52871E48B3CB006DAF83 /* ResourceListViewController.swift in Sources */,
 				F63F52761E48B3AC006DAF83 /* AccountListCell.swift in Sources */,
 				F63F527C1E48B3C0006DAF83 /* ResourceBrowserModule.swift in Sources */,
+				F63A78A31E4B2FDA004FE25E /* SettingsModule.swift in Sources */,
 				F63F52881E48B3CB006DAF83 /* ResourceListCell.swift in Sources */,
 				F63F52831E48B3CB006DAF83 /* ResourceListModule.swift in Sources */,
 				F63F52651E48B350006DAF83 /* UserInterfaceModule.swift in Sources */,
