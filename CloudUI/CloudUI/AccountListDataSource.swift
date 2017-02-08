@@ -100,7 +100,7 @@ class AccountListDataSource: NSObject, FTDataSource {
     class ViewModel: AccountListViewModel {
 
         var title: String? {
-            return account.url.absoluteString
+            return account.label ?? "\(account.username) at \(account.url.host)"
         }
         
         var subtitle: String? {
