@@ -187,9 +187,14 @@ class SettingsDataSource: NSObject, FTDataSource {
     
     public func sectionItem(forSection section: UInt) -> Any! {
         switch section {
+        case 0:
+            let item = FormSectionData()
+            item.title = "Description"
+            return item
+            
         case 1:
             let item = FormSectionData()
-            item.title = "Account"
+            item.title = "Base URL & Username"
             return item
 
         default:
@@ -205,7 +210,7 @@ class SettingsDataSource: NSObject, FTDataSource {
         case "label":
             let item = FormTextItemData(identifier: key)
             item.editable = true
-            item.placeholder = "Name"
+            item.placeholder = account.url.host
             item.text = account.label
             return item
         case "baseurl":
