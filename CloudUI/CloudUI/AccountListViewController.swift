@@ -28,7 +28,7 @@ class AccountListViewController: UITableViewController, AccountListView {
                 let account = item as? AccountListViewModel {
                 cell.textLabel?.text = account.title
                 cell.detailTextLabel?.text = account.subtitle
-                cell.accessoryType = .disclosureIndicator
+                cell.accessoryType = .detailDisclosureButton
             }
         }
         
@@ -41,6 +41,10 @@ class AccountListViewController: UITableViewController, AccountListView {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter?.didSelect(itemAt: indexPath)
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        presenter?.didTapAccessoryButton(forItemAt: indexPath)
     }
     
     @objc private func addAccount() {

@@ -39,6 +39,14 @@ class AccountListPresenter {
         router?.present(resourceAt: [], of: account)
     }
     
+    func didTapAccessoryButton(forItemAt indexPath: IndexPath) {
+        guard
+            let account = dataSource.account(at: indexPath)
+            else { return }
+        
+        router?.presentSettings(for: account)
+    }
+    
     func addAccount() {
         router?.presentNewAccount()
     }
