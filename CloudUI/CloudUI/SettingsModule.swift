@@ -204,16 +204,19 @@ class SettingsDataSource: NSObject, FTDataSource {
         switch key {
         case "label":
             let item = FormTextItemData(identifier: key)
+            item.editable = true
             item.placeholder = "Name"
             item.text = account.label
             return item
         case "baseurl":
             let item = FormURLItemData(identifier: key)
+            item.editable = false
             item.placeholder = "Base URL"
             item.url = account.url
             return item
         case "username":
             let item = FormTextItemData(identifier: key)
+            item.editable = false
             item.placeholder = "Username"
             item.text = account.username
             return item
