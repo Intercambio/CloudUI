@@ -11,6 +11,7 @@ import UIKit
 class FormValueItemData : FormValueItem {
     
     var selectable: Bool = false
+    var editable: Bool = false
     var title: String?
     var value: String?
     var icon: UIImage?

@@ -56,6 +56,10 @@ class FormTextItemCell: UITableViewCell, UITextFieldDelegate {
     
     // UITextFieldDelegate
     
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return item?.editable ?? false
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

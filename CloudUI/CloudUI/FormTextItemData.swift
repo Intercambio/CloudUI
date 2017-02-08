@@ -12,6 +12,7 @@ import Foundation
 class FormTextItemData : FormTextItem {
     
     var selectable: Bool = false
+    var editable: Bool = true
     var placeholder: String?
     var text: String?
     

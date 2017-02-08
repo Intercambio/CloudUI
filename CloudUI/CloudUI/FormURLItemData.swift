@@ -12,6 +12,7 @@ import Foundation
 class FormURLItemData : FormURLItem {
     
     var selectable: Bool = false
+    var editable: Bool = true
     var placeholder: String?
     var url: URL?
     

@@ -11,6 +11,7 @@ import UIKit
 protocol FormItem {
     var identifier: String { get }
     var selectable: Bool { get }
+    var editable: Bool { get }
 }
 
 protocol FormValueItem : FormItem {

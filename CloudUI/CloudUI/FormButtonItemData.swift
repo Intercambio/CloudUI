@@ -12,6 +12,7 @@ import UIKit
 class FormButtonItemData : FormButtonItem {
     
     var selectable: Bool = false
+    var editable: Bool = false
     var title: String?
     var enabled: Bool = true
     var destructive: Bool = false
