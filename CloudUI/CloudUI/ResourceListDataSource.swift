@@ -100,7 +100,9 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
             if let resource = self.resource {
                 if resource.dirty {
                     cloudService.updateResource(at: resource.path, of: resource.account) { (error) in
-                        NSLog("Failed to update resources: \(error)")
+                        if error != nil {
+                            NSLog("Failed to update resources: \(error)")
+                        }
                     }
                 }
                 return try cloudService.contents(of: resource.account, at: resource.path)
