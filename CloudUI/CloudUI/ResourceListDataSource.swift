@@ -10,7 +10,7 @@ import Foundation
 import Fountain
 import CloudStore
 
-class ResourceListDataSource: NSObject, FTDataSource {
+class ResourceListDataSource: NSObject, ResourceDataSource {
     
     let cloudService: CloudService
     private(set) var resource: CloudService.Resource? {
@@ -115,6 +115,16 @@ class ResourceListDataSource: NSObject, FTDataSource {
     
     func resource(at indexPath: IndexPath) -> CloudService.Resource? {
         return backingStore.item(at: indexPath) as? CloudService.Resource
+    }
+    
+    // MARK: - ResourceDataSource
+    
+    var title: String? {
+        return resource?.path.last
+    }
+    
+    var updated: Date? {
+        return resource?.updated
     }
     
     // MARK: - FTDataSource

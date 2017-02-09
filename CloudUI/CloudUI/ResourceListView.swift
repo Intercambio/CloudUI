@@ -14,6 +14,11 @@ protocol ResourceListViewModel : class {
     var subtitle: String? { get }
 }
 
+protocol ResourceDataSource: FTDataSource {
+    var title: String? { get }
+    var updated: Date? { get }
+}
+
 protocol ResourceListView : class {
-    var dataSource: FTDataSource? { get set }
+    var dataSource: ResourceDataSource? { get set }
 }
