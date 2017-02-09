@@ -10,7 +10,7 @@ import Foundation
 import Fountain
 import CloudStore
 
-class ResourceListDataSource: NSObject, FTDataSource {
+class ResourceListDataSource: NSObject, ResourceDataSource {
     
     let cloudService: CloudService
     private(set) var resource: CloudService.Resource? {
@@ -100,7 +100,9 @@ class ResourceListDataSource: NSObject, FTDataSource {
             if let resource = self.resource {
                 if resource.dirty {
                     cloudService.updateResource(at: resource.path, of: resource.account) { (error) in
-                        NSLog("Failed to update resources: \(error)")
+                        if error != nil {
+                            NSLog("Failed to update resources: \(error)")
+                        }
                     }
                 }
                 return try cloudService.contents(of: resource.account, at: resource.path)
@@ -115,6 +117,24 @@ class ResourceListDataSource: NSObject, FTDataSource {
     
     func resource(at indexPath: IndexPath) -> CloudService.Resource? {
         return backingStore.item(at: indexPath) as? CloudService.Resource
+    }
+    
+    // MARK: - ResourceDataSource
+    
+    var title: String? {
+        guard
+            let resource = self.resource
+            else { return nil }
+        
+        if resource.path.count == 0 {
+            return resource.account.label ?? resource.account.url.host ?? resource.account.url.absoluteString
+        } else {
+            return resource.path.last
+        }
+    }
+    
+    var updated: Date? {
+        return resource?.updated
     }
     
     // MARK: - FTDataSource

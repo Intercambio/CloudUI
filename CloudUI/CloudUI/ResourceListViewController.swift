@@ -9,10 +9,21 @@
 import UIKit
 import Fountain
 
-class ResourceListViewController: UITableViewController, ResourceListView {
+class ResourceListViewController: UITableViewController, ResourceListView, FTDataSourceObserver {
 
     var presenter: ResourceListPresenter?
-    var dataSource: FTDataSource?
+    var dataSource: ResourceDataSource? {
+        willSet {
+            if let dataSource = self.dataSource {
+                dataSource.removeObserver(self)
+            }
+        }
+        didSet {
+            if let dataSource = self.dataSource {
+                dataSource.addObserver(self)
+            }
+        }
+    }
     
     private var tableViewAdapter: FTTableViewAdapter?
     
@@ -34,10 +45,26 @@ class ResourceListViewController: UITableViewController, ResourceListView {
         
         tableViewAdapter?.delegate = self
         tableViewAdapter?.dataSource = dataSource
+    
+        updateTitle()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter?.didSelect(itemAt: indexPath)
     }
+    
+    func updateTitle() {
+        self.title = dataSource?.title
+    }
 
+    // MARK: - FTDataSourceObserver
+    
+    func dataSourceDidReset(_ dataSource: FTDataSource!) {
+        updateTitle()
+    }
+    
+    func dataSourceWillChange(_ dataSource: FTDataSource!) {
+        updateTitle()
+    }
+    
 }
