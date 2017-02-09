@@ -195,8 +195,8 @@ class SettingsDataSource: NSObject, FormDataSource {
         case "password":
             let item = FormPasswordItemData(identifier: key)
             item.editable = true
-            item.placeholder = "Password"
             item.hasPassword = cloudService.password(for: account) != nil
+            item.placeholder = item.hasPassword ? "Enter new Password" : "Enter Password"
             return item
         default:
             return nil
