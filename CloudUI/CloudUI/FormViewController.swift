@@ -50,6 +50,17 @@ class FormViewController: UITableViewController, UITableViewDelegateCellAction {
             }
         }
         
+        tableView.register(FormPasswordItemCell.self, forCellReuseIdentifier: "FormPasswordItemCell")
+        tableViewAdapter?.forRowsMatching(
+            FormPasswordItemCell.predicate,
+            useCellWithReuseIdentifier: "FormPasswordItemCell"
+        ) { view, item, _, _ in
+            if let cell = view as? FormPasswordItemCell,
+                let formItem = item as? FormPasswordItem {
+                cell.item = formItem
+            }
+        }
+        
         tableView.register(FormURLItemCell.self, forCellReuseIdentifier: "FormURLItemCell")
         tableViewAdapter?.forRowsMatching(
             FormURLItemCell.predicate,
