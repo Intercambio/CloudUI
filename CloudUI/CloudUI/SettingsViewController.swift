@@ -21,5 +21,6 @@ class SettingsViewController: FormViewController, SettingsView {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Settings"
+        tableView.keyboardDismissMode = .interactive
     }
 }

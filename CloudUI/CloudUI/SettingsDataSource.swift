@@ -26,7 +26,7 @@ class SettingsDataSource: NSObject, FormDataSource {
     // Options
     
     var supportedKeys: [String] {
-        return ["label", "baseurl", "username", "remove"]
+        return ["label", "baseurl", "username", "remove", "password"]
     }
     
     private func indexPath(for option: String) -> IndexPath? {
@@ -37,8 +37,10 @@ class SettingsDataSource: NSObject, FormDataSource {
         } else if option == "username" {
             return IndexPath(item: 1, section: 1)
         } else if option == "remove" {
+            return IndexPath(item: 0, section: 3)
+        } else if option == "password" {
             return IndexPath(item: 0, section: 2)
-        } else {
+        } else  {
             return nil
         }
     }
@@ -57,6 +59,11 @@ class SettingsDataSource: NSObject, FormDataSource {
             default: return nil
             }
         case 2:
+            switch indexPath.row {
+            case 0: return "password"
+            default: return nil
+            }
+        case 3:
             switch indexPath.row {
             case 0: return "remove"
             default: return nil
@@ -85,7 +92,13 @@ class SettingsDataSource: NSObject, FormDataSource {
                     let label = value as? String?
                     else { return }
                 self.account = try cloudService.update(account, with: label)
+            } else if key == "password" {
+                guard
+                    let password = value as? String
+                    else { return }
+                cloudService.setPassword(password, for: account)
             }
+            
         } catch {
             NSLog("Failed to update account: \(error)")
         }
@@ -113,7 +126,7 @@ class SettingsDataSource: NSObject, FormDataSource {
     // MARK: - FTDataSource
     
     public func numberOfSections() -> UInt {
-        return 3
+        return 4
     }
     
     public func numberOfItems(inSection section: UInt) -> UInt {
@@ -121,6 +134,7 @@ class SettingsDataSource: NSObject, FormDataSource {
         case 0: return 1
         case 1: return 2
         case 2: return 1
+        case 3: return 1
         default: return 0
         }
     }
@@ -137,7 +151,11 @@ class SettingsDataSource: NSObject, FormDataSource {
             return item
         case 2:
             let item = FormSectionData()
-            item.instructions = "Removing the account will also delete all resoruces from this device. This will not delete the account on the server."
+            item.title = "Password"
+            return item
+        case 3:
+            let item = FormSectionData()
+            item.instructions = "Removing the account will also delete all resources from this device. This will not delete the account on the server."
             return item
         default:
             return nil
@@ -173,6 +191,12 @@ class SettingsDataSource: NSObject, FormDataSource {
             item.enabled = true
             item.destructive = true
             item.destructionMessage = "Are you sure, that you want to remove this account from the device?"
+            return item
+        case "password":
+            let item = FormPasswordItemData(identifier: key)
+            item.editable = true
+            item.hasPassword = cloudService.password(for: account) != nil
+            item.placeholder = item.hasPassword ? "Enter new Password" : "Enter Password"
             return item
         default:
             return nil
