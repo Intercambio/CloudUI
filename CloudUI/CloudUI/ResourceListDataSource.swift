@@ -19,9 +19,27 @@ class ResourceListDataSource: NSObject, FTDataSource {
         }
     }
     
+    private let backingStore: FTMutableSet
+    
     init(cloudService: CloudService, resource: CloudService.Resource) {
         self.cloudService = cloudService
         self.resource = resource
+        let sortDescriptior = NSSortDescriptor(key: "self", ascending: true) { (lhs, rhs) -> ComparisonResult in
+            guard
+                let lhResource = lhs as? CloudService.Resource,
+                let rhResource = rhs as? CloudService.Resource,
+                let lhName = lhResource.path.last,
+                let rhName = rhResource.path.last
+                else { return .orderedSame }
+            if lhName < rhName {
+                return .orderedAscending
+            } else if lhName > rhName {
+                return .orderedDescending
+            } else {
+                return .orderedSame
+            }
+        }
+        self.backingStore = FTMutableSet(sortDescriptors: [sortDescriptior])
         super.init()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(cloudServiceDidChangeResources(_:)),
@@ -69,57 +87,44 @@ class ResourceListDataSource: NSObject, FTDataSource {
         }
     }
  
-    private var resources: [CloudService.Resource] = []
-    
     private func reload() {
+        let resources = self.fetchResources()
+        backingStore.performBatchUpdate {
+            self.backingStore.removeAllObjects()
+            self.backingStore.addObjects(from: resources)
+        }
+    }
+    
+    private func fetchResources() -> [CloudService.Resource] {
         do {
-            
-            defer {
-                for observer in _observers.allObjects {
-                    observer.dataSourceDidReset?(self)
+            if let resource = self.resource {
+                if resource.dirty {
+                    cloudService.updateResource(at: resource.path, of: resource.account) { (error) in
+                        NSLog("Failed to update resources: \(error)")
+                    }
                 }
+                return try cloudService.contents(of: resource.account, at: resource.path)
+            } else {
+                return []
             }
-            
-            for observer in _observers.allObjects {
-                observer.dataSourceWillReset?(self)
-            }
-            
-            guard
-                let resource = self.resource
-                else {
-                    self.resources = []
-                    return
-            }
-            
-            if resource.dirty {
-                cloudService.updateResource(at: resource.path, of: resource.account) { (error) in
-                    NSLog("Failed to update resources: \(error)")
-                }
-            }
-            
-            self.resources = try cloudService.contents(of: resource.account, at: resource.path)
-
         } catch {
             NSLog("Failed to get resources: \(error)")
+            return []
         }
     }
     
     func resource(at indexPath: IndexPath) -> CloudService.Resource? {
-        if indexPath.section == 0 {
-            return resources[indexPath.item]
-        } else {
-            return nil
-        }
+        return backingStore.item(at: indexPath) as? CloudService.Resource
     }
     
     // MARK: - FTDataSource
     
     func numberOfSections() -> UInt {
-        return 1
+        return backingStore.numberOfSections()
     }
     
     func numberOfItems(inSection section: UInt) -> UInt {
-        return UInt(resources.count)
+        return backingStore.numberOfItems(inSection: section)
     }
     
     func sectionItem(forSection section: UInt) -> Any! {
@@ -127,28 +132,23 @@ class ResourceListDataSource: NSObject, FTDataSource {
     }
     
     func item(at indexPath: IndexPath!) -> Any! {
-        if indexPath.section == 0 {
-            let resource = resources[indexPath.item]
-            return ViewModel(resource: resource)
+        if let item = backingStore.item(at: indexPath) as? CloudService.Resource {
+            return ViewModel(resource: item)
         } else {
             return nil
         }
     }
-    
-    private let _observers: NSHashTable = NSHashTable<FTDataSourceObserver>.weakObjects()
-    
+
     func observers() -> [Any]! {
-        return _observers.allObjects
+        return backingStore.observers()
     }
     
     func addObserver(_ observer: FTDataSourceObserver!) {
-        if _observers.contains(observer) == false {
-            _observers.add(observer)
-        }
+        backingStore.addObserver(observer)
     }
     
     public func removeObserver(_ observer: FTDataSourceObserver!) {
-        _observers.remove(observer)
+        backingStore.removeObserver(observer)
     }
     
     class ViewModel: ResourceListViewModel {
