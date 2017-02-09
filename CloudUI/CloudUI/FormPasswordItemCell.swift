@@ -72,6 +72,8 @@ class FormPasswordItemCell: UITableViewCell, UITextFieldDelegate {
         if let text = textField.text,
             text.characters.count > 0 {
             setValue(text, sender: self)
+        } else {
+            textField.text = item?.hasPassword == true ? "**********" : nil
         }
     }
 }
