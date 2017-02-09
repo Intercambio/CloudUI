@@ -120,7 +120,15 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     // MARK: - ResourceDataSource
     
     var title: String? {
-        return resource?.path.last
+        guard
+            let resource = self.resource
+            else { return nil }
+        
+        if resource.path.count == 0 {
+            return resource.account.label ?? resource.account.url.host ?? resource.account.url.absoluteString
+        } else {
+            return resource.path.last
+        }
     }
     
     var updated: Date? {
