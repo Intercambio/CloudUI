@@ -15,7 +15,9 @@ public class MainModule: UserInterfaceModule {
     public var resourceModule: UserInterfaceModule?
     public var settingsModule: UserInterfaceModule?
     
-    public init() {
+    let cloudService: CloudService
+    public init(cloudService: CloudService) {
+        self.cloudService = cloudService
     }
     
     public func makeViewController() -> UIViewController {
@@ -25,7 +27,7 @@ public class MainModule: UserInterfaceModule {
                 return UIViewController()
         }
 
-        let splitViewController = MainViewController()
+        let splitViewController = MainViewController(cloudService: cloudService)
         splitViewController.delegate = self
         splitViewController.presentsWithGesture = true
         splitViewController.viewControllers = [
@@ -45,6 +47,38 @@ protocol MainViewControllerDelegate: UISplitViewControllerDelegate {
 
 class MainViewController: UISplitViewController {
     
+    let cloudService: CloudService
+    init(cloudService: CloudService) {
+        self.cloudService = cloudService
+        super.init(nibName: nil, bundle: nil)
+        
+        let center = NotificationCenter.default
+        center.addObserver(self,
+                           selector: #selector(cloudServiceDidRemoveAccount(_:)),
+                           name: Notification.Name.CloudServiceDidRemoveAccount,
+                           object: cloudService)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        let center = NotificationCenter.default
+        center.removeObserver(self)
+    }
+    
+    @objc private func cloudServiceDidRemoveAccount(_ notification: Notification) {
+        DispatchQueue.main.async {
+            guard
+                let account = notification.userInfo?[AccountKey] as? CloudService.Account
+                else { return }
+            
+            if self.account == account {
+                self.dismissSettings()
+            }
+        }
+    }
 }
 
 extension MainModule: MainViewControllerDelegate {
@@ -159,6 +193,15 @@ extension MainViewController: PasswordUserInterface {
 
 extension MainViewController: SettingsUserInterface {
     
+    public var account: CloudService.Account? {
+        guard
+            let navigationController = presentedViewController as? UINavigationController,
+            let settingsUserInterface = navigationController.viewControllers.first as? SettingsUserInterface
+            else { return nil }
+        
+        return settingsUserInterface.account
+    }
+    
     public func presentSettings(for account: CloudService.Account, animated: Bool) {
         guard
             let delegate = self.delegate as? MainViewControllerDelegate,
@@ -174,8 +217,7 @@ extension MainViewController: SettingsUserInterface {
         present(navigationController, animated: animated, completion: nil)
     }
     
-    @objc private func dismissSettings() {
+    func dismissSettings() {
         presentedViewController?.dismiss(animated: true, completion: nil)
     }
-    
 }

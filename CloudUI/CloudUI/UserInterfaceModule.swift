@@ -23,5 +23,6 @@ public protocol PasswordUserInterface {
 }
 
 public protocol SettingsUserInterface {
+    var account: CloudService.Account? { get }
     func presentSettings(for account: CloudService.Account, animated: Bool) -> Void
 }
