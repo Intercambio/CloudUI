@@ -112,8 +112,18 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         }
     }
     
-    var updated: Date? {
-        return resource?.updated
+    var footer: String? {
+        if isUpdating {
+            return "Updating ..."
+        } else if let updated = resource?.updated {
+            let formatter = DateFormatter()
+            formatter.doesRelativeDateFormatting = true
+            formatter.timeStyle = .short
+            formatter.dateStyle = .short
+            return "Last Update\n\(formatter.string(from: updated))"
+        } else {
+            return nil
+        }
     }
     
     // MARK: - FTDataSource
@@ -151,19 +161,21 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     }
     
     class ViewModel: ResourceListViewModel {
-        
+        let resource: CloudService.Resource
+        init(resource: CloudService.Resource) {
+            self.resource = resource
+        }
         var title: String? {
             return resource.path.last
         }
-        
         var subtitle: String? {
-            return resource.path.joined(separator: "/")
-        }
-        
-        let resource: CloudService.Resource
-        
-        init(resource: CloudService.Resource) {
-            self.resource = resource
+            guard
+                let contentType = resource.contentType,
+                let contentLength = resource.contentLength
+                else { return nil }
+            let formatter = ByteCountFormatter()
+            formatter.countStyle = .file
+            return "\(contentType), \(formatter.string(fromByteCount: Int64(contentLength)))"
         }
     }
     
