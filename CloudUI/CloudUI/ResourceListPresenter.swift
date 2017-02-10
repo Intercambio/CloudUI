@@ -53,4 +53,14 @@ class ResourceListPresenter {
         router?.present(resource)
     }
     
+    func update() {
+        guard
+            let dataSource = self.dataSource
+            else { return }
+        
+        view?.isUpdating = true
+        dataSource.update { error in
+            self.view?.isUpdating = false
+        }
+    }
 }

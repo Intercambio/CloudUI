@@ -25,6 +25,16 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         }
     }
     
+    var isUpdating: Bool = false {
+        didSet {
+            if isUpdating {
+                refreshControl?.beginRefreshing()
+            } else {
+                refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
     private var tableViewAdapter: FTTableViewAdapter?
     
     public override func viewDidLoad() {
@@ -46,6 +56,12 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         tableViewAdapter?.delegate = self
         tableViewAdapter?.dataSource = dataSource
     
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        if isUpdating {
+            refreshControl?.beginRefreshing()
+        }
+        
         updateTitle()
     }
     
@@ -53,10 +69,12 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         presenter?.didSelect(itemAt: indexPath)
     }
     
-    func updateTitle() {
-        self.title = dataSource?.title
+    // MARK: - Actions
+    
+    @objc private func refresh() {
+        presenter?.update()
     }
-
+    
     // MARK: - FTDataSourceObserver
     
     func dataSourceDidReset(_ dataSource: FTDataSource!) {
@@ -67,4 +85,9 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         updateTitle()
     }
     
+    // MARK: - Helper
+    
+    func updateTitle() {
+        self.title = dataSource?.title
+    }
 }

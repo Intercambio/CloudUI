@@ -21,4 +21,5 @@ protocol ResourceDataSource: FTDataSource {
 
 protocol ResourceListView : class {
     var dataSource: ResourceDataSource? { get set }
+    var isUpdating: Bool { get set }
 }

@@ -12,15 +12,14 @@ import CloudStore
 
 class ResourceListDataSource: NSObject, ResourceDataSource {
     
-    let cloudService: CloudService
+    private let backingStore: FTMutableSet
     private(set) var resource: CloudService.Resource? {
         didSet {
             reload()
         }
     }
     
-    private let backingStore: FTMutableSet
-    
+    let cloudService: CloudService
     init(cloudService: CloudService, resource: CloudService.Resource) {
         self.cloudService = cloudService
         self.resource = resource
@@ -52,41 +51,28 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc private func cloudServiceDidChangeResources(_ notification: Notification) {
-        DispatchQueue.main.async {
-            
-            var needsReload: Bool = false
-            
-            if let resource = self.resource {
-                if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [CloudService.Resource] {
-                    for updatedResource in insertedOrUpdate {
-                        if resource == updatedResource {
-                            self.resource = updatedResource
-                            return
-                        } else if resource.account == updatedResource.account && resource.path.starts(with: updatedResource.path) {
-                            needsReload = true
-                        }
-                    }
+    private(set) var isUpdating: Bool = false
+    func update(completion: ((Error?) -> Void)?) {
+        guard
+            let resource = self.resource
+            else {
+                completion?(nil)
+                return
+        }
+        
+        if isUpdating {
+            completion?(nil)
+        } else {
+            isUpdating = true
+            cloudService.updateResource(at: resource.path, of: resource.account) { error in
+                DispatchQueue.main.async {
+                    self.isUpdating = false
+                    completion?(error)
                 }
-                if let deleted = notification.userInfo?[DeletedResourcesKey] as? [CloudService.Resource] {
-                    for deletedResource in deleted {
-                        if resource == deletedResource {
-                            self.resource = nil
-                            return
-                        } else if resource.account == deletedResource.account && resource.path.starts(with: deletedResource.path) {
-                            self.resource = nil
-                            return
-                        }
-                    }
-                }
-            }
-            
-            if needsReload {
-                self.reload()
             }
         }
     }
- 
+    
     private func reload() {
         let resources = self.fetchResources()
         backingStore.performBatchUpdate {
@@ -98,19 +84,12 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     private func fetchResources() -> [CloudService.Resource] {
         do {
             if let resource = self.resource {
-                if resource.dirty {
-                    cloudService.updateResource(at: resource.path, of: resource.account) { (error) in
-                        if error != nil {
-                            NSLog("Failed to update resources: \(error)")
-                        }
-                    }
-                }
                 return try cloudService.contents(of: resource.account, at: resource.path)
             } else {
                 return []
             }
         } catch {
-            NSLog("Failed to get resources: \(error)")
+            NSLog("Failed to get contents: \(error)")
             return []
         }
     }
@@ -188,4 +167,40 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         }
     }
     
+    // MARK: - Notification Handling
+    
+    @objc private func cloudServiceDidChangeResources(_ notification: Notification) {
+        DispatchQueue.main.async {
+            
+            var needsReload: Bool = false
+            
+            if let resource = self.resource {
+                if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [CloudService.Resource] {
+                    for updatedResource in insertedOrUpdate {
+                        if resource == updatedResource {
+                            self.resource = updatedResource
+                            return
+                        } else if resource.account == updatedResource.account && resource.path.starts(with: updatedResource.path) {
+                            needsReload = true
+                        }
+                    }
+                }
+                if let deleted = notification.userInfo?[DeletedResourcesKey] as? [CloudService.Resource] {
+                    for deletedResource in deleted {
+                        if resource == deletedResource {
+                            self.resource = nil
+                            return
+                        } else if resource.account == deletedResource.account && resource.path.starts(with: deletedResource.path) {
+                            self.resource = nil
+                            return
+                        }
+                    }
+                }
+            }
+            
+            if needsReload {
+                self.reload()
+            }
+        }
+    }
 }
