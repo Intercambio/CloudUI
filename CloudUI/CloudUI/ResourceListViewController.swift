@@ -10,17 +10,18 @@ import UIKit
 import Fountain
 
 class ResourceListViewController: UITableViewController, ResourceListView, FTDataSourceObserver {
-
+    
     var presenter: ResourceListPresenter?
     var dataSource: ResourceDataSource? {
-        willSet {
-            if let dataSource = self.dataSource {
-                dataSource.removeObserver(self)
-            }
-        }
         didSet {
-            if let dataSource = self.dataSource {
-                dataSource.addObserver(self)
+            tableViewAdapter?.dataSource = dataSource
+            if oldValue !== self.dataSource {
+                if let dataSource = oldValue {
+                    dataSource.removeObserver(self)
+                }
+                if let dataSource = self.dataSource {
+                    dataSource.addObserver(self)
+                }
             }
         }
     }
@@ -55,7 +56,7 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         
         tableViewAdapter?.delegate = self
         tableViewAdapter?.dataSource = dataSource
-    
+        
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         if isUpdating {
@@ -83,7 +84,7 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         updateFooter()
     }
     
-    func dataSourceWillChange(_ dataSource: FTDataSource!) {
+    func dataSourceDidChange(_ dataSource: FTDataSource!) {
         updateTitle()
         updateFooter()
     }

@@ -13,6 +13,7 @@ import CloudStore
 class ResourceListDataSource: NSObject, ResourceDataSource {
     
     private let backingStore: FTMutableSet
+    private let proxy: FTObserverProxy
     private(set) var resource: CloudService.Resource? {
         didSet {
             reload()
@@ -39,7 +40,10 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
             }
         }
         self.backingStore = FTMutableSet(sortDescriptors: [sortDescriptior])
+        self.proxy = FTObserverProxy()
         super.init()
+        proxy.object = self
+        backingStore.addObserver(proxy)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(cloudServiceDidChangeResources(_:)),
                                                name: Notification.Name.CloudServiceDidChangeResources,
@@ -149,15 +153,15 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     }
 
     func observers() -> [Any]! {
-        return backingStore.observers()
+        return proxy.observers()
     }
     
     func addObserver(_ observer: FTDataSourceObserver!) {
-        backingStore.addObserver(observer)
+        proxy.addObserver(observer)
     }
     
     public func removeObserver(_ observer: FTDataSourceObserver!) {
-        backingStore.removeObserver(observer)
+        proxy.removeObserver(observer)
     }
     
     class ViewModel: ResourceListViewModel {

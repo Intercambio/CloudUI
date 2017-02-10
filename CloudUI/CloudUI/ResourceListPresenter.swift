@@ -21,14 +21,13 @@ class ResourceListPresenter {
     
     var resource: CloudService.Resource? {
         didSet {
-            guard
-                let resource = self.resource
-                else {
+            if oldValue != resource {
+                if let resource = self.resource {
+                    dataSource = ResourceListDataSource(cloudService: cloudService, resource: resource)
+                } else {
                     dataSource = nil
-                    return
+                }
             }
-            
-            dataSource = ResourceListDataSource(cloudService: cloudService, resource: resource)
         }
     }
     
