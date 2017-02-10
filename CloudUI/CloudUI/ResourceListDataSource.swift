@@ -112,8 +112,18 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         }
     }
     
-    var updated: Date? {
-        return resource?.updated
+    var footer: String? {
+        if isUpdating {
+            return "Updating ..."
+        } else if let updated = resource?.updated {
+            let formatter = DateFormatter()
+            formatter.doesRelativeDateFormatting = true
+            formatter.timeStyle = .short
+            formatter.dateStyle = .short
+            return "Last Update\n\(formatter.string(from: updated))"
+        } else {
+            return nil
+        }
     }
     
     // MARK: - FTDataSource

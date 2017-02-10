@@ -16,7 +16,7 @@ protocol ResourceListViewModel : class {
 
 protocol ResourceDataSource: FTDataSource {
     var title: String? { get }
-    var updated: Date? { get }
+    var footer: String? { get }
 }
 
 protocol ResourceListView : class {

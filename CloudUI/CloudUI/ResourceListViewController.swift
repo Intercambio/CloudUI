@@ -63,6 +63,7 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         }
         
         updateTitle()
+        updateFooter()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -79,15 +80,35 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
     
     func dataSourceDidReset(_ dataSource: FTDataSource!) {
         updateTitle()
+        updateFooter()
     }
     
     func dataSourceWillChange(_ dataSource: FTDataSource!) {
         updateTitle()
+        updateFooter()
     }
     
     // MARK: - Helper
     
     func updateTitle() {
         self.title = dataSource?.title
+    }
+    
+    func updateFooter(animated: Bool = false) {
+        
+        let footerLabel = UILabel()
+        footerLabel.numberOfLines = 0
+        footerLabel.textAlignment = .center
+        footerLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
+        footerLabel.text = dataSource?.footer
+        footerLabel.sizeToFit()
+        
+        let items = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(customView: footerLabel),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        ]
+        
+        setToolbarItems(items, animated: animated)
     }
 }

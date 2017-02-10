@@ -27,6 +27,7 @@ public class ResourceBrowserModule: NSObject, UserInterfaceModule {
         
         let navigationController = ResourceBrowserNavigationController(rootViewController: accountListViewController)
         navigationController.delegate = self
+        navigationController.isToolbarHidden = false
         return navigationController
     }
 }
