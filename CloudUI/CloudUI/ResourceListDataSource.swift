@@ -161,19 +161,21 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     }
     
     class ViewModel: ResourceListViewModel {
-        
+        let resource: CloudService.Resource
+        init(resource: CloudService.Resource) {
+            self.resource = resource
+        }
         var title: String? {
             return resource.path.last
         }
-        
         var subtitle: String? {
-            return resource.path.joined(separator: "/")
-        }
-        
-        let resource: CloudService.Resource
-        
-        init(resource: CloudService.Resource) {
-            self.resource = resource
+            guard
+                let contentType = resource.contentType,
+                let contentLength = resource.contentLength
+                else { return nil }
+            let formatter = ByteCountFormatter()
+            formatter.countStyle = .file
+            return "\(contentType), \(formatter.string(fromByteCount: Int64(contentLength)))"
         }
     }
     
