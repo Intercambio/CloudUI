@@ -56,22 +56,25 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     }
     
     private(set) var isUpdating: Bool = false
-    func update(completion: ((Error?) -> Void)?) {
+    func update(force: Bool = false) {
         guard
-            let resource = self.resource
+            let resource = self.resource,
+            (resource.dirty == true || force == true)
             else {
-                completion?(nil)
                 return
         }
         
-        if isUpdating {
-            completion?(nil)
-        } else {
+        if isUpdating == false {
+            
+            proxy.dataSourceWillChange(backingStore)
             isUpdating = true
+            proxy.dataSourceDidChange(backingStore)
+            
             cloudService.updateResource(at: resource.path, of: resource.account) { error in
                 DispatchQueue.main.async {
+                    self.proxy.dataSourceWillChange(self.backingStore)
                     self.isUpdating = false
-                    completion?(error)
+                    self.proxy.dataSourceDidChange(self.backingStore)
                 }
             }
         }
@@ -151,7 +154,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
             return nil
         }
     }
-
+    
     func observers() -> [Any]! {
         return proxy.observers()
     }

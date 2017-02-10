@@ -26,16 +26,6 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         }
     }
     
-    var isUpdating: Bool = false {
-        didSet {
-            if isUpdating {
-                refreshControl?.beginRefreshing()
-            } else {
-                refreshControl?.endRefreshing()
-            }
-        }
-    }
-    
     private var tableViewAdapter: FTTableViewAdapter?
     
     public override func viewDidLoad() {
@@ -59,12 +49,15 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        if isUpdating {
-            refreshControl?.beginRefreshing()
-        }
         
         updateTitle()
         updateFooter()
+        updateRefreshControl()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        presenter?.updateIfNeeded()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -82,14 +75,24 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
     func dataSourceDidReset(_ dataSource: FTDataSource!) {
         updateTitle()
         updateFooter()
+        updateRefreshControl()
     }
     
     func dataSourceDidChange(_ dataSource: FTDataSource!) {
         updateTitle()
         updateFooter()
+        updateRefreshControl()
     }
     
     // MARK: - Helper
+    
+    func updateRefreshControl() {
+        if dataSource?.isUpdating ?? false {
+            refreshControl?.beginRefreshing()
+        } else {
+            refreshControl?.endRefreshing()
+        }
+    }
     
     func updateTitle() {
         self.title = dataSource?.title
