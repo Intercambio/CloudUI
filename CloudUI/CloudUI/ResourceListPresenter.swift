@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CloudStore
+import CloudService
 
 class ResourceListPresenter {
     

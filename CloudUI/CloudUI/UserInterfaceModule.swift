@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CloudStore
+import CloudService
 
 public protocol UserInterfaceModule {
     func makeViewController() -> UIViewController

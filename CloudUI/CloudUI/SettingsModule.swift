@@ -8,7 +8,7 @@
 
 import UIKit
 import Fountain
-import CloudStore
+import CloudService
 
 public class SettingsModule: UserInterfaceModule {
     

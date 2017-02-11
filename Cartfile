@@ -1,2 +1,2 @@
 github "anagromataf/Fountain" ~> 2.5
-github "Intercambio/CloudStore" ~> 0.5
+github "Intercambio/CloudService" ~> 0.6

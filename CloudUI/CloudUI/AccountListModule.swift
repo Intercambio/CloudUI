@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import CloudStore
+import CloudService
 
 public protocol AccountListRouter: class {
     func present(resourceAt path: [String], of account: CloudService.Account) -> Void

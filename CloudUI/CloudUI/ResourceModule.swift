@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import CloudStore
+import CloudService
 
 public class ResourceModule: UserInterfaceModule {
 

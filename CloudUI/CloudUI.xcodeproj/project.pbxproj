@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F608C4171E4F2D7B00410948 /* CloudService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F608C4161E4F2D7B00410948 /* CloudService.framework */; };
+		F608C4181E4F2D8100410948 /* CloudService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F608C4161E4F2D7B00410948 /* CloudService.framework */; };
 		F61292CB1E4CA54C00051B24 /* FormPasswordItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61292CA1E4CA54C00051B24 /* FormPasswordItemData.swift */; };
 		F61292CD1E4CA57900051B24 /* FormPasswordItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61292CC1E4CA57900051B24 /* FormPasswordItemCell.swift */; };
 		F63A78A31E4B2FDA004FE25E /* SettingsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */; };
@@ -30,13 +32,9 @@
 		F63F523F1E48AFAA006DAF83 /* CloudUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52351E48AFAA006DAF83 /* CloudUI.framework */; };
 		F63F52441E48AFAA006DAF83 /* CloudUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52431E48AFAA006DAF83 /* CloudUITests.swift */; };
 		F63F52461E48AFAA006DAF83 /* CloudUI.h in Headers */ = {isa = PBXBuildFile; fileRef = F63F52381E48AFAA006DAF83 /* CloudUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F63F52571E48B24A006DAF83 /* CloudAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52521E48B24A006DAF83 /* CloudAPI.framework */; };
-		F63F52581E48B24A006DAF83 /* CloudStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52531E48B24A006DAF83 /* CloudStore.framework */; };
 		F63F52591E48B24A006DAF83 /* Fountain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52541E48B24A006DAF83 /* Fountain.framework */; };
 		F63F525A1E48B24A006DAF83 /* PureXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52551E48B24A006DAF83 /* PureXML.framework */; };
 		F63F525B1E48B24A006DAF83 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52561E48B24A006DAF83 /* SQLite.framework */; };
-		F63F525C1E48B255006DAF83 /* CloudAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52521E48B24A006DAF83 /* CloudAPI.framework */; };
-		F63F525D1E48B255006DAF83 /* CloudStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52531E48B24A006DAF83 /* CloudStore.framework */; };
 		F63F525E1E48B255006DAF83 /* Fountain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52541E48B24A006DAF83 /* Fountain.framework */; };
 		F63F525F1E48B255006DAF83 /* PureXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52551E48B24A006DAF83 /* PureXML.framework */; };
 		F63F52601E48B255006DAF83 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52561E48B24A006DAF83 /* SQLite.framework */; };
@@ -69,6 +67,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F608C4161E4F2D7B00410948 /* CloudService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudService.framework; path = ../../../Build/iOS/CloudService.framework; sourceTree = "<group>"; };
 		F61292CA1E4CA54C00051B24 /* FormPasswordItemData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormPasswordItemData.swift; sourceTree = "<group>"; };
 		F61292CC1E4CA57900051B24 /* FormPasswordItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormPasswordItemCell.swift; sourceTree = "<group>"; };
 		F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsModule.swift; sourceTree = "<group>"; };
@@ -95,8 +94,6 @@
 		F63F523E1E48AFAA006DAF83 /* CloudUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CloudUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F63F52431E48AFAA006DAF83 /* CloudUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudUITests.swift; sourceTree = "<group>"; };
 		F63F52451E48AFAA006DAF83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F63F52521E48B24A006DAF83 /* CloudAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudAPI.framework; path = ../Carthage/Build/iOS/CloudAPI.framework; sourceTree = "<group>"; };
-		F63F52531E48B24A006DAF83 /* CloudStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudStore.framework; path = ../Carthage/Build/iOS/CloudStore.framework; sourceTree = "<group>"; };
 		F63F52541E48B24A006DAF83 /* Fountain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fountain.framework; path = ../Carthage/Build/iOS/Fountain.framework; sourceTree = "<group>"; };
 		F63F52551E48B24A006DAF83 /* PureXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PureXML.framework; path = ../Carthage/Build/iOS/PureXML.framework; sourceTree = "<group>"; };
 		F63F52561E48B24A006DAF83 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = ../Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
@@ -123,8 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F63F52571E48B24A006DAF83 /* CloudAPI.framework in Frameworks */,
-				F63F52581E48B24A006DAF83 /* CloudStore.framework in Frameworks */,
+				F608C4171E4F2D7B00410948 /* CloudService.framework in Frameworks */,
 				F63F52591E48B24A006DAF83 /* Fountain.framework in Frameworks */,
 				F63F525A1E48B24A006DAF83 /* PureXML.framework in Frameworks */,
 				F63F525B1E48B24A006DAF83 /* SQLite.framework in Frameworks */,
@@ -135,9 +131,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F608C4181E4F2D8100410948 /* CloudService.framework in Frameworks */,
 				F63F523F1E48AFAA006DAF83 /* CloudUI.framework in Frameworks */,
-				F63F525C1E48B255006DAF83 /* CloudAPI.framework in Frameworks */,
-				F63F525D1E48B255006DAF83 /* CloudStore.framework in Frameworks */,
 				F63F525E1E48B255006DAF83 /* Fountain.framework in Frameworks */,
 				F63F525F1E48B255006DAF83 /* PureXML.framework in Frameworks */,
 				F63F52601E48B255006DAF83 /* SQLite.framework in Frameworks */,
@@ -271,8 +266,7 @@
 		F63F52511E48B249006DAF83 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F63F52521E48B24A006DAF83 /* CloudAPI.framework */,
-				F63F52531E48B24A006DAF83 /* CloudStore.framework */,
+				F608C4161E4F2D7B00410948 /* CloudService.framework */,
 				F63F52541E48B24A006DAF83 /* Fountain.framework */,
 				F63F52551E48B24A006DAF83 /* PureXML.framework */,
 				F63F52561E48B24A006DAF83 /* SQLite.framework */,
@@ -466,8 +460,7 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/../Carthage/Build/iOS/CloudAPI.framework",
-				"$(SRCROOT)/../Carthage/Build/iOS/CloudStore.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/CloudService.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/PureXML.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/SQLite.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/Fountain.framework",

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "453C8A15C0AC46BD7022964F6BE78D4D85B4A0AF",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "453C8A15C0AC46BD7022964F6BE78D4D85B4A0AF" : 9223372036854775807,
+    "D27CF701B1FD4A68F6F99B36CDDAAC30094EE410" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A72A8D54-5F6A-4034-8760-D15C3FEF1F19",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "453C8A15C0AC46BD7022964F6BE78D4D85B4A0AF" : "CloudUI\/",
+    "D27CF701B1FD4A68F6F99B36CDDAAC30094EE410" : "..\/.."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "CloudUI",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CloudUI.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/github.com\/Intercambio\/CloudUI.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "453C8A15C0AC46BD7022964F6BE78D4D85B4A0AF"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Intercambio\/nube.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D27CF701B1FD4A68F6F99B36CDDAAC30094EE410"
+    }
+  ]
+}

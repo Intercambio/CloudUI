@@ -8,7 +8,7 @@
 
 import Foundation
 import Fountain
-import CloudStore
+import CloudService
 
 class AccountListPresenter {
     

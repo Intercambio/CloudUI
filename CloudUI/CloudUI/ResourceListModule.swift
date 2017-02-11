@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import CloudStore
+import CloudService
 
 public protocol ResourceListRouter: class {
     func present(_ resource: CloudService.Resource) -> Void
