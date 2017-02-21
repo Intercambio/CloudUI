@@ -10,7 +10,7 @@ import UIKit
 import CloudService
 
 public protocol ResourceListRouter: class {
-    func present(_ resource: CloudService.Resource) -> Void
+    func present(_ resource: Resource) -> Void
 }
 
 public class ResourceListModule: UserInterfaceModule {
@@ -34,11 +34,11 @@ public class ResourceListModule: UserInterfaceModule {
 
 extension ResourceListViewController: ResourceUserInterface {
     
-    public var resource: CloudService.Resource? {
+    public var resource: Resource? {
         return presenter?.resource
     }
     
-    func present(_ resource: CloudService.Resource, animated: Bool) {
+    func present(_ resource: Resource, animated: Bool) {
         presenter?.resource = resource
     }
 }

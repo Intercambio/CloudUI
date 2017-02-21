@@ -19,7 +19,7 @@ class ResourceListPresenter {
         }
     }
     
-    var resource: CloudService.Resource? {
+    var resource: Resource? {
         didSet {
             if oldValue != resource {
                 if let resource = self.resource {

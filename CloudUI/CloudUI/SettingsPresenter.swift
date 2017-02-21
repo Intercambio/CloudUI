@@ -19,7 +19,7 @@ class SettingsPresenter {
             view?.dataSource = dataSource
         }
     }
-    var account: CloudService.Account? {
+    var account: Account? {
         didSet {
             guard
                 let account = self.account

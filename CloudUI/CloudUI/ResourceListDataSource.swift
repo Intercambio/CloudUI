@@ -14,22 +14,22 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     
     private let backingStore: FTMutableSet
     private let proxy: FTObserverProxy
-    private(set) var resource: CloudService.Resource? {
+    private(set) var resource: Resource? {
         didSet {
             reload()
         }
     }
     
     let cloudService: CloudService
-    init(cloudService: CloudService, resource: CloudService.Resource) {
+    init(cloudService: CloudService, resource: Resource) {
         self.cloudService = cloudService
         self.resource = resource
         let sortDescriptior = NSSortDescriptor(key: "self", ascending: true) { (lhs, rhs) -> ComparisonResult in
             guard
-                let lhResource = lhs as? CloudService.Resource,
-                let rhResource = rhs as? CloudService.Resource,
-                let lhName = lhResource.path.last,
-                let rhName = rhResource.path.last
+                let lhResource = lhs as? Resource,
+                let rhResource = rhs as? Resource,
+                let lhName = lhResource.path.components.last,
+                let rhName = rhResource.path.components.last
                 else { return .orderedSame }
             if lhName < rhName {
                 return .orderedAscending
@@ -88,7 +88,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         }
     }
     
-    private func fetchResources() -> [CloudService.Resource] {
+    private func fetchResources() -> [Resource] {
         do {
             if let resource = self.resource {
                 return try cloudService.contents(of: resource.account, at: resource.path)
@@ -101,8 +101,8 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         }
     }
     
-    func resource(at indexPath: IndexPath) -> CloudService.Resource? {
-        return backingStore.item(at: indexPath) as? CloudService.Resource
+    func resource(at indexPath: IndexPath) -> Resource? {
+        return backingStore.item(at: indexPath) as? Resource
     }
     
     // MARK: - ResourceDataSource
@@ -112,10 +112,10 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
             let resource = self.resource
             else { return nil }
         
-        if resource.path.count == 0 {
+        if resource.path.length == 0 {
             return resource.account.label ?? resource.account.url.host ?? resource.account.url.absoluteString
         } else {
-            return resource.path.last
+            return resource.path.components.last
         }
     }
     
@@ -148,7 +148,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     }
     
     func item(at indexPath: IndexPath!) -> Any! {
-        if let item = backingStore.item(at: indexPath) as? CloudService.Resource {
+        if let item = backingStore.item(at: indexPath) as? Resource {
             return ViewModel(resource: item)
         } else {
             return nil
@@ -168,17 +168,17 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     }
     
     class ViewModel: ResourceListViewModel {
-        let resource: CloudService.Resource
-        init(resource: CloudService.Resource) {
+        let resource: Resource
+        init(resource: Resource) {
             self.resource = resource
         }
         var title: String? {
-            return resource.path.last
+            return resource.path.components.last
         }
         var subtitle: String? {
             guard
-                let contentType = resource.contentType,
-                let contentLength = resource.contentLength
+                let contentType = resource.properties.contentType,
+                let contentLength = resource.properties.contentLength
                 else { return nil }
             let formatter = ByteCountFormatter()
             formatter.countStyle = .file
@@ -194,22 +194,22 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
             var needsReload: Bool = false
             
             if let resource = self.resource {
-                if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [CloudService.Resource] {
+                if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [Resource] {
                     for updatedResource in insertedOrUpdate {
                         if resource == updatedResource {
                             self.resource = updatedResource
                             return
-                        } else if resource.account == updatedResource.account && resource.path.starts(with: updatedResource.path) {
+                        } else if resource.account == updatedResource.account && resource.path.components.starts(with: updatedResource.path.components) {
                             needsReload = true
                         }
                     }
                 }
-                if let deleted = notification.userInfo?[DeletedResourcesKey] as? [CloudService.Resource] {
+                if let deleted = notification.userInfo?[DeletedResourcesKey] as? [Resource] {
                     for deletedResource in deleted {
                         if resource == deletedResource {
                             self.resource = nil
                             return
-                        } else if resource.account == deletedResource.account && resource.path.starts(with: deletedResource.path) {
+                        } else if resource.account == deletedResource.account && resource.path.components.starts(with: deletedResource.path.components) {
                             self.resource = nil
                             return
                         }

@@ -33,13 +33,13 @@ public class ResourceBrowserModule: NSObject, UserInterfaceModule {
 }
 
 protocol ResourceBrowserNavigationControllerDelegate: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, viewControllerFor resource: CloudService.Resource) -> UIViewController?
+    func navigationController(_ navigationController: UINavigationController, viewControllerFor resource: Resource) -> UIViewController?
 }
 
 extension ResourceBrowserModule: ResourceBrowserNavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, viewControllerFor resource: CloudService.Resource) -> UIViewController? {
+    func navigationController(_ navigationController: UINavigationController, viewControllerFor resource: Resource) -> UIViewController? {
         var viewController: UIViewController? = nil
-        if resource.isCollection == true {
+        if resource.properties.isCollection == true {
             viewController = resourceListModule?.makeViewController()
         } else {
             viewController = resourceModule?.makeViewController()
@@ -53,7 +53,7 @@ extension ResourceBrowserModule: ResourceBrowserNavigationControllerDelegate {
 
 extension ResourceBrowserNavigationController: ResourceUserInterface {
     
-    public var resource: CloudService.Resource? {
+    public var resource: Resource? {
         guard
             let resourcePresenter = topViewController as? ResourceUserInterface
             else {
@@ -62,7 +62,7 @@ extension ResourceBrowserNavigationController: ResourceUserInterface {
         return resourcePresenter.resource
     }
     
-    public func present(_ resource: CloudService.Resource, animated: Bool) {
+    public func present(_ resource: Resource, animated: Bool) {
         guard
             let delegate = self.delegate as? ResourceBrowserNavigationControllerDelegate,
             let viewController = delegate.navigationController(self, viewControllerFor: resource)
@@ -77,7 +77,7 @@ class ResourceBrowserNavigationController: UINavigationController {
     override func separateSecondaryViewController(for splitViewController: UISplitViewController) -> UIViewController? {
         guard
             let resourcePresenter = topViewController as? ResourceUserInterface,
-            resourcePresenter.resource?.isCollection == false
+            resourcePresenter.resource?.properties.isCollection == false
             else { return nil }
         
         let viewController = topViewController

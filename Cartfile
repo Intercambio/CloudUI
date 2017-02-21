@@ -1,2 +1,2 @@
 github "anagromataf/Fountain" ~> 2.5
-github "Intercambio/CloudService" ~> 0.7
+github "Intercambio/CloudService" ~> 0.8.1

@@ -24,10 +24,10 @@ public class SettingsModule: UserInterfaceModule {
 }
 
 extension SettingsViewController: SettingsUserInterface {
-    public var account: CloudService.Account? {
+    public var account: Account? {
         return presenter.account
     }
-    public func presentSettings(for account: CloudService.Account, animated: Bool) {
+    public func presentSettings(for account: Account, animated: Bool) {
         presenter.account = account
     }
 }

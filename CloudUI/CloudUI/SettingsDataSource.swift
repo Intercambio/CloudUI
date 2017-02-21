@@ -13,9 +13,9 @@ import CloudService
 class SettingsDataSource: NSObject, FormDataSource {
     
     let cloudService: CloudService
-    var account: CloudService.Account
+    var account: Account
     private let proxy: FTObserverProxy
-    public init(cloudService: CloudService, account: CloudService.Account) {
+    public init(cloudService: CloudService, account: Account) {
         self.cloudService = cloudService
         self.account = account
         proxy = FTObserverProxy()

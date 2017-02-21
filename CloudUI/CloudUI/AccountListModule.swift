@@ -10,9 +10,9 @@ import UIKit
 import CloudService
 
 public protocol AccountListRouter: class {
-    func present(resourceAt path: [String], of account: CloudService.Account) -> Void
+    func present(resourceAt path: [String], of account: Account) -> Void
     func presentNewAccount() -> Void
-    func presentSettings(for account: CloudService.Account) -> Void
+    func presentSettings(for account: Account) -> Void
 }
 
 public class AccountListModule: UserInterfaceModule {

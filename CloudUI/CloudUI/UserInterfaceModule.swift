@@ -14,15 +14,15 @@ public protocol UserInterfaceModule {
 }
 
 public protocol ResourceUserInterface {
-    var resource: CloudService.Resource? { get }
-    func present(_ resource: CloudService.Resource, animated: Bool) -> Void
+    var resource: Resource? { get }
+    func present(_ resource: Resource, animated: Bool) -> Void
 }
 
 public protocol PasswordUserInterface {
-    func requestPassword(for account: CloudService.Account, completion: @escaping (String?) -> Void) -> Void
+    func requestPassword(for account: Account, completion: @escaping (String?) -> Void) -> Void
 }
 
 public protocol SettingsUserInterface {
-    var account: CloudService.Account? { get }
-    func presentSettings(for account: CloudService.Account, animated: Bool) -> Void
+    var account: Account? { get }
+    func presentSettings(for account: Account, animated: Bool) -> Void
 }

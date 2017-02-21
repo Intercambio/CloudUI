@@ -37,7 +37,7 @@ class AccountListDataSource: NSObject, FTDataSource {
         }
     }
     
-    private var accounts: [CloudService.Account] = []
+    private var accounts: [Account] = []
     
     private func reload() {
         let accounts = cloudService.accounts
@@ -50,7 +50,7 @@ class AccountListDataSource: NSObject, FTDataSource {
         }
     }
     
-    func account(at indexPath: IndexPath) -> CloudService.Account? {
+    func account(at indexPath: IndexPath) -> Account? {
         if indexPath.section == 0 {
             return accounts[indexPath.item]
         } else {
@@ -107,9 +107,9 @@ class AccountListDataSource: NSObject, FTDataSource {
             return nil
         }
         
-        let account: CloudService.Account
+        let account: Account
         
-        init(account: CloudService.Account) {
+        init(account: Account) {
             self.account = account
         }
     }

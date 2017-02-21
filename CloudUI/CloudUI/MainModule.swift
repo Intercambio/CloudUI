@@ -41,8 +41,8 @@ public class MainModule: UserInterfaceModule {
 }
 
 protocol MainViewControllerDelegate: UISplitViewControllerDelegate {
-    func mainViewController(_ mainViewController: MainViewController, detailViewControllerFor resource: CloudService.Resource) -> UIViewController?
-    func mainViewController(_ mainViewController: MainViewController, settingsViewControllerFor account: CloudService.Account) -> UIViewController?
+    func mainViewController(_ mainViewController: MainViewController, detailViewControllerFor resource: Resource) -> UIViewController?
+    func mainViewController(_ mainViewController: MainViewController, settingsViewControllerFor account: Account) -> UIViewController?
 }
 
 class MainViewController: UISplitViewController {
@@ -71,7 +71,7 @@ class MainViewController: UISplitViewController {
     @objc private func cloudServiceDidRemoveAccount(_ notification: Notification) {
         DispatchQueue.main.async {
             guard
-                let account = notification.userInfo?[AccountKey] as? CloudService.Account
+                let account = notification.userInfo?[AccountKey] as? Account
                 else { return }
             
             if self.account == account {
@@ -83,7 +83,7 @@ class MainViewController: UISplitViewController {
 
 extension MainModule: MainViewControllerDelegate {
     
-    func mainViewController(_ mainViewController: MainViewController, settingsViewControllerFor account: CloudService.Account) -> UIViewController? {
+    func mainViewController(_ mainViewController: MainViewController, settingsViewControllerFor account: Account) -> UIViewController? {
         guard
             let settingsViewController = settingsModule?.makeViewController()
             else { return nil }
@@ -94,9 +94,9 @@ extension MainModule: MainViewControllerDelegate {
         return settingsViewController
     }
     
-    func mainViewController(_ mainViewController: MainViewController, detailViewControllerFor resource: CloudService.Resource) -> UIViewController? {
+    func mainViewController(_ mainViewController: MainViewController, detailViewControllerFor resource: Resource) -> UIViewController? {
         var viewController: UIViewController? = nil
-        if resource.isCollection == false {
+        if resource.properties.isCollection == false {
             viewController = resourceModule?.makeViewController()
         }
         if let resourcePresenter = viewController as? ResourceUserInterface {
@@ -131,7 +131,7 @@ extension MainModule: MainViewControllerDelegate {
 
 extension MainViewController: ResourceUserInterface {
     
-    public var resource: CloudService.Resource? {
+    public var resource: Resource? {
         guard
             let resourcePresenter = viewControllers.first as? ResourceUserInterface
             else { return nil }
@@ -139,7 +139,7 @@ extension MainViewController: ResourceUserInterface {
         return resourcePresenter.resource
     }
     
-    public func present(_ resource: CloudService.Resource, animated: Bool) {
+    public func present(_ resource: Resource, animated: Bool) {
         guard
             let delegate = self.delegate as? MainViewControllerDelegate,
             let resourcePresenter = viewControllers.first as? ResourceUserInterface
@@ -157,7 +157,7 @@ extension MainViewController: ResourceUserInterface {
 
 extension MainViewController: PasswordUserInterface {
     
-    public func requestPassword(for account: CloudService.Account, completion: @escaping (String?) -> Void) {
+    public func requestPassword(for account: Account, completion: @escaping (String?) -> Void) {
         
         let title = "Login"
         let message = "Password for '\(account.username)' at '\(account.url.absoluteString)'"
@@ -193,7 +193,7 @@ extension MainViewController: PasswordUserInterface {
 
 extension MainViewController: SettingsUserInterface {
     
-    public var account: CloudService.Account? {
+    public var account: Account? {
         guard
             let navigationController = presentedViewController as? UINavigationController,
             let settingsUserInterface = navigationController.viewControllers.first as? SettingsUserInterface
@@ -202,7 +202,7 @@ extension MainViewController: SettingsUserInterface {
         return settingsUserInterface.account
     }
     
-    public func presentSettings(for account: CloudService.Account, animated: Bool) {
+    public func presentSettings(for account: Account, animated: Bool) {
         guard
             let delegate = self.delegate as? MainViewControllerDelegate,
             let settingsViewController = delegate.mainViewController(self, settingsViewControllerFor: account)
