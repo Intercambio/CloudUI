@@ -28,8 +28,8 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
             guard
                 let lhResource = lhs as? Resource,
                 let rhResource = rhs as? Resource,
-                let lhName = lhResource.path.components.last,
-                let rhName = rhResource.path.components.last
+                let lhName = lhResource.path.components.last?.lowercased(),
+                let rhName = rhResource.path.components.last?.lowercased()
                 else { return .orderedSame }
             if lhName < rhName {
                 return .orderedAscending
@@ -190,33 +190,36 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     
     @objc private func cloudServiceDidChangeResources(_ notification: Notification) {
         DispatchQueue.main.async {
-            
             var needsReload: Bool = false
-            
             if let resource = self.resource {
-                if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [Resource] {
-                    for updatedResource in insertedOrUpdate {
-                        if resource == updatedResource {
-                            self.resource = updatedResource
-                            return
-                        } else if resource.account == updatedResource.account && resource.path.components.starts(with: updatedResource.path.components) {
-                            needsReload = true
-                        }
-                    }
-                }
                 if let deleted = notification.userInfo?[DeletedResourcesKey] as? [Resource] {
                     for deletedResource in deleted {
                         if resource == deletedResource {
                             self.resource = nil
                             return
-                        } else if resource.account == deletedResource.account && resource.path.components.starts(with: deletedResource.path.components) {
-                            self.resource = nil
+                        } else if resource.account == deletedResource.account {
+                            if deletedResource.path.isAncestor(of: resource.path) {
+                                self.resource = nil
+                            } else if deletedResource.path.isChild(of: resource.path) {
+                                needsReload = true
+                                break
+                            }
+                        }
+                    }
+                }
+                if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [Resource] {
+                    for updatedResource in insertedOrUpdate {
+                        if resource == updatedResource {
+                            self.resource = updatedResource
                             return
+                        } else if resource.account == updatedResource.account
+                            && (updatedResource.path.isAncestor(of: resource.path) || updatedResource.path.isChild(of: resource.path)) {
+                            needsReload = true
+                            break
                         }
                     }
                 }
             }
-            
             if needsReload {
                 self.reload()
             }
