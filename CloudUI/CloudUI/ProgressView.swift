@@ -9,7 +9,7 @@
 import UIKit
 
 class ProgressView: UIView {
-
+    
     dynamic var progress: Progress? {
         didSet{
             setNeedsDisplay()
@@ -22,12 +22,14 @@ class ProgressView: UIView {
         super.init(frame: frame)
         setupDisplayLink()
         setupObserver()
+        backgroundColor = UIColor.clear
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupDisplayLink()
         setupObserver()
+        backgroundColor = UIColor.clear
     }
     
     private func setupObserver() {
@@ -82,7 +84,6 @@ class ProgressView: UIView {
         StyleKit.drawProgressCircle(frame: bounds,
                                     resizing: .aspectFit,
                                     color: tintColor,
-                                    backgroundColor: UIColor.lightGray,
                                     progress: CGFloat(progress?.fractionCompleted ?? 0),
                                     isIndeterminate: progress?.isIndeterminate ?? true,
                                     phase: CGFloat(Date.timeIntervalSinceReferenceDate))
