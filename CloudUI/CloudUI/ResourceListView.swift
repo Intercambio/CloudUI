@@ -12,6 +12,8 @@ import Fountain
 protocol ResourceListViewModel : class {
     var title: String? { get }
     var subtitle: String? { get }
+    var showDownloadAccessory: Bool { get }
+    var progress: Progress? { get }
 }
 
 protocol ResourceDataSource: FTDataSource {
