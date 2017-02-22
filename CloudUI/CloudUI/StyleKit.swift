@@ -16,10 +16,10 @@
 import UIKit
 
 public class StyleKit : NSObject {
-    
+
     //// Drawing Methods
-    
-    public dynamic class func drawProgressCircle(frame targetFrame: CGRect = CGRect(x: 0, y: 0, width: 28, height: 28), resizing: ResizingBehavior = .aspectFit, color: UIColor = UIColor(red: 0.984, green: 0.180, blue: 0.345, alpha: 1.000), backgroundColor: UIColor = UIColor(red: 0.898, green: 0.898, blue: 0.918, alpha: 1.000), progress: CGFloat = 0.327, isIndeterminate: Bool = false, phase: CGFloat = 0) {
+
+    public dynamic class func drawProgressCircle(frame targetFrame: CGRect = CGRect(x: 0, y: 0, width: 28, height: 28), resizing: ResizingBehavior = .aspectFit, color: UIColor = UIColor(red: 0.984, green: 0.180, blue: 0.345, alpha: 1.000), backgroundColor: UIColor = UIColor(red: 0.898, green: 0.898, blue: 0.918, alpha: 1.000), progress: CGFloat = 0.561, isIndeterminate: Bool = true, phase: CGFloat = 0) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()!
         
@@ -28,48 +28,48 @@ public class StyleKit : NSObject {
         let resizedFrame: CGRect = resizing.apply(rect: CGRect(x: 0, y: 0, width: 28, height: 28), target: targetFrame)
         context.translateBy(x: resizedFrame.minX, y: resizedFrame.minY)
         context.scaleBy(x: resizedFrame.width / 28, y: resizedFrame.height / 28)
-        
-        
-        
+
+
+
         //// Variable Declarations
         let progressArcEnd: CGFloat = isIndeterminate ? 160 : 90 - progress * 360
         let bg = !isIndeterminate
-        let rotation: CGFloat = isIndeterminate ? -60 * phase : 0
-        
+        let rotation: CGFloat = isIndeterminate ? -1 * 360 * phase : 0
+
         if (bg) {
             //// Background Drawing
             context.saveGState()
             context.translateBy(x: 14, y: 14)
-            
+
             let backgroundPath = UIBezierPath(ovalIn: CGRect(x: -12.5, y: -12.5, width: 25, height: 25))
             backgroundColor.setStroke()
             backgroundPath.lineWidth = 3
             backgroundPath.stroke()
-            
+
             context.restoreGState()
         }
-        
-        
+
+
         //// Arc Drawing
         context.saveGState()
         context.translateBy(x: 14, y: 14)
         context.rotate(by: -rotation * CGFloat.pi/180)
-        
+
         let arcRect = CGRect(x: -12.5, y: -12.5, width: 25, height: 25)
         let arcPath = UIBezierPath()
         arcPath.addArc(withCenter: CGPoint(x: arcRect.midX, y: arcRect.midY), radius: arcRect.width / 2, startAngle: -90 * CGFloat.pi/180, endAngle: -progressArcEnd * CGFloat.pi/180, clockwise: true)
-        
+
         color.setStroke()
         arcPath.lineWidth = 3
         arcPath.lineCapStyle = .round
         arcPath.stroke()
-        
+
         context.restoreGState()
         
         context.restoreGState()
-        
+
     }
-    
+
     public dynamic class func drawDownload(frame targetFrame: CGRect = CGRect(x: 0, y: 0, width: 28, height: 28), resizing: ResizingBehavior = .aspectFit, color: UIColor = UIColor(red: 0.984, green: 0.180, blue: 0.345, alpha: 1.000)) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()!
@@ -79,8 +79,8 @@ public class StyleKit : NSObject {
         let resizedFrame: CGRect = resizing.apply(rect: CGRect(x: 0, y: 0, width: 28, height: 28), target: targetFrame)
         context.translateBy(x: resizedFrame.minX, y: resizedFrame.minY)
         context.scaleBy(x: resizedFrame.width / 28, y: resizedFrame.height / 28)
-        
-        
+
+
         //// Bezier Drawing
         let bezierPath = UIBezierPath()
         bezierPath.move(to: CGPoint(x: 14, y: 12))
@@ -89,17 +89,17 @@ public class StyleKit : NSObject {
         bezierPath.lineWidth = 2
         bezierPath.lineCapStyle = .round
         bezierPath.stroke()
-        
-        
+
+
         //// Symbol Drawing
         context.saveGState()
         context.translateBy(x: 0, y: -100)
-        
+
         //// Warning: Symbol 'Canvas 2' is unavailable!
-        
+
         context.restoreGState()
-        
-        
+
+
         //// Bezier 2 Drawing
         let bezier2Path = UIBezierPath()
         bezier2Path.move(to: CGPoint(x: 14, y: 26))
@@ -108,8 +108,8 @@ public class StyleKit : NSObject {
         bezier2Path.lineWidth = 2
         bezier2Path.lineCapStyle = .round
         bezier2Path.stroke()
-        
-        
+
+
         //// Bezier 3 Drawing
         let bezier3Path = UIBezierPath()
         bezier3Path.move(to: CGPoint(x: 14, y: 26))
@@ -118,8 +118,8 @@ public class StyleKit : NSObject {
         bezier3Path.lineWidth = 2
         bezier3Path.lineCapStyle = .round
         bezier3Path.stroke()
-        
-        
+
+
         //// Rectangle Drawing
         let rectanglePath = UIBezierPath()
         rectanglePath.move(to: CGPoint(x: 20, y: 18.5))
@@ -135,63 +135,63 @@ public class StyleKit : NSObject {
         rectanglePath.stroke()
         
         context.restoreGState()
-        
+
     }
-    
+
     //// Generated Images
-    
-    public dynamic class func imageOfProgressCircle(color: UIColor = UIColor(red: 0.984, green: 0.180, blue: 0.345, alpha: 1.000), backgroundColor: UIColor = UIColor(red: 0.898, green: 0.898, blue: 0.918, alpha: 1.000), progress: CGFloat = 0.327, isIndeterminate: Bool = false, phase: CGFloat = 0) -> UIImage {
+
+    public dynamic class func imageOfProgressCircle(color: UIColor = UIColor(red: 0.984, green: 0.180, blue: 0.345, alpha: 1.000), backgroundColor: UIColor = UIColor(red: 0.898, green: 0.898, blue: 0.918, alpha: 1.000), progress: CGFloat = 0.561, isIndeterminate: Bool = true, phase: CGFloat = 0) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSize(width: 28, height: 28), false, 0)
-        StyleKit.drawProgressCircle(color: color, backgroundColor: backgroundColor, progress: progress, isIndeterminate: isIndeterminate, phase: phase)
-        
+            StyleKit.drawProgressCircle(color: color, backgroundColor: backgroundColor, progress: progress, isIndeterminate: isIndeterminate, phase: phase)
+
         let imageOfProgressCircle = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        
+
         return imageOfProgressCircle
     }
-    
+
     public dynamic class func imageOfDownload(color: UIColor = UIColor(red: 0.984, green: 0.180, blue: 0.345, alpha: 1.000)) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(CGSize(width: 28, height: 28), false, 0)
-        StyleKit.drawDownload(color: color)
-        
+            StyleKit.drawDownload(color: color)
+
         let imageOfDownload = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        
+
         return imageOfDownload
     }
-    
-    
-    
-    
+
+
+
+
     @objc public enum ResizingBehavior: Int {
         case aspectFit /// The content is proportionally resized to fit into the target rectangle.
         case aspectFill /// The content is proportionally resized to completely fill the target rectangle.
         case stretch /// The content is stretched to match the entire target rectangle.
         case center /// The content is centered in the target rectangle, but it is NOT resized.
-        
+
         public func apply(rect: CGRect, target: CGRect) -> CGRect {
             if rect == target || target == CGRect.zero {
                 return rect
             }
-            
+
             var scales = CGSize.zero
             scales.width = abs(target.width / rect.width)
             scales.height = abs(target.height / rect.height)
-            
+
             switch self {
-            case .aspectFit:
-                scales.width = min(scales.width, scales.height)
-                scales.height = scales.width
-            case .aspectFill:
-                scales.width = max(scales.width, scales.height)
-                scales.height = scales.width
-            case .stretch:
-                break
-            case .center:
-                scales.width = 1
-                scales.height = 1
+                case .aspectFit:
+                    scales.width = min(scales.width, scales.height)
+                    scales.height = scales.width
+                case .aspectFill:
+                    scales.width = max(scales.width, scales.height)
+                    scales.height = scales.width
+                case .stretch:
+                    break
+                case .center:
+                    scales.width = 1
+                    scales.height = 1
             }
-            
+
             var result = rect.standardized
             result.size.width *= scales.width
             result.size.height *= scales.height
