@@ -40,7 +40,8 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
                 let account = item as? ResourceListViewModel {
                 cell.textLabel?.text = account.title
                 cell.detailTextLabel?.text = account.subtitle
-                cell.accessoryType = .disclosureIndicator
+//                cell.accessoryType = .disclosureIndicator
+                cell.accessoryView = DownloadButton(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
             }
         }
         
