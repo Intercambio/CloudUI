@@ -54,6 +54,9 @@
 		F63F52861E48B3CB006DAF83 /* ResourceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52801E48B3CB006DAF83 /* ResourceListView.swift */; };
 		F63F52871E48B3CB006DAF83 /* ResourceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52811E48B3CB006DAF83 /* ResourceListViewController.swift */; };
 		F63F52881E48B3CB006DAF83 /* ResourceListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52821E48B3CB006DAF83 /* ResourceListCell.swift */; };
+		F67DACF21E5D90E100C16B8E /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DACF11E5D90E100C16B8E /* DownloadButton.swift */; };
+		F67DACF41E5D91F400C16B8E /* StyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DACF31E5D91F400C16B8E /* StyleKit.swift */; };
+		F67DACF61E5D94ED00C16B8E /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DACF51E5D94ED00C16B8E /* ProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +116,9 @@
 		F63F52801E48B3CB006DAF83 /* ResourceListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceListView.swift; sourceTree = "<group>"; };
 		F63F52811E48B3CB006DAF83 /* ResourceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceListViewController.swift; sourceTree = "<group>"; };
 		F63F52821E48B3CB006DAF83 /* ResourceListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceListCell.swift; sourceTree = "<group>"; };
+		F67DACF11E5D90E100C16B8E /* DownloadButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
+		F67DACF31E5D91F400C16B8E /* StyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleKit.swift; sourceTree = "<group>"; };
+		F67DACF51E5D94ED00C16B8E /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -277,6 +283,9 @@
 		F63F52621E48B33D006DAF83 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F67DACF31E5D91F400C16B8E /* StyleKit.swift */,
+				F67DACF11E5D90E100C16B8E /* DownloadButton.swift */,
+				F67DACF51E5D94ED00C16B8E /* ProgressView.swift */,
 				F63A78A41E4B3E99004FE25E /* Form */,
 			);
 			name = Common;
@@ -497,10 +506,12 @@
 				F63F52861E48B3CB006DAF83 /* ResourceListView.swift in Sources */,
 				F63A78AA1E4B3EE8004FE25E /* FormValueItemData.swift in Sources */,
 				F63A78BF1E4B3FBA004FE25E /* UICollectionViewCellAction.swift in Sources */,
+				F67DACF41E5D91F400C16B8E /* StyleKit.swift in Sources */,
 				F63A78B01E4B3F0C004FE25E /* FormSectionData.swift in Sources */,
 				F63A78C21E4B4102004FE25E /* FormViewController.swift in Sources */,
 				F63F52751E48B3AC006DAF83 /* AccountListViewController.swift in Sources */,
 				F63D05B31E4B865F0047F7F0 /* SettingsView.swift in Sources */,
+				F67DACF21E5D90E100C16B8E /* DownloadButton.swift in Sources */,
 				F63A78B11E4B3F0C004FE25E /* FormTextItemData.swift in Sources */,
 				F63A78B91E4B3F30004FE25E /* FormURLItemCell.swift in Sources */,
 				F61292CB1E4CA54C00051B24 /* FormPasswordItemData.swift in Sources */,
@@ -515,6 +526,7 @@
 				F63F52741E48B3AC006DAF83 /* AccountListView.swift in Sources */,
 				F63A78B21E4B3F0C004FE25E /* FormURLItemData.swift in Sources */,
 				F63A78BA1E4B3F30004FE25E /* FormValueItemCell.swift in Sources */,
+				F67DACF61E5D94ED00C16B8E /* ProgressView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
