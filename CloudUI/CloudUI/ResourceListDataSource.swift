@@ -184,6 +184,12 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
             formatter.countStyle = .file
             return "\(contentType), \(formatter.string(fromByteCount: Int64(contentLength)))"
         }
+        var showDownloadAccessory: Bool {
+            return resource.properties.isCollection == false && resource.fileState == .none
+        }
+        var progress: Progress? {
+            return nil
+        }
     }
     
     // MARK: - Notification Handling

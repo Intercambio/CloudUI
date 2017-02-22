@@ -37,10 +37,16 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         tableViewAdapter?.forRowsMatching(nil, useCellWithReuseIdentifier: "ResourceListCell") {
             (view, item, indexPath, dataSource) in
             if  let cell = view as? ResourceListCell,
-                let account = item as? ResourceListViewModel {
-                cell.textLabel?.text = account.title
-                cell.detailTextLabel?.text = account.subtitle
-                cell.accessoryType = .disclosureIndicator
+                let resource = item as? ResourceListViewModel {
+                cell.textLabel?.text = resource.title
+                cell.detailTextLabel?.text = resource.subtitle
+                if resource.showDownloadAccessory {
+                    let downloadButton = DownloadButton(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+                    downloadButton.progress = resource.progress
+                    cell.accessoryView = downloadButton
+                } else {
+                    cell.accessoryType = .disclosureIndicator
+                }
             }
         }
         
