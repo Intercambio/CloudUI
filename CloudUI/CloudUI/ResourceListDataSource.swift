@@ -133,6 +133,19 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         }
     }
     
+    func performAction(_ action: Selector, forItemAt indexPath: IndexPath) {
+        guard
+            let resource = backingStore.item(at: indexPath) as? Resource
+            else { return }
+        
+        switch NSStringFromSelector(action) {
+        case "download":
+            _ = cloudService.downloadResource(at: resource.path, of: resource.account)
+        default:
+            break
+        }
+    }
+    
     // MARK: - FTDataSource
     
     func numberOfSections() -> UInt {
@@ -149,7 +162,8 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     
     func item(at indexPath: IndexPath!) -> Any! {
         if let item = backingStore.item(at: indexPath) as? Resource {
-            return ViewModel(resource: item)
+            let progress = cloudService.progressForResource(at: item.path, of: item.account)
+            return ViewModel(resource: item, progress: progress)
         } else {
             return nil
         }
@@ -169,8 +183,10 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     
     class ViewModel: ResourceListViewModel {
         let resource: Resource
-        init(resource: Resource) {
+        let progress: Progress?
+        init(resource: Resource, progress: Progress?) {
             self.resource = resource
+            self.progress = progress
         }
         var title: String? {
             return resource.path.components.last
@@ -186,9 +202,6 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         }
         var showDownloadAccessory: Bool {
             return resource.properties.isCollection == false && resource.fileState == .none
-        }
-        var progress: Progress? {
-            return nil
         }
     }
     

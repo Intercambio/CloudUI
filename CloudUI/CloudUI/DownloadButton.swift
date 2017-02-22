@@ -53,7 +53,7 @@ class DownloadButton: UIControl {
         button.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         button.frame = bounds
         
-        button.addTarget(self, action: #selector(handleEvent(sender:forEvent:)), for: .allEvents)
+        button.addTarget(self, action: #selector(handleButtonTouchUpInside(sender:)), for: .touchUpInside)
         
         button.isHidden = false
         progressView.isHidden = true
@@ -73,7 +73,7 @@ class DownloadButton: UIControl {
         button.setImage(icon, for: .normal)
     }
     
-    @objc private func handleEvent(sender: UIButton, forEvent event: UIControlEvents) {
-        sendActions(for: event)
+    @objc private func handleButtonTouchUpInside(sender: UIButton) {
+        sendActions(for: .touchUpInside)
     }
 }

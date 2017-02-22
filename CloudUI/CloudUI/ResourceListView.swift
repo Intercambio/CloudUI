@@ -20,6 +20,8 @@ protocol ResourceDataSource: FTDataSource {
     var title: String? { get }
     var footer: String? { get }
     var isUpdating: Bool { get }
+    
+    func performAction(_ action: Selector, forItemAt indexPath: IndexPath) -> Void
 }
 
 protocol ResourceListView : class {

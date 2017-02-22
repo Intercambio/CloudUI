@@ -38,15 +38,7 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
             (view, item, indexPath, dataSource) in
             if  let cell = view as? ResourceListCell,
                 let resource = item as? ResourceListViewModel {
-                cell.textLabel?.text = resource.title
-                cell.detailTextLabel?.text = resource.subtitle
-                if resource.showDownloadAccessory {
-                    let downloadButton = DownloadButton(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
-                    downloadButton.progress = resource.progress
-                    cell.accessoryView = downloadButton
-                } else {
-                    cell.accessoryType = .disclosureIndicator
-                }
+                cell.model = resource
             }
         }
         
@@ -68,6 +60,10 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter?.didSelect(itemAt: indexPath)
+    }
+    
+    public override func tableView(_: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender _: Any?) {
+        dataSource?.performAction(action, forItemAt: indexPath)
     }
     
     // MARK: - Actions
