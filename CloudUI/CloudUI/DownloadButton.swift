@@ -9,7 +9,7 @@
 import UIKit
 
 class DownloadButton: UIControl {
-
+    
     var progress: Progress? {
         didSet {
             progressView.progress = progress
@@ -31,6 +31,7 @@ class DownloadButton: UIControl {
         progressView = ProgressView()
         super.init(frame: frame)
         setup()
+        updateButton()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -38,6 +39,7 @@ class DownloadButton: UIControl {
         progressView = ProgressView()
         super.init(coder: aDecoder)
         setup()
+        updateButton()
     }
     
     private func setup() {
@@ -52,6 +54,9 @@ class DownloadButton: UIControl {
         button.frame = bounds
         
         button.addTarget(self, action: #selector(handleEvent(sender:forEvent:)), for: .allEvents)
+        
+        button.isHidden = false
+        progressView.isHidden = true
     }
     
     override var intrinsicContentSize: CGSize {
