@@ -71,10 +71,10 @@ class MainViewController: UISplitViewController {
     @objc private func cloudServiceDidRemoveAccount(_ notification: Notification) {
         DispatchQueue.main.async {
             guard
-                let account = notification.userInfo?[AccountKey] as? Account
+                let accountID = notification.userInfo?[AccountIDKey] as? AccountID
                 else { return }
             
-            if self.account == account {
+            if self.account?.identifier == accountID {
                 self.dismissSettings()
             }
         }

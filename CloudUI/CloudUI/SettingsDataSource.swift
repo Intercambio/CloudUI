@@ -91,7 +91,7 @@ class SettingsDataSource: NSObject, FormDataSource {
                 guard
                     let label = value as? String?
                     else { return }
-                self.account = try cloudService.update(account, with: label)
+                try cloudService.update(account, with: label)
             } else if key == "password" {
                 guard
                     let password = value as? String

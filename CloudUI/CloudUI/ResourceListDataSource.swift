@@ -19,6 +19,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
             reload()
         }
     }
+    private var account: Account?
     
     let cloudService: CloudService
     init(cloudService: CloudService, resource: Resource) {
@@ -27,10 +28,12 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         let sortDescriptior = NSSortDescriptor(key: "self", ascending: true) { (lhs, rhs) -> ComparisonResult in
             guard
                 let lhResource = lhs as? Resource,
-                let rhResource = rhs as? Resource,
-                let lhName = lhResource.path.components.last?.lowercased(),
-                let rhName = rhResource.path.components.last?.lowercased()
+                let rhResource = rhs as? Resource
                 else { return .orderedSame }
+            
+            let lhName = lhResource.resourceID.name.lowercased()
+            let rhName = rhResource.resourceID.name.lowercased()
+            
             if lhName < rhName {
                 return .orderedAscending
             } else if lhName > rhName {
@@ -70,7 +73,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
             isUpdating = true
             proxy.dataSourceDidChange(backingStore)
             
-            cloudService.updateResource(at: resource.path, of: resource.account) { error in
+            cloudService.updateResource(with: resource.resourceID) { error in
                 DispatchQueue.main.async {
                     self.proxy.dataSourceWillChange(self.backingStore)
                     self.isUpdating = false
@@ -81,8 +84,10 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     }
     
     private func reload() {
+        let account = fetchAccount()
         let resources = self.fetchResources()
         backingStore.performBatchUpdate {
+            self.account = account
             self.backingStore.removeAllObjects()
             self.backingStore.addObjects(from: resources)
         }
@@ -91,13 +96,26 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     private func fetchResources() -> [Resource] {
         do {
             if let resource = self.resource {
-                return try cloudService.contents(of: resource.account, at: resource.path)
+                return try cloudService.contentOfResource(with: resource.resourceID)
             } else {
                 return []
             }
         } catch {
             NSLog("Failed to get contents: \(error)")
             return []
+        }
+    }
+    
+    private func fetchAccount() -> Account? {
+        do {
+            if let resource = self.resource {
+                return try cloudService.account(with: resource.resourceID.accountID)
+            } else {
+                return nil
+            }
+        } catch {
+            NSLog("Failed to get the account: \(error)")
+            return nil
         }
     }
     
@@ -109,13 +127,14 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     
     var title: String? {
         guard
-            let resource = self.resource
+            let resource = self.resource,
+            let account = self.account
             else { return nil }
         
-        if resource.path.length == 0 {
-            return resource.account.label ?? resource.account.url.host ?? resource.account.url.absoluteString
+        if resource.resourceID.isRoot {
+            return account.label ?? account.url.host ?? account.url.absoluteString
         } else {
-            return resource.path.components.last
+            return resource.resourceID.name
         }
     }
     
@@ -140,7 +159,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         
         switch NSStringFromSelector(action) {
         case "download":
-            _ = cloudService.downloadResource(at: resource.path, of: resource.account)
+            _ = cloudService.downloadResource(with: resource.resourceID)
         default:
             break
         }
@@ -162,7 +181,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     
     func item(at indexPath: IndexPath!) -> Any! {
         if let item = backingStore.item(at: indexPath) as? Resource {
-            let progress = cloudService.progressForResource(at: item.path, of: item.account)
+            let progress = cloudService.progressForResource(with: item.resourceID)
             return ViewModel(resource: item, progress: progress)
         } else {
             return nil
@@ -189,7 +208,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
             self.progress = progress
         }
         var title: String? {
-            return resource.path.components.last
+            return resource.resourceID.name
         }
         var subtitle: String? {
             guard
@@ -209,38 +228,41 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     
     @objc private func cloudServiceDidChangeResources(_ notification: Notification) {
         DispatchQueue.main.async {
-            var needsReload: Bool = false
-            if let resource = self.resource {
-                if let deleted = notification.userInfo?[DeletedResourcesKey] as? [Resource] {
-                    for deletedResource in deleted {
-                        if resource == deletedResource {
-                            self.resource = nil
-                            return
-                        } else if resource.account == deletedResource.account {
-                            if deletedResource.path.isAncestor(of: resource.path) {
+            do {
+                var needsReload: Bool = false
+                if let resource = self.resource {
+                    
+                    if let deleted = notification.userInfo?[DeletedResourcesKey] as? [ResourceID] {
+                        for deletedResource in deleted {
+                            if resource.resourceID == deletedResource {
                                 self.resource = nil
-                            } else if deletedResource.path.isChild(of: resource.path) {
+                                return
+                            } else if deletedResource.isAncestor(of: resource.resourceID) {
+                                self.resource = nil
+                            } else if deletedResource.isChild(of: resource.resourceID) {
+                                needsReload = true
+                                break
+                            }
+                        }
+                    }
+                    
+                    if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [ResourceID] {
+                        for updatedResource in insertedOrUpdate {
+                            if resource.resourceID == updatedResource {
+                                self.resource = try self.cloudService.resource(with: updatedResource)
+                                return
+                            } else if updatedResource.isAncestor(of: resource.resourceID) || updatedResource.isChild(of: resource.resourceID) {
                                 needsReload = true
                                 break
                             }
                         }
                     }
                 }
-                if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [Resource] {
-                    for updatedResource in insertedOrUpdate {
-                        if resource == updatedResource {
-                            self.resource = updatedResource
-                            return
-                        } else if resource.account == updatedResource.account
-                            && (updatedResource.path.isAncestor(of: resource.path) || updatedResource.path.isChild(of: resource.path)) {
-                            needsReload = true
-                            break
-                        }
-                    }
+                if needsReload {
+                    self.reload()
                 }
-            }
-            if needsReload {
-                self.reload()
+            } catch {
+                
             }
         }
     }

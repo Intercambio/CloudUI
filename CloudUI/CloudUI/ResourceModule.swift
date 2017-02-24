@@ -25,7 +25,7 @@ class ResourceViewController: UIViewController, ResourceUserInterface {
     
     private(set) var resource: Resource? {
         didSet {
-            label.text = resource?.path.href
+            label.text = resource?.resourceID.name
         }
     }
     

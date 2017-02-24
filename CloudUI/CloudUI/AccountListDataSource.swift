@@ -40,13 +40,17 @@ class AccountListDataSource: NSObject, FTDataSource {
     private var accounts: [Account] = []
     
     private func reload() {
-        let accounts = cloudService.accounts
-        for observer in _observers.allObjects {
-            observer.dataSourceWillReset?(self)
-        }
-        self.accounts = accounts
-        for observer in _observers.allObjects {
-            observer.dataSourceDidReset?(self)
+        do {
+            let accounts = try cloudService.allAccounts()
+            for observer in _observers.allObjects {
+                observer.dataSourceWillReset?(self)
+            }
+            self.accounts = accounts
+            for observer in _observers.allObjects {
+                observer.dataSourceDidReset?(self)
+            }
+        } catch {
+            NSLog("Failed to fetch accounts: \(error)")
         }
     }
     
