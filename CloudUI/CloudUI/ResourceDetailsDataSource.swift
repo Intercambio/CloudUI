@@ -41,6 +41,19 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
         NotificationCenter.default.removeObserver(self)
     }
     
+    // Actions
+    
+    @objc private func remove() {
+        guard
+            let resource = self.resource
+            else { return }
+        do {
+            try cloudService.deleteFileForResource(with: resource.resourceID)
+        } catch {
+            NSLog("Failed to delete downloaded file: \(error)")
+        }
+    }
+    
     // Options
     
     var supportedKeys: [String] {
@@ -48,7 +61,8 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
             "name",
             "type",
             "size",
-            "modified"
+            "modified",
+            "remove"
         ]
     }
     
@@ -58,6 +72,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
         case "type": return IndexPath(item: 0, section: 1)
         case "size": return IndexPath(item: 1, section: 1)
         case "modified": return IndexPath(item: 2, section: 1)
+        case "download": return IndexPath(item: 0, section: 2)
         default: return nil
         }
     }
@@ -68,6 +83,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
         case IndexPath(item: 0, section: 1): return "type"
         case IndexPath(item: 1, section: 1): return "size"
         case IndexPath(item: 2, section: 1): return "modified"
+        case IndexPath(item: 0, section: 2): return "remove"
         default: return nil
         }
     }
@@ -79,7 +95,9 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     }
     
     func performAction(_ action: Selector, forItemAt _: IndexPath) {
-        
+        if action == #selector(remove) {
+            remove()
+        }
     }
     
     // MARK: - FTDataSource
@@ -88,13 +106,19 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
         guard
             let resource = self.resource
             else { return 0 }
-        return 2
+        
+        if resource.fileState == .none {
+            return 2
+        } else {
+            return 3
+        }
     }
     
     public func numberOfItems(inSection section: UInt) -> UInt {
         switch section {
         case 0: return 1
         case 1: return 3
+        case 2: return 1
         default: return 0
         }
     }
@@ -150,6 +174,12 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
             } else {
                 item.value = "undefined"
             }
+            return item
+        case "remove":
+            let item = FormButtonItemData(identifier: key, action: #selector(remove))
+            item.destructive = true
+            item.title = "Delete Download"
+            item.destructionMessage = "Delete the downloaded file from this device"
             return item
         default:
             return nil
