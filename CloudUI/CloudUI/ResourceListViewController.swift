@@ -61,7 +61,7 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter?.didSelect(itemAt: indexPath)
     }
-    
+
     public override func tableView(_: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender _: Any?) {
         dataSource?.performAction(action, forItemAt: indexPath)
     }

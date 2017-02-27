@@ -16,7 +16,7 @@ protocol ResourceListViewModel : class {
     var progress: Progress? { get }
 }
 
-protocol ResourceDataSource: FTDataSource {
+protocol ResourceDataSource: FTMutableDataSource {
     var title: String? { get }
     var footer: String? { get }
     var isUpdating: Bool { get }

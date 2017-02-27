@@ -10,7 +10,7 @@ import Foundation
 import Fountain
 import CloudService
 
-class ResourceListDataSource: NSObject, ResourceDataSource {
+class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource {
     
     private let backingStore: FTMutableSet
     private let proxy: FTObserverProxy
@@ -123,6 +123,17 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         return backingStore.item(at: indexPath) as? Resource
     }
     
+    private func removeFile(forItemAt indexPath: IndexPath) {
+        guard
+            let resource = backingStore.item(at: indexPath) as? Resource
+            else { return }
+        do {
+            try cloudService.deleteFileForResource(with: resource.resourceID)
+        } catch {
+            NSLog("Failed to remove file of resource: \(error)")
+        }
+    }
+    
     // MARK: - ResourceDataSource
     
     var title: String? {
@@ -222,6 +233,48 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         var showDownloadAccessory: Bool {
             return resource.properties.isCollection == false && resource.fileState == .none
         }
+    }
+    
+    // MARK: - FTMutableDataSource
+    
+    func canInsertItem(_ item: Any!) -> Bool {
+        return false
+    }
+    
+    func insertItem(_ item: Any!, atProposedIndexPath proposedIndexPath: IndexPath!) throws -> IndexPath {
+        return IndexPath()
+    }
+    
+    func canEditItem(at indexPath: IndexPath!) -> Bool {
+        guard
+            let resource = backingStore.item(at: indexPath) as? Resource
+            else { return false }
+        
+        return resource.fileState != .none
+    }
+    
+    func editActionsForRow(at indexPath: IndexPath!) -> [UITableViewRowAction]! {
+        guard
+            let resource = backingStore.item(at: indexPath) as? Resource
+            else { return [] }
+        
+        var actions: [UITableViewRowAction] = []
+        
+        if resource.fileState != .none {
+            let removeAction = UITableViewRowAction(style: .destructive, title: "Remove") { (action, indexPath) in
+                self.removeFile(forItemAt: indexPath)
+            }
+            removeAction.backgroundColor = UIColor.orange
+            actions.append(removeAction)
+        }
+        return actions.count > 0 ? actions : nil
+    }
+    
+    func canDeleteItem(at indexPath: IndexPath!) -> Bool {
+        return false
+    }
+    
+    func deleteItem(at indexPath: IndexPath!) throws {
     }
     
     // MARK: - Notification Handling
