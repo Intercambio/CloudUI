@@ -13,7 +13,7 @@ public class ResourceBrowserModule: NSObject, UserInterfaceModule {
     
     public var accountListModule: UserInterfaceModule?
     public var resourceListModule: UserInterfaceModule?
-    public var resourceModule: UserInterfaceModule?
+    public var resourceDetailsModule: UserInterfaceModule?
     
     public override init() {
     }
@@ -42,7 +42,7 @@ extension ResourceBrowserModule: ResourceBrowserNavigationControllerDelegate {
         if resource.properties.isCollection == true {
             viewController = resourceListModule?.makeViewController()
         } else {
-            viewController = resourceModule?.makeViewController()
+            viewController = resourceDetailsModule?.makeViewController()
         }
         if let resourcePresenter = viewController as? ResourceUserInterface {
             resourcePresenter.present(resource, animated: false)

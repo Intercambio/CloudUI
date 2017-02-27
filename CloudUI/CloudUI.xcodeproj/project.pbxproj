@@ -48,7 +48,6 @@
 		F63F52751E48B3AC006DAF83 /* AccountListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F526F1E48B3AC006DAF83 /* AccountListViewController.swift */; };
 		F63F52761E48B3AC006DAF83 /* AccountListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52701E48B3AC006DAF83 /* AccountListCell.swift */; };
 		F63F52781E48B3B3006DAF83 /* MainModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52771E48B3B3006DAF83 /* MainModule.swift */; };
-		F63F527A1E48B3B9006DAF83 /* ResourceModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52791E48B3B9006DAF83 /* ResourceModule.swift */; };
 		F63F527C1E48B3C0006DAF83 /* ResourceBrowserModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F527B1E48B3C0006DAF83 /* ResourceBrowserModule.swift */; };
 		F63F52831E48B3CB006DAF83 /* ResourceListModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F527D1E48B3CB006DAF83 /* ResourceListModule.swift */; };
 		F63F52841E48B3CB006DAF83 /* ResourceListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F527E1E48B3CB006DAF83 /* ResourceListPresenter.swift */; };
@@ -112,7 +111,6 @@
 		F63F526F1E48B3AC006DAF83 /* AccountListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListViewController.swift; sourceTree = "<group>"; };
 		F63F52701E48B3AC006DAF83 /* AccountListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountListCell.swift; sourceTree = "<group>"; };
 		F63F52771E48B3B3006DAF83 /* MainModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainModule.swift; sourceTree = "<group>"; };
-		F63F52791E48B3B9006DAF83 /* ResourceModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceModule.swift; sourceTree = "<group>"; };
 		F63F527B1E48B3C0006DAF83 /* ResourceBrowserModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceBrowserModule.swift; sourceTree = "<group>"; };
 		F63F527D1E48B3CB006DAF83 /* ResourceListModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceListModule.swift; sourceTree = "<group>"; };
 		F63F527E1E48B3CB006DAF83 /* ResourceListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceListPresenter.swift; sourceTree = "<group>"; };
@@ -310,7 +308,6 @@
 				F63F52641E48B350006DAF83 /* UserInterfaceModule.swift */,
 				F63F52661E48B36C006DAF83 /* Account List */,
 				F63F52671E48B374006DAF83 /* Main */,
-				F63F52681E48B379006DAF83 /* Resource */,
 				F63F52691E48B37E006DAF83 /* Resource Browser */,
 				F63D928B1E646604004618DF /* Resource Details */,
 				F63F526A1E48B386006DAF83 /* Resource List */,
@@ -338,14 +335,6 @@
 				F63F52771E48B3B3006DAF83 /* MainModule.swift */,
 			);
 			name = Main;
-			sourceTree = "<group>";
-		};
-		F63F52681E48B379006DAF83 /* Resource */ = {
-			isa = PBXGroup;
-			children = (
-				F63F52791E48B3B9006DAF83 /* ResourceModule.swift */,
-			);
-			name = Resource;
 			sourceTree = "<group>";
 		};
 		F63F52691E48B37E006DAF83 /* Resource Browser */ = {
@@ -533,7 +522,6 @@
 				F63F52841E48B3CB006DAF83 /* ResourceListPresenter.swift in Sources */,
 				F63F52731E48B3AC006DAF83 /* AccountListDataSource.swift in Sources */,
 				F61292CD1E4CA57900051B24 /* FormPasswordItemCell.swift in Sources */,
-				F63F527A1E48B3B9006DAF83 /* ResourceModule.swift in Sources */,
 				F63F52711E48B3AC006DAF83 /* AccountListModule.swift in Sources */,
 				F63D05B11E4B86230047F7F0 /* SettingsPresenter.swift in Sources */,
 				F63D05B51E4B86720047F7F0 /* SettingsViewController.swift in Sources */,

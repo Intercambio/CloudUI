@@ -12,7 +12,7 @@ import CloudService
 public class MainModule: UserInterfaceModule {
     
     public var resourceBrowserModule: UserInterfaceModule?
-    public var resourceModule: UserInterfaceModule?
+    public var resourceDetailsModule: UserInterfaceModule?
     public var settingsModule: UserInterfaceModule?
     
     let cloudService: CloudService
@@ -97,7 +97,7 @@ extension MainModule: MainViewControllerDelegate {
     func mainViewController(_ mainViewController: MainViewController, detailViewControllerFor resource: Resource) -> UIViewController? {
         var viewController: UIViewController? = nil
         if resource.properties.isCollection == false {
-            viewController = resourceModule?.makeViewController()
+            viewController = resourceDetailsModule?.makeViewController()
         }
         if let resourcePresenter = viewController as? ResourceUserInterface {
             resourcePresenter.present(resource, animated: false)
