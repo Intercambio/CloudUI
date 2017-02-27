@@ -14,7 +14,16 @@ import CloudService
 class ResourceDetailsDataSource: NSObject, FormDataSource {
     
     let cloudService: CloudService
-    var resource: Resource
+    
+    var resource: Resource? {
+        willSet {
+            proxy.dataSourceWillReset(self)
+        }
+        didSet {
+            proxy.dataSourceDidReset(self)
+        }
+    }
+    
     private let proxy: FTObserverProxy
     public init(cloudService: CloudService, resource: Resource) {
         self.cloudService = cloudService
@@ -22,6 +31,14 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
         proxy = FTObserverProxy()
         super.init()
         proxy.object = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(cloudServiceDidChangeResources(_:)),
+                                               name: Notification.Name.CloudServiceDidChangeResources,
+                                               object: cloudService)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // Options
@@ -68,6 +85,9 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     // MARK: - FTDataSource
     
     public func numberOfSections() -> UInt {
+        guard
+            let resource = self.resource
+            else { return 0 }
         return 2
     }
     
@@ -85,6 +105,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     
     public func item(at indexPath: IndexPath!) -> Any! {
         guard
+            let resource = self.resource,
             let key = option(for: indexPath)
             else { return nil }
         switch key {
@@ -145,5 +166,37 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     
     func removeObserver(_ observer: FTDataSourceObserver!) {
         proxy.removeObserver(observer)
+    }
+    
+    // MARK: - Notification Handling
+    
+    @objc private func cloudServiceDidChangeResources(_ notification: Notification) {
+        DispatchQueue.main.async {
+            do {
+                var needsReload: Bool = false
+                if let resource = self.resource {
+                    
+                    if let deleted = notification.userInfo?[DeletedResourcesKey] as? [ResourceID] {
+                        for deletedResource in deleted {
+                            if resource.resourceID == deletedResource {
+                                self.resource = nil
+                                return
+                            }
+                        }
+                    }
+                    
+                    if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [ResourceID] {
+                        for updatedResource in insertedOrUpdate {
+                            if resource.resourceID == updatedResource {
+                                self.resource = try self.cloudService.resource(with: updatedResource)
+                                return
+                            }
+                        }
+                    }
+                }
+            } catch {
+                NSLog("Failed to update resource: \(error)")
+            }
+        }
     }
 }
