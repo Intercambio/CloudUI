@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MobileCoreServices
 import Fountain
 import CloudService
 
@@ -95,17 +96,38 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
         case "type":
             let item = FormValueItemData(identifier: key)
             item.title = "Type"
-            item.value = resource.properties.contentType
+            if
+                let type = resource.properties.contentType,
+                let identifiers = UTTypeCreateAllIdentifiersForTag(kUTTagClassMIMEType, type as CFString, nil)?.takeRetainedValue() as? Array<CFString>,
+                let identifier = identifiers.first {
+                item.value = UTTypeCopyDescription(identifier)?.takeRetainedValue() as? String
+            } else {
+                item.value = "undefined"
+            }
             return item
         case "size":
             let item = FormValueItemData(identifier: key)
             item.title = "Size"
-            item.value = "\(resource.properties.contentLength)"
+            if let size = resource.properties.contentLength {
+                let formatter = ByteCountFormatter()
+                formatter.countStyle = .file
+                item.value = formatter.string(fromByteCount: Int64(size))
+            } else {
+                item.value = "undefined"
+            }
             return item
         case "modified":
             let item = FormValueItemData(identifier: key)
             item.title = "Modified"
-            item.value = "\(resource.properties.modified)"
+            if let modified = resource.properties.modified {
+                let formatter = DateFormatter()
+                formatter.doesRelativeDateFormatting = true
+                formatter.timeStyle = .short
+                formatter.dateStyle = .short
+                item.value = formatter.string(from: modified)
+            } else {
+                item.value = "undefined"
+            }
             return item
         default:
             return nil

@@ -15,7 +15,8 @@ public class ResourceDetailsModule: UserInterfaceModule {
         self.cloudService = cloudService
     }
     public func makeViewController() -> UIViewController {
-        let viewController = ResourceViewController()
+        let presenter = ResourceDetailsPresenter(cloudService: cloudService)
+        let viewController = ResourceDetailsViewController(presenter: presenter)
         return viewController
     }
 }
