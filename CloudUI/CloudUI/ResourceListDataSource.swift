@@ -231,7 +231,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
             return "\(contentType), \(formatter.string(fromByteCount: Int64(contentLength)))"
         }
         var showDownloadAccessory: Bool {
-            return resource.properties.isCollection == false && resource.fileState == .none
+            return resource.properties.isCollection == false && resource.fileState != .valid
         }
     }
     
