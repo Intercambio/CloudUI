@@ -123,6 +123,34 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         return backingStore.item(at: indexPath) as? Resource
     }
     
+    private func editActions(forItemAt indexPath: IndexPath) -> [UITableViewRowAction] {
+        guard
+            let resource = backingStore.item(at: indexPath) as? Resource
+            else { return [] }
+        
+        var actions: [UITableViewRowAction] = []
+        
+        if resource.fileState != .none {
+            let removeAction = UITableViewRowAction(style: .destructive, title: "Remove") { (action, indexPath) in
+                self.removeFile(forItemAt: indexPath)
+            }
+            removeAction.backgroundColor = UIColor.orange
+            actions.append(removeAction)
+        }
+        return actions
+    }
+    
+    private func removeFile(forItemAt indexPath: IndexPath) {
+        guard
+            let resource = backingStore.item(at: indexPath) as? Resource
+            else { return }
+        do {
+            try cloudService.deleteFileForResource(with: resource.resourceID)
+        } catch {
+            NSLog("Failed to remove file of resource: \(error)")
+        }
+    }
+    
     // MARK: - ResourceDataSource
     
     var title: String? {
@@ -182,7 +210,8 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     func item(at indexPath: IndexPath!) -> Any! {
         if let item = backingStore.item(at: indexPath) as? Resource {
             let progress = cloudService.progressForResource(with: item.resourceID)
-            return ViewModel(resource: item, progress: progress)
+            let actions = editActions(forItemAt: indexPath)
+            return ViewModel(resource: item, progress: progress, editActions: actions)
         } else {
             return nil
         }
@@ -203,9 +232,11 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     class ViewModel: ResourceListViewModel {
         let resource: Resource
         let progress: Progress?
-        init(resource: Resource, progress: Progress?) {
+        let editActions: [UITableViewRowAction]?
+        init(resource: Resource, progress: Progress?, editActions: [UITableViewRowAction]?) {
             self.resource = resource
             self.progress = progress
+            self.editActions = editActions
         }
         var title: String? {
             return resource.resourceID.name

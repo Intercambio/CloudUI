@@ -14,6 +14,7 @@ protocol ResourceListViewModel : class {
     var subtitle: String? { get }
     var showDownloadAccessory: Bool { get }
     var progress: Progress? { get }
+    var editActions: [UITableViewRowAction]? { get }
 }
 
 protocol ResourceDataSource: FTDataSource {

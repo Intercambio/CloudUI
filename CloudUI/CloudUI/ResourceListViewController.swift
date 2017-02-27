@@ -62,6 +62,14 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         presenter?.didSelect(itemAt: indexPath)
     }
     
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard
+            let item = dataSource?.item(at: indexPath) as? ResourceListViewModel
+            else { return nil }
+        
+        return item.editActions
+    }
+    
     public override func tableView(_: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender _: Any?) {
         dataSource?.performAction(action, forItemAt: indexPath)
     }
