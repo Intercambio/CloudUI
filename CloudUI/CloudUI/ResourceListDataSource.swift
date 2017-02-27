@@ -9,6 +9,7 @@
 import Foundation
 import Fountain
 import CloudService
+import MobileCoreServices
 
 class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource {
     
@@ -211,30 +212,6 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
         proxy.removeObserver(observer)
     }
     
-    class ViewModel: ResourceListViewModel {
-        let resource: Resource
-        let progress: Progress?
-        init(resource: Resource, progress: Progress?) {
-            self.resource = resource
-            self.progress = progress
-        }
-        var title: String? {
-            return resource.resourceID.name
-        }
-        var subtitle: String? {
-            guard
-                let contentType = resource.properties.contentType,
-                let contentLength = resource.properties.contentLength
-                else { return nil }
-            let formatter = ByteCountFormatter()
-            formatter.countStyle = .file
-            return "\(contentType), \(formatter.string(fromByteCount: Int64(contentLength)))"
-        }
-        var showDownloadAccessory: Bool {
-            return resource.properties.isCollection == false && resource.fileState != .valid
-        }
-    }
-    
     // MARK: - FTMutableDataSource
     
     func canInsertItem(_ item: Any!) -> Bool {
@@ -317,6 +294,42 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
             } catch {
                 
             }
+        }
+    }
+    
+    // MARK: View Model
+    
+    class ViewModel: ResourceListViewModel {
+        let resource: Resource
+        let progress: Progress?
+        init(resource: Resource, progress: Progress?) {
+            self.resource = resource
+            self.progress = progress
+        }
+        var title: String? {
+            return resource.resourceID.name
+        }
+        var subtitle: String? {
+            var components: [String] = []
+            if let type = typeDescription {
+                components.append(type)
+            }
+            if let length = resource.properties.contentLength {
+                let formatter = ByteCountFormatter()
+                formatter.countStyle = .file
+                components.append(formatter.string(fromByteCount: Int64(length)))
+            }
+            return components.count > 0 ? components.joined(separator: ", ") : nil
+        }
+        var showDownloadAccessory: Bool {
+            return resource.properties.isCollection == false && resource.fileState != .valid
+        }
+        private var typeDescription: String? {
+            guard
+                let type = resource.properties.contentType,
+                let identifiers = UTTypeCreateAllIdentifiersForTag(kUTTagClassMIMEType, type as CFString, nil)?.takeRetainedValue() as? Array<CFString>,
+                let identifier = identifiers.first else { return nil }
+            return UTTypeCopyDescription(identifier)?.takeRetainedValue() as? String
         }
     }
 }
