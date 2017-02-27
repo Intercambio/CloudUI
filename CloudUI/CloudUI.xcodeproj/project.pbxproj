@@ -29,6 +29,8 @@
 		F63D05B11E4B86230047F7F0 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63D05B01E4B86230047F7F0 /* SettingsPresenter.swift */; };
 		F63D05B31E4B865F0047F7F0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63D05B21E4B865F0047F7F0 /* SettingsView.swift */; };
 		F63D05B51E4B86720047F7F0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63D05B41E4B86720047F7F0 /* SettingsViewController.swift */; };
+		F63D928D1E646622004618DF /* ResourceDetailsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63D928C1E646622004618DF /* ResourceDetailsModule.swift */; };
+		F63D928F1E646D45004618DF /* ResourceDetailsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63D928E1E646D45004618DF /* ResourceDetailsDataSource.swift */; };
 		F63F523F1E48AFAA006DAF83 /* CloudUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63F52351E48AFAA006DAF83 /* CloudUI.framework */; };
 		F63F52441E48AFAA006DAF83 /* CloudUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63F52431E48AFAA006DAF83 /* CloudUITests.swift */; };
 		F63F52461E48AFAA006DAF83 /* CloudUI.h in Headers */ = {isa = PBXBuildFile; fileRef = F63F52381E48AFAA006DAF83 /* CloudUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -91,6 +93,8 @@
 		F63D05B01E4B86230047F7F0 /* SettingsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		F63D05B21E4B865F0047F7F0 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F63D05B41E4B86720047F7F0 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		F63D928C1E646622004618DF /* ResourceDetailsModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceDetailsModule.swift; sourceTree = "<group>"; };
+		F63D928E1E646D45004618DF /* ResourceDetailsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceDetailsDataSource.swift; sourceTree = "<group>"; };
 		F63F52351E48AFAA006DAF83 /* CloudUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CloudUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F63F52381E48AFAA006DAF83 /* CloudUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CloudUI.h; sourceTree = "<group>"; };
 		F63F52391E48AFAA006DAF83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -213,6 +217,15 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
+		F63D928B1E646604004618DF /* Resource Details */ = {
+			isa = PBXGroup;
+			children = (
+				F63D928C1E646622004618DF /* ResourceDetailsModule.swift */,
+				F63D928E1E646D45004618DF /* ResourceDetailsDataSource.swift */,
+			);
+			name = "Resource Details";
+			sourceTree = "<group>";
+		};
 		F63F522B1E48AFAA006DAF83 = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +312,7 @@
 				F63F52671E48B374006DAF83 /* Main */,
 				F63F52681E48B379006DAF83 /* Resource */,
 				F63F52691E48B37E006DAF83 /* Resource Browser */,
+				F63D928B1E646604004618DF /* Resource Details */,
 				F63F526A1E48B386006DAF83 /* Resource List */,
 				F63A78A11E4B2FBF004FE25E /* Settings */,
 			);
@@ -508,6 +522,7 @@
 				F63A78BF1E4B3FBA004FE25E /* UICollectionViewCellAction.swift in Sources */,
 				F67DACF41E5D91F400C16B8E /* StyleKit.swift in Sources */,
 				F63A78B01E4B3F0C004FE25E /* FormSectionData.swift in Sources */,
+				F63D928F1E646D45004618DF /* ResourceDetailsDataSource.swift in Sources */,
 				F63A78C21E4B4102004FE25E /* FormViewController.swift in Sources */,
 				F63F52751E48B3AC006DAF83 /* AccountListViewController.swift in Sources */,
 				F63D05B31E4B865F0047F7F0 /* SettingsView.swift in Sources */,
@@ -522,6 +537,7 @@
 				F63F52711E48B3AC006DAF83 /* AccountListModule.swift in Sources */,
 				F63D05B11E4B86230047F7F0 /* SettingsPresenter.swift in Sources */,
 				F63D05B51E4B86720047F7F0 /* SettingsViewController.swift in Sources */,
+				F63D928D1E646622004618DF /* ResourceDetailsModule.swift in Sources */,
 				F63F52781E48B3B3006DAF83 /* MainModule.swift in Sources */,
 				F63F52741E48B3AC006DAF83 /* AccountListView.swift in Sources */,
 				F63A78B21E4B3F0C004FE25E /* FormURLItemData.swift in Sources */,
