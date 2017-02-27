@@ -1,2 +1,2 @@
-github "anagromataf/Fountain" ~> 2.5
+github "anagromataf/Fountain" "develop"
 github "Intercambio/CloudService" ~> 0.10

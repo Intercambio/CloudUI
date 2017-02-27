@@ -123,23 +123,6 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         return backingStore.item(at: indexPath) as? Resource
     }
     
-    private func editActions(forItemAt indexPath: IndexPath) -> [UITableViewRowAction] {
-        guard
-            let resource = backingStore.item(at: indexPath) as? Resource
-            else { return [] }
-        
-        var actions: [UITableViewRowAction] = []
-        
-        if resource.fileState != .none {
-            let removeAction = UITableViewRowAction(style: .destructive, title: "Remove") { (action, indexPath) in
-                self.removeFile(forItemAt: indexPath)
-            }
-            removeAction.backgroundColor = UIColor.orange
-            actions.append(removeAction)
-        }
-        return actions
-    }
-    
     private func removeFile(forItemAt indexPath: IndexPath) {
         guard
             let resource = backingStore.item(at: indexPath) as? Resource
@@ -210,8 +193,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     func item(at indexPath: IndexPath!) -> Any! {
         if let item = backingStore.item(at: indexPath) as? Resource {
             let progress = cloudService.progressForResource(with: item.resourceID)
-            let actions = editActions(forItemAt: indexPath)
-            return ViewModel(resource: item, progress: progress, editActions: actions)
+            return ViewModel(resource: item, progress: progress)
         } else {
             return nil
         }
@@ -232,11 +214,9 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
     class ViewModel: ResourceListViewModel {
         let resource: Resource
         let progress: Progress?
-        let editActions: [UITableViewRowAction]?
-        init(resource: Resource, progress: Progress?, editActions: [UITableViewRowAction]?) {
+        init(resource: Resource, progress: Progress?) {
             self.resource = resource
             self.progress = progress
-            self.editActions = editActions
         }
         var title: String? {
             return resource.resourceID.name
@@ -253,6 +233,48 @@ class ResourceListDataSource: NSObject, ResourceDataSource {
         var showDownloadAccessory: Bool {
             return resource.properties.isCollection == false && resource.fileState == .none
         }
+    }
+    
+    // MARK: - FTMutableDataSource
+    
+    func canInsertItem(_ item: Any!) -> Bool {
+        return false
+    }
+    
+    func insertItem(_ item: Any!, atProposedIndexPath proposedIndexPath: IndexPath!) throws -> IndexPath {
+        return IndexPath()
+    }
+    
+    func canEditItem(at indexPath: IndexPath!) -> Bool {
+        guard
+            let resource = backingStore.item(at: indexPath) as? Resource
+            else { return false }
+        
+        return resource.fileState != .none
+    }
+    
+    func editActionsForRow(at indexPath: IndexPath!) -> [UITableViewRowAction]! {
+        guard
+            let resource = backingStore.item(at: indexPath) as? Resource
+            else { return [] }
+        
+        var actions: [UITableViewRowAction] = []
+        
+        if resource.fileState != .none {
+            let removeAction = UITableViewRowAction(style: .destructive, title: "Remove") { (action, indexPath) in
+                self.removeFile(forItemAt: indexPath)
+            }
+            removeAction.backgroundColor = UIColor.orange
+            actions.append(removeAction)
+        }
+        return actions.count > 0 ? actions : nil
+    }
+    
+    func canDeleteItem(at indexPath: IndexPath!) -> Bool {
+        return false
+    }
+    
+    func deleteItem(at indexPath: IndexPath!) throws {
     }
     
     // MARK: - Notification Handling
