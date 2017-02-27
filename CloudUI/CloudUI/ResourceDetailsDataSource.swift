@@ -25,7 +25,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     }
     
     private let proxy: FTObserverProxy
-    public init(cloudService: CloudService, resource: Resource) {
+    public init(cloudService: CloudService, resource: Resource?) {
         self.cloudService = cloudService
         self.resource = resource
         proxy = FTObserverProxy()

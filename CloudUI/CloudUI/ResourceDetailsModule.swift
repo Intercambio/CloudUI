@@ -8,6 +8,7 @@
 
 import UIKit
 import CloudService
+import Fountain
 
 public class ResourceDetailsModule: UserInterfaceModule {
     let cloudService: CloudService
@@ -23,12 +24,22 @@ public class ResourceDetailsModule: UserInterfaceModule {
 
 protocol ResourceDetailsView: class {
     var dataSource: FormDataSource? { get set }
+    var showDownloadButton: Bool { get set }
+    var progress: Progress? { get set }
 }
 
-class ResourceDetailsPresenter {
+class ResourceDetailsPresenter: NSObject, FTDataSourceObserver {
     let cloudService: CloudService
+    let dataSource: ResourceDetailsDataSource
     init(cloudService: CloudService) {
         self.cloudService = cloudService
+        self.dataSource = ResourceDetailsDataSource(cloudService: cloudService, resource: nil)
+        super.init()
+        dataSource.addObserver(self)
+        updateDownloadButton()
+    }
+    deinit {
+        dataSource.removeObserver(self)
     }
     weak var view: ResourceDetailsView? {
         didSet {
@@ -36,24 +47,43 @@ class ResourceDetailsPresenter {
         }
     }
     var resource: Resource? {
-        didSet {
-            guard
-                let resource = self.resource
-                else {
-                    dataSource = nil
-                    return
-            }
-            dataSource = ResourceDetailsDataSource(cloudService: cloudService, resource: resource)
-        }
+        get { return dataSource.resource }
+        set { dataSource.resource = newValue }
     }
-    var dataSource: FormDataSource? {
-        didSet {
-            view?.dataSource = dataSource
+    func dataSourceDidChange(_ dataSource: FTDataSource!) {
+        updateDownloadButton()
+    }
+    func dataSourceDidReset(_ dataSource: FTDataSource!) {
+        updateDownloadButton()
+    }
+    private func updateDownloadButton() {
+        guard
+            let resource = self.resource
+            else {
+                view?.showDownloadButton = false
+                view?.progress = nil
+                return
         }
+        view?.showDownloadButton = resource.properties.isCollection == false && resource.fileState != .valid
+        view?.progress = cloudService.progressForResource(with: resource.resourceID)
+    }
+    func download() {
+        guard
+            let resource = self.resource
+            else { return }
+        cloudService.downloadResource(with: resource.resourceID)
     }
 }
 
 class ResourceDetailsViewController: FormViewController, ResourceDetailsView {
+    
+    var showDownloadButton: Bool = false {
+        didSet { updateDownloadButton() }
+    }
+    var progress: Progress? {
+        didSet { updateDownloadButton() }
+    }
+    
     let presenter: ResourceDetailsPresenter
     init(presenter: ResourceDetailsPresenter) {
         self.presenter = presenter
@@ -62,6 +92,23 @@ class ResourceDetailsViewController: FormViewController, ResourceDetailsView {
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateDownloadButton()
+    }
+    private func updateDownloadButton() {
+        if showDownloadButton == false {
+            navigationItem.rightBarButtonItem = nil
+        } else {
+            let downloadButton = DownloadButton(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+            downloadButton.progress = progress
+            downloadButton.addTarget(self, action: #selector(download), for: .touchUpInside)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: downloadButton)
+        }
+    }
+    @objc private func download() {
+        presenter.download()
     }
 }
 
