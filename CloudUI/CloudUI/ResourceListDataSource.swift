@@ -10,7 +10,7 @@ import Foundation
 import Fountain
 import CloudService
 
-class ResourceListDataSource: NSObject, ResourceDataSource {
+class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource {
     
     private let backingStore: FTMutableSet
     private let proxy: FTObserverProxy
