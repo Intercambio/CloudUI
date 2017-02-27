@@ -91,6 +91,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
         case "name":
             let item = FormTextItemData(identifier: key)
             item.selectable = false
+            item.editable = false
             item.text = resource.resourceID.name
             return item
         case "type":
