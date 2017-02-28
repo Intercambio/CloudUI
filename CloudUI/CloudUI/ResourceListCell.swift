@@ -12,12 +12,18 @@ class ResourceListCell: UITableViewCell {
 
     var model: ResourceListViewModel? {
         didSet{
-            if model?.showDownloadAccessory ?? false {
-                accessoryView = downloadAccessoryView
-                accessoryType = .none
-            } else {
+            switch model?.accessoryType ?? .none {
+            case .none:
                 accessoryView = nil
                 accessoryType = .disclosureIndicator
+            case .update:
+                downloadAccessoryView.type = .update
+                accessoryView = downloadAccessoryView
+                accessoryType = .none
+            case .download:
+                downloadAccessoryView.type = .download
+                accessoryView = downloadAccessoryView
+                accessoryType = .none
             }
             progress = model?.progress
             updateTextLabels()

@@ -8,20 +8,27 @@
 
 import UIKit
 
+enum DownloadButtonType {
+    case download
+    case update
+}
+
 class DownloadButton: UIControl {
-    
-    var progress: Progress? {
+   
+    var type: DownloadButtonType = .download {
         didSet {
-            progressView.progress = progress
-            if progress == nil {
-                button.isHidden = false
-                progressView.isHidden = true
-            } else {
-                button.isHidden = true
-                progressView.isHidden = false
-            }
+            updateButton()
         }
     }
+    dynamic var progress: Progress? {
+        didSet {
+            progressView.progress = progress
+            progressView.isHidden = progress == nil
+            updateButton()
+        }
+    }
+    
+    private var context = "DownloadButton.Context"
     
     private let button: UIButton
     private let progressView: ProgressView
@@ -32,6 +39,7 @@ class DownloadButton: UIControl {
         super.init(frame: frame)
         setup()
         updateButton()
+        setupObserver()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,6 +48,17 @@ class DownloadButton: UIControl {
         super.init(coder: aDecoder)
         setup()
         updateButton()
+        setupObserver()
+    }
+    
+    deinit {
+        removeObserver(self, forKeyPath: "progress.isCancellable")
+        removeObserver(self, forKeyPath: "progress.isCancelled")
+    }
+    
+    private func setupObserver() {
+        addObserver(self, forKeyPath: "progress.isCancellable", options: [], context: &context)
+        addObserver(self, forKeyPath: "progress.isCancelled", options: [], context: &context)
     }
     
     private func setup() {
@@ -55,7 +74,6 @@ class DownloadButton: UIControl {
         
         button.addTarget(self, action: #selector(handleButtonTouchUpInside(sender:)), for: .touchUpInside)
         
-        button.isHidden = false
         progressView.isHidden = true
     }
     
@@ -69,11 +87,45 @@ class DownloadButton: UIControl {
     }
     
     func updateButton() {
-        let icon = StyleKit.imageOfDownload(color: tintColor)
-        button.setImage(icon, for: .normal)
+        if let progress = self.progress {
+            if progress.isCancellable == true && progress.isCancelled == false {
+                let icon = StyleKit.imageOfCancel(color: tintColor)
+                button.setImage(icon, for: .normal)
+            } else {
+                button.setImage(nil, for: .normal)
+            }
+        } else {
+            switch type {
+            case .download:
+                let icon = StyleKit.imageOfDownload(color: tintColor)
+                button.setImage(icon, for: .normal)
+            case .update:
+                let icon = StyleKit.imageOfUpdate(color: tintColor)
+                button.setImage(icon, for: .normal)
+            }
+        }
     }
     
     @objc private func handleButtonTouchUpInside(sender: UIButton) {
-        sendActions(for: .touchUpInside)
+        if let progress = self.progress {
+            if progress.isCancellable == true && progress.isCancelled == false {
+                progress.cancel()
+            }
+        } else {
+            sendActions(for: .touchUpInside)
+        }
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard
+            context == &self.context
+            else {
+                super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+                return
+        }
+        
+        DispatchQueue.main.async {
+            self.updateButton()
+        }
     }
 }

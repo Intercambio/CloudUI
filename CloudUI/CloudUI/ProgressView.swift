@@ -81,11 +81,16 @@ class ProgressView: UIView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        StyleKit.drawProgressCircle(frame: bounds,
-                                    resizing: .aspectFit,
-                                    color: tintColor,
-                                    progress: CGFloat(progress?.fractionCompleted ?? 0),
-                                    isIndeterminate: progress?.isIndeterminate ?? true,
-                                    phase: CGFloat(Date.timeIntervalSinceReferenceDate))
+        if progress?.isIndeterminate ?? true {
+            StyleKit.drawIndeterminate(frame: bounds,
+                                       resizing: .aspectFit,
+                                       color: tintColor,
+                                       phase: CGFloat(Date.timeIntervalSinceReferenceDate))
+        } else {
+            StyleKit.drawProgress(frame: bounds,
+                                  resizing: .aspectFit,
+                                  color: tintColor,
+                                  fractionCompleted: CGFloat(progress?.fractionCompleted ?? 0))
+        }
     }
 }

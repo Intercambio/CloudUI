@@ -9,10 +9,16 @@
 import UIKit
 import Fountain
 
+enum ResourceListcAcessoryType {
+    case none
+    case download
+    case update
+}
+
 protocol ResourceListViewModel : class {
     var title: String? { get }
     var subtitle: String? { get }
-    var showDownloadAccessory: Bool { get }
+    var accessoryType: ResourceListcAcessoryType { get }
     var progress: Progress? { get }
 }
 

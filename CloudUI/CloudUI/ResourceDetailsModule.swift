@@ -22,10 +22,16 @@ public class ResourceDetailsModule: UserInterfaceModule {
     }
 }
 
+enum ResourceDetailsActionType {
+    case none
+    case download
+    case update
+}
+
 protocol ResourceDetailsView: class {
     var dataSource: FormDataSource? { get set }
-    var showDownloadButton: Bool { get set }
-    var progress: Progress? { get set }
+    var actionType: ResourceDetailsActionType { get set }
+    var actionProgress: Progress? { get set }
 }
 
 class ResourceDetailsPresenter: NSObject, FTDataSourceObserver {
@@ -58,14 +64,25 @@ class ResourceDetailsPresenter: NSObject, FTDataSourceObserver {
     }
     private func updateDownloadButton() {
         guard
-            let resource = self.resource
+            let resource = self.resource,
+            resource.properties.isCollection == false
             else {
-                view?.showDownloadButton = false
-                view?.progress = nil
+                view?.actionType = .none
+                view?.actionProgress = nil
                 return
         }
-        view?.showDownloadButton = resource.properties.isCollection == false && resource.fileState != .valid
-        view?.progress = cloudService.progressForResource(with: resource.resourceID)
+        
+        switch resource.fileState {
+        case .none:
+            view?.actionType = .download
+            view?.actionProgress = cloudService.progressForResource(with: resource.resourceID)
+        case .outdated:
+            view?.actionType = .update
+            view?.actionProgress = cloudService.progressForResource(with: resource.resourceID)
+        case .valid:
+            view?.actionType = .none
+            view?.actionProgress = nil
+        }
     }
     func download() {
         guard
@@ -77,10 +94,10 @@ class ResourceDetailsPresenter: NSObject, FTDataSourceObserver {
 
 class ResourceDetailsViewController: FormViewController, ResourceDetailsView {
     
-    var showDownloadButton: Bool = false {
+    var actionType: ResourceDetailsActionType = .none {
         didSet { updateDownloadButton() }
     }
-    var progress: Progress? {
+    var actionProgress: Progress? {
         didSet { updateDownloadButton() }
     }
     
@@ -98,11 +115,19 @@ class ResourceDetailsViewController: FormViewController, ResourceDetailsView {
         updateDownloadButton()
     }
     private func updateDownloadButton() {
-        if showDownloadButton == false {
+        switch actionType {
+        case .none:
             navigationItem.rightBarButtonItem = nil
-        } else {
+        case .update:
             let downloadButton = DownloadButton(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
-            downloadButton.progress = progress
+            downloadButton.progress = actionProgress
+            downloadButton.type = .update
+            downloadButton.addTarget(self, action: #selector(download), for: .touchUpInside)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: downloadButton)
+        case .download:
+            let downloadButton = DownloadButton(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+            downloadButton.progress = actionProgress
+            downloadButton.type = .download
             downloadButton.addTarget(self, action: #selector(download), for: .touchUpInside)
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: downloadButton)
         }

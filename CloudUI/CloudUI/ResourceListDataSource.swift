@@ -304,8 +304,16 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
             }
             return components.count > 0 ? components.joined(separator: ", ") : nil
         }
-        var showDownloadAccessory: Bool {
-            return resource.properties.isCollection == false && resource.fileState != .valid
+        var accessoryType: ResourceListcAcessoryType {
+            if resource.properties.isCollection {
+                return .none
+            } else {
+                switch resource.fileState {
+                case .valid: return .none
+                case .outdated: return .update
+                case .none: return .download
+                }
+            }
         }
         private var typeDescription: String? {
             guard
