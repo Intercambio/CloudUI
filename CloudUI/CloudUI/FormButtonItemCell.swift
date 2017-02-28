@@ -67,7 +67,7 @@ class FormButtonItemCell: UITableViewCell {
                 
                 let cancelAction = UIAlertAction(title: "Cancle", style: .cancel, handler: nil)
                 
-                let alert = UIAlertController(title: nil, message: item.destructionMessage, preferredStyle: .actionSheet)
+                let alert = UIAlertController(title: nil, message: item.destructionMessage, preferredStyle: .alert)
                 
                 alert.addAction(doAction)
                 alert.addAction(cancelAction)
