@@ -223,28 +223,11 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
     }
     
     func canEditItem(at indexPath: IndexPath!) -> Bool {
-        guard
-            let resource = backingStore.item(at: indexPath) as? Resource
-            else { return false }
-        
-        return resource.fileState != .none
+        return false
     }
     
     func editActionsForRow(at indexPath: IndexPath!) -> [UITableViewRowAction]! {
-        guard
-            let resource = backingStore.item(at: indexPath) as? Resource
-            else { return [] }
-        
-        var actions: [UITableViewRowAction] = []
-        
-        if resource.fileState != .none {
-            let removeAction = UITableViewRowAction(style: .destructive, title: "Remove") { (action, indexPath) in
-                self.removeFile(forItemAt: indexPath)
-            }
-            removeAction.backgroundColor = UIColor.orange
-            actions.append(removeAction)
-        }
-        return actions.count > 0 ? actions : nil
+        return []
     }
     
     func canDeleteItem(at indexPath: IndexPath!) -> Bool {
