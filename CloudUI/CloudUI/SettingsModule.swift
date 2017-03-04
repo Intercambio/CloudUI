@@ -29,14 +29,18 @@ extension SettingsViewController: SettingsUserInterface {
     }
 }
 
-public let SettingsLabelKey = "im.intercambio.documents.account.label"
-public let SettingsBaseURLKey = "im.intercambio.documents.account.base-url"
-public let SettingsUsernameKey = "im.intercambio.documents.account.username"
+public typealias SettingsKey = String
+
+extension SettingsKey {
+    public static let Label = "im.intercambio.documents.account.label"
+    public static let BaseURL = "im.intercambio.documents.account.base-url"
+    public static let Username = "im.intercambio.documents.account.username"
+}
 
 public protocol SettingsInteractor: class {
-    func values(forAccountWith identifier: AccountID) -> [String:Any]?
+    func values(forAccountWith identifier: AccountID) -> [SettingsKey:Any]?
     func password(forAccountWith identifier: AccountID) -> String?
-    func update(accountWith identifier: AccountID, using values: [String:Any]) throws -> [String:Any]?
+    func update(accountWith identifier: AccountID, using values: [SettingsKey:Any]) throws -> [SettingsKey:Any]?
     func setPassword(_ password: String?, forAccountWith identifier: AccountID) throws -> Void
     func remove(accountWith identifier: AccountID) throws -> Void
 }

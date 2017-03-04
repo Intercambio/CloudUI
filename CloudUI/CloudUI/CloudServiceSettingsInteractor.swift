@@ -11,22 +11,22 @@ import CloudService
 
 extension CloudService: SettingsInteractor {
     
-    public func values(forAccountWith identifier: String) -> [String:Any]? {
+    public func values(forAccountWith identifier: AccountID) -> [SettingsKey:Any]? {
         do {
             guard
                 let account = try self.account(with: identifier)
                 else { return nil }
             var result: [String:Any] = [:]
-            result[SettingsLabelKey] = account.label
-            result[SettingsBaseURLKey] = account.url
-            result[SettingsUsernameKey] = account.username
+            result[SettingsKey.Label] = account.label
+            result[SettingsKey.BaseURL] = account.url
+            result[SettingsKey.Username] = account.username
             return result
         } catch {
             return nil
         }
     }
     
-    public func password(forAccountWith identifier: String) -> String? {
+    public func password(forAccountWith identifier: AccountID) -> String? {
         do {
             guard
                 let account = try account(with: identifier)
@@ -37,25 +37,25 @@ extension CloudService: SettingsInteractor {
         }
     }
     
-    public func update(accountWith identifier: String, using values: [String:Any]) throws -> [String:Any]? {
+    public func update(accountWith identifier: AccountID, using values: [SettingsKey:Any]) throws -> [SettingsKey:Any]? {
         guard
             let account = try self.account(with: identifier)
             else { return values }
-        let label = values[SettingsLabelKey] as? String
+        let label = values[SettingsKey.Label] as? String
         if account.label != label {
             try update(account, with: label)
         }
         return self.values(forAccountWith: identifier)
     }
     
-    public func setPassword(_ password: String?, forAccountWith identifier: String) throws {
+    public func setPassword(_ password: String?, forAccountWith identifier: AccountID) throws {
         guard
             let account = try account(with: identifier)
             else { return }
         setPassword(password, for: account)
     }
     
-    public func remove(accountWith identifier: String) throws {
+    public func remove(accountWith identifier: AccountID) throws {
         guard
             let account = try account(with: identifier)
             else { return }

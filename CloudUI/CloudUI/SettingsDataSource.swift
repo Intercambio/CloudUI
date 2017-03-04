@@ -29,15 +29,15 @@ class SettingsDataSource: NSObject, FormDataSource {
     // Options
     
     var supportedKeys: [String] {
-        return [SettingsLabelKey, SettingsBaseURLKey, SettingsUsernameKey, "remove", "password"]
+        return [SettingsKey.Label, SettingsKey.BaseURL, SettingsKey.Username, "remove", "password"]
     }
     
     private func indexPath(for option: String) -> IndexPath? {
-        if option == SettingsLabelKey {
+        if option == SettingsKey.Label {
             return IndexPath(item: 0, section: 0)
-        } else if option == SettingsBaseURLKey {
+        } else if option == SettingsKey.BaseURL {
             return IndexPath(item: 0, section: 1)
-        } else if option == SettingsUsernameKey {
+        } else if option == SettingsKey.Username {
             return IndexPath(item: 1, section: 1)
         } else if option == "remove" {
             return IndexPath(item: 0, section: 3)
@@ -52,13 +52,13 @@ class SettingsDataSource: NSObject, FormDataSource {
         switch indexPath.section {
         case 0:
             switch indexPath.item {
-            case 0: return SettingsLabelKey
+            case 0: return SettingsKey.Label
             default: return nil
             }
         case 1:
             switch indexPath.item {
-            case 0: return SettingsBaseURLKey
-            case 1: return SettingsUsernameKey
+            case 0: return SettingsKey.BaseURL
+            case 1: return SettingsKey.Username
             default: return nil
             }
         case 2:
@@ -93,7 +93,7 @@ class SettingsDataSource: NSObject, FormDataSource {
         updatedValues[key] = value
         
         do {
-            if key == SettingsLabelKey {
+            if key == SettingsKey.Label {
                 self.values = try interactor.update(accountWith: accountIdentifier, using: updatedValues)
             } else if key == "password" {
                 guard
@@ -171,9 +171,9 @@ class SettingsDataSource: NSObject, FormDataSource {
             let key = option(for: indexPath)
             else { return nil }
         switch key {
-        case SettingsLabelKey: return labelItem()
-        case SettingsBaseURLKey: return baseURLItem()
-        case SettingsUsernameKey: return usernameItem()
+        case SettingsKey.Label: return labelItem()
+        case SettingsKey.BaseURL: return baseURLItem()
+        case SettingsKey.Username: return usernameItem()
         case "remove": return removeActionItem()
         case "password": return passwordItem()
         default: return nil
@@ -181,32 +181,32 @@ class SettingsDataSource: NSObject, FormDataSource {
     }
 
     private func labelItem() -> FormTextItem {
-        let item = FormTextItemData(identifier: SettingsLabelKey)
+        let item = FormTextItemData(identifier: SettingsKey.Label)
         item.editable = true
-        if let url = values?[SettingsBaseURLKey] as? URL {
+        if let url = values?[SettingsKey.BaseURL] as? URL {
             item.placeholder = url.host
         }
-        if let label = values?[SettingsLabelKey] as? String {
+        if let label = values?[SettingsKey.Label] as? String {
             item.text = label
         }
         return item
     }
     
     private func baseURLItem() -> FormURLItem {
-        let item = FormURLItemData(identifier: SettingsBaseURLKey)
+        let item = FormURLItemData(identifier: SettingsKey.BaseURL)
         item.editable = false
         item.placeholder = "Base URL"
-        if let url = values?[SettingsBaseURLKey] as? URL {
+        if let url = values?[SettingsKey.BaseURL] as? URL {
             item.placeholder = url.host
         }
         return item
     }
     
     private func usernameItem() -> FormTextItem {
-        let item = FormTextItemData(identifier: SettingsUsernameKey)
+        let item = FormTextItemData(identifier: SettingsKey.Username)
         item.editable = true
         item.placeholder = "Username"
-        if let username = values?[SettingsUsernameKey] as? String {
+        if let username = values?[SettingsKey.Username] as? String {
             item.text = username
         }
         return item
