@@ -42,7 +42,7 @@ public class MainModule: UserInterfaceModule {
 
 protocol MainViewControllerDelegate: UISplitViewControllerDelegate {
     func mainViewController(_ mainViewController: MainViewController, detailViewControllerFor resource: Resource) -> UIViewController?
-    func mainViewController(_ mainViewController: MainViewController, settingsViewControllerFor account: Account) -> UIViewController?
+    func mainViewController(_ mainViewController: MainViewController, settingsViewControllerForAccountWith accountID: AccountID) -> UIViewController?
 }
 
 class MainViewController: UISplitViewController {
@@ -74,7 +74,7 @@ class MainViewController: UISplitViewController {
                 let accountID = notification.userInfo?[AccountIDKey] as? AccountID
                 else { return }
             
-            if self.account?.identifier == accountID {
+            if self.accountID == accountID {
                 self.dismissSettings()
             }
         }
@@ -83,13 +83,13 @@ class MainViewController: UISplitViewController {
 
 extension MainModule: MainViewControllerDelegate {
     
-    func mainViewController(_ mainViewController: MainViewController, settingsViewControllerFor account: Account) -> UIViewController? {
+    func mainViewController(_ mainViewController: MainViewController, settingsViewControllerForAccountWith accountID: AccountID) -> UIViewController? {
         guard
             let settingsViewController = settingsModule?.makeViewController()
             else { return nil }
         
         if let settingsUserInterface = settingsViewController as? SettingsUserInterface {
-            settingsUserInterface.presentSettings(for: account, animated: false)
+            settingsUserInterface.presentSettings(forAccountWith: accountID, animated: false)
         }
         return settingsViewController
     }
@@ -193,19 +193,19 @@ extension MainViewController: PasswordUserInterface {
 
 extension MainViewController: SettingsUserInterface {
     
-    public var account: Account? {
+    public var accountID: AccountID? {
         guard
             let navigationController = presentedViewController as? UINavigationController,
             let settingsUserInterface = navigationController.viewControllers.first as? SettingsUserInterface
             else { return nil }
         
-        return settingsUserInterface.account
+        return settingsUserInterface.accountID
     }
     
-    public func presentSettings(for account: Account, animated: Bool) {
+    public func presentSettings(forAccountWith accountID: AccountID, animated: Bool) {
         guard
             let delegate = self.delegate as? MainViewControllerDelegate,
-            let settingsViewController = delegate.mainViewController(self, settingsViewControllerFor: account)
+            let settingsViewController = delegate.mainViewController(self, settingsViewControllerForAccountWith: accountID)
             else { return }
         
         let dismissButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissSettings))

@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F608C4171E4F2D7B00410948 /* CloudService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F608C4161E4F2D7B00410948 /* CloudService.framework */; };
-		F608C4181E4F2D8100410948 /* CloudService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F608C4161E4F2D7B00410948 /* CloudService.framework */; };
 		F61292CB1E4CA54C00051B24 /* FormPasswordItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61292CA1E4CA54C00051B24 /* FormPasswordItemData.swift */; };
 		F61292CD1E4CA57900051B24 /* FormPasswordItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61292CC1E4CA57900051B24 /* FormPasswordItemCell.swift */; };
 		F63A78A31E4B2FDA004FE25E /* SettingsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */; };
@@ -58,6 +56,12 @@
 		F67DACF21E5D90E100C16B8E /* DownloadButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DACF11E5D90E100C16B8E /* DownloadButton.swift */; };
 		F67DACF41E5D91F400C16B8E /* StyleKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DACF31E5D91F400C16B8E /* StyleKit.swift */; };
 		F67DACF61E5D94ED00C16B8E /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DACF51E5D94ED00C16B8E /* ProgressView.swift */; };
+		F6E83A6C1E6AB6DF001CD205 /* SettingsDataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E83A6B1E6AB6DF001CD205 /* SettingsDataSourceTests.swift */; };
+		F6E83A6F1E6ABD82001CD205 /* CloudService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E83A6D1E6ABD82001CD205 /* CloudService.framework */; };
+		F6E83A701E6ABD82001CD205 /* KeyChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E83A6E1E6ABD82001CD205 /* KeyChain.framework */; };
+		F6E83A711E6ABD90001CD205 /* CloudService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E83A6D1E6ABD82001CD205 /* CloudService.framework */; };
+		F6E83A721E6ABD90001CD205 /* KeyChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E83A6E1E6ABD82001CD205 /* KeyChain.framework */; };
+		F6E83A751E6AC236001CD205 /* CloudServiceSettingsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E83A731E6AC0A2001CD205 /* CloudServiceSettingsInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,7 +75,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F608C4161E4F2D7B00410948 /* CloudService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudService.framework; path = ../../../Build/iOS/CloudService.framework; sourceTree = "<group>"; };
 		F61292CA1E4CA54C00051B24 /* FormPasswordItemData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormPasswordItemData.swift; sourceTree = "<group>"; };
 		F61292CC1E4CA57900051B24 /* FormPasswordItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormPasswordItemCell.swift; sourceTree = "<group>"; };
 		F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsModule.swift; sourceTree = "<group>"; };
@@ -121,6 +124,10 @@
 		F67DACF11E5D90E100C16B8E /* DownloadButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadButton.swift; sourceTree = "<group>"; };
 		F67DACF31E5D91F400C16B8E /* StyleKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleKit.swift; sourceTree = "<group>"; };
 		F67DACF51E5D94ED00C16B8E /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		F6E83A6B1E6AB6DF001CD205 /* SettingsDataSourceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDataSourceTests.swift; sourceTree = "<group>"; };
+		F6E83A6D1E6ABD82001CD205 /* CloudService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudService.framework; path = ../Carthage/Build/iOS/CloudService.framework; sourceTree = "<group>"; };
+		F6E83A6E1E6ABD82001CD205 /* KeyChain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeyChain.framework; path = ../Carthage/Build/iOS/KeyChain.framework; sourceTree = "<group>"; };
+		F6E83A731E6AC0A2001CD205 /* CloudServiceSettingsInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudServiceSettingsInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +135,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F608C4171E4F2D7B00410948 /* CloudService.framework in Frameworks */,
+				F6E83A6F1E6ABD82001CD205 /* CloudService.framework in Frameworks */,
+				F6E83A701E6ABD82001CD205 /* KeyChain.framework in Frameworks */,
 				F63F52591E48B24A006DAF83 /* Fountain.framework in Frameworks */,
 				F63F525A1E48B24A006DAF83 /* PureXML.framework in Frameworks */,
 				F63F525B1E48B24A006DAF83 /* SQLite.framework in Frameworks */,
@@ -139,11 +147,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F608C4181E4F2D8100410948 /* CloudService.framework in Frameworks */,
 				F63F523F1E48AFAA006DAF83 /* CloudUI.framework in Frameworks */,
 				F63F525E1E48B255006DAF83 /* Fountain.framework in Frameworks */,
 				F63F525F1E48B255006DAF83 /* PureXML.framework in Frameworks */,
 				F63F52601E48B255006DAF83 /* SQLite.framework in Frameworks */,
+				F6E83A711E6ABD90001CD205 /* CloudService.framework in Frameworks */,
+				F6E83A721E6ABD90001CD205 /* KeyChain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +257,7 @@
 			children = (
 				F63A78BB1E4B3FAF004FE25E /* Additions */,
 				F63F52621E48B33D006DAF83 /* Common */,
+				F6E83A761E6AC243001CD205 /* Interactors */,
 				F63F52631E48B343006DAF83 /* Modules */,
 				F63F524F1E48AFC8006DAF83 /* Supporting Files */,
 			);
@@ -258,6 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				F63F52431E48AFAA006DAF83 /* CloudUITests.swift */,
+				F6E83A6A1E6AB6CD001CD205 /* Settings */,
 				F63F52501E48AFD3006DAF83 /* Supporting Files */,
 			);
 			path = CloudUITests;
@@ -283,7 +294,8 @@
 		F63F52511E48B249006DAF83 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F608C4161E4F2D7B00410948 /* CloudService.framework */,
+				F6E83A6D1E6ABD82001CD205 /* CloudService.framework */,
+				F6E83A6E1E6ABD82001CD205 /* KeyChain.framework */,
 				F63F52541E48B24A006DAF83 /* Fountain.framework */,
 				F63F52551E48B24A006DAF83 /* PureXML.framework */,
 				F63F52561E48B24A006DAF83 /* SQLite.framework */,
@@ -356,6 +368,22 @@
 				F63F52821E48B3CB006DAF83 /* ResourceListCell.swift */,
 			);
 			name = "Resource List";
+			sourceTree = "<group>";
+		};
+		F6E83A6A1E6AB6CD001CD205 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				F6E83A6B1E6AB6DF001CD205 /* SettingsDataSourceTests.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		F6E83A761E6AC243001CD205 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				F6E83A731E6AC0A2001CD205 /* CloudServiceSettingsInteractor.swift */,
+			);
+			name = Interactors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -476,6 +504,7 @@
 				"$(SRCROOT)/../Carthage/Build/iOS/PureXML.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/SQLite.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/Fountain.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/KeyChain.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -506,6 +535,7 @@
 				F63F52831E48B3CB006DAF83 /* ResourceListModule.swift in Sources */,
 				F63A78B71E4B3F30004FE25E /* FormButtonItemCell.swift in Sources */,
 				F63F52651E48B350006DAF83 /* UserInterfaceModule.swift in Sources */,
+				F6E83A751E6AC236001CD205 /* CloudServiceSettingsInteractor.swift in Sources */,
 				F63F52861E48B3CB006DAF83 /* ResourceListView.swift in Sources */,
 				F63A78AA1E4B3EE8004FE25E /* FormValueItemData.swift in Sources */,
 				F63A78BF1E4B3FBA004FE25E /* UICollectionViewCellAction.swift in Sources */,
@@ -539,6 +569,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F63F52441E48AFAA006DAF83 /* CloudUITests.swift in Sources */,
+				F6E83A6C1E6AB6DF001CD205 /* SettingsDataSourceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
