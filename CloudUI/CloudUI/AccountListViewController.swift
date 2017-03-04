@@ -23,8 +23,8 @@ class AccountListViewController: UITableViewController, AccountListView {
         
         tableView.register(AccountListCell.self, forCellReuseIdentifier: "AccountListCell")
         tableViewAdapter?.forRowsMatching(nil, useCellWithReuseIdentifier: "AccountListCell") {
-            (view, item, indexPath, dataSource) in
-            if  let cell = view as? AccountListCell,
+            view, item, _, _ in
+            if let cell = view as? AccountListCell,
                 let account = item as? AccountListViewModel {
                 cell.textLabel?.text = account.title
                 cell.detailTextLabel?.text = account.subtitle
@@ -39,11 +39,11 @@ class AccountListViewController: UITableViewController, AccountListView {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addAccount))
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter?.didSelect(itemAt: indexPath)
     }
     
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    override func tableView(_: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         presenter?.didTapAccessoryButton(forItemAt: indexPath)
     }
     

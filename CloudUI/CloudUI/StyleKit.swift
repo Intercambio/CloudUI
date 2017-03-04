@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class StyleKit : NSObject {
+public class StyleKit: NSObject {
     
     //// Drawing Methods
     
@@ -22,13 +22,11 @@ public class StyleKit : NSObject {
         context.translateBy(x: resizedFrame.minX, y: resizedFrame.minY)
         context.scaleBy(x: resizedFrame.width / 28, y: resizedFrame.height / 28)
         
-        
         //// Oval Drawing
         let ovalPath = UIBezierPath(ovalIn: CGRect(x: 1, y: 1, width: 26, height: 26))
         color.setStroke()
         ovalPath.lineWidth = 2
         ovalPath.stroke()
-        
         
         //// Bezier Drawing
         let bezierPath = UIBezierPath()
@@ -39,7 +37,6 @@ public class StyleKit : NSObject {
         bezierPath.lineCapStyle = .round
         bezierPath.stroke()
         
-        
         //// Group
         //// Bezier 2 Drawing
         let bezier2Path = UIBezierPath()
@@ -49,7 +46,6 @@ public class StyleKit : NSObject {
         bezier2Path.lineWidth = 2
         bezier2Path.lineCapStyle = .round
         bezier2Path.stroke()
-        
         
         //// Bezier 3 Drawing
         let bezier3Path = UIBezierPath()
@@ -74,7 +70,6 @@ public class StyleKit : NSObject {
         context.translateBy(x: resizedFrame.minX, y: resizedFrame.minY)
         context.scaleBy(x: resizedFrame.width / 28, y: resizedFrame.height / 28)
         
-        
         //// Rectangle Drawing
         let rectanglePath = UIBezierPath(roundedRect: CGRect(x: 9, y: 9, width: 10, height: 10), cornerRadius: 2)
         color.setFill()
@@ -94,24 +89,20 @@ public class StyleKit : NSObject {
         context.translateBy(x: resizedFrame.minX, y: resizedFrame.minY)
         context.scaleBy(x: resizedFrame.width / 28, y: resizedFrame.height / 28)
         
-        
         //// Oval Drawing
         let ovalRect = CGRect(x: 1, y: 1, width: 26, height: 26)
         let ovalPath = UIBezierPath()
-        ovalPath.addArc(withCenter: CGPoint(x: ovalRect.midX, y: ovalRect.midY), radius: ovalRect.width / 2, startAngle: 90 * CGFloat.pi/180, endAngle: 53 * CGFloat.pi/180, clockwise: true)
+        ovalPath.addArc(withCenter: CGPoint(x: ovalRect.midX, y: ovalRect.midY), radius: ovalRect.width / 2, startAngle: 90 * CGFloat.pi / 180, endAngle: 53 * CGFloat.pi / 180, clockwise: true)
         
         color.setStroke()
         ovalPath.lineWidth = 2
         ovalPath.lineCapStyle = .round
         ovalPath.stroke()
         
-        
         //// Group
         context.saveGState()
         context.translateBy(x: 20.29, y: 25.38)
-        context.rotate(by: 51.71 * CGFloat.pi/180)
-        
-        
+        context.rotate(by: 51.71 * CGFloat.pi / 180)
         
         //// Bezier 2 Drawing
         let bezier2Path = UIBezierPath()
@@ -122,7 +113,6 @@ public class StyleKit : NSObject {
         bezier2Path.lineCapStyle = .round
         bezier2Path.stroke()
         
-        
         //// Bezier 3 Drawing
         let bezier3Path = UIBezierPath()
         bezier3Path.move(to: CGPoint(x: -4, y: -5))
@@ -131,8 +121,6 @@ public class StyleKit : NSObject {
         bezier3Path.lineWidth = 2
         bezier3Path.lineCapStyle = .round
         bezier3Path.stroke()
-        
-        
         
         context.restoreGState()
         
@@ -150,19 +138,17 @@ public class StyleKit : NSObject {
         context.translateBy(x: resizedFrame.minX, y: resizedFrame.minY)
         context.scaleBy(x: resizedFrame.width / 28, y: resizedFrame.height / 28)
         
-        
-        
         //// Variable Declarations
         let rotation: CGFloat = -1 * 360 * phase
         
         //// Oval Drawing
         context.saveGState()
         context.translateBy(x: 14, y: 14)
-        context.rotate(by: -rotation * CGFloat.pi/180)
+        context.rotate(by: -rotation * CGFloat.pi / 180)
         
         let ovalRect = CGRect(x: -13, y: -13, width: 26, height: 26)
         let ovalPath = UIBezierPath()
-        ovalPath.addArc(withCenter: CGPoint(x: ovalRect.midX, y: ovalRect.midY), radius: ovalRect.width / 2, startAngle: 40 * CGFloat.pi/180, endAngle: 0 * CGFloat.pi/180, clockwise: true)
+        ovalPath.addArc(withCenter: CGPoint(x: ovalRect.midX, y: ovalRect.midY), radius: ovalRect.width / 2, startAngle: 40 * CGFloat.pi / 180, endAngle: 0 * CGFloat.pi / 180, clockwise: true)
         
         color.setStroke()
         ovalPath.lineWidth = 2
@@ -185,8 +171,6 @@ public class StyleKit : NSObject {
         context.translateBy(x: resizedFrame.minX, y: resizedFrame.minY)
         context.scaleBy(x: resizedFrame.width / 28, y: resizedFrame.height / 28)
         
-        
-        
         //// Variable Declarations
         let progressAngle: CGFloat = 90 - fractionCompleted * 360
         
@@ -197,11 +181,10 @@ public class StyleKit : NSObject {
         backgroundPath.lineCapStyle = .round
         backgroundPath.stroke()
         
-        
         //// Arc Drawing
         let arcRect = CGRect(x: 1, y: 1, width: 26, height: 26)
         let arcPath = UIBezierPath()
-        arcPath.addArc(withCenter: CGPoint(x: arcRect.midX, y: arcRect.midY), radius: arcRect.width / 2, startAngle: -90 * CGFloat.pi/180, endAngle: -progressAngle * CGFloat.pi/180, clockwise: true)
+        arcPath.addArc(withCenter: CGPoint(x: arcRect.midX, y: arcRect.midY), radius: arcRect.width / 2, startAngle: -90 * CGFloat.pi / 180, endAngle: -progressAngle * CGFloat.pi / 180, clockwise: true)
         
         color.setStroke()
         arcPath.lineWidth = 2

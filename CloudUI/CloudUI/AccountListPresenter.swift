@@ -34,7 +34,7 @@ class AccountListPresenter {
     func didSelect(itemAt indexPath: IndexPath) {
         guard
             let account = dataSource.account(at: indexPath)
-            else { return }
+        else { return }
         
         router?.present(resourceAt: [], of: account)
     }
@@ -42,7 +42,7 @@ class AccountListPresenter {
     func didTapAccessoryButton(forItemAt indexPath: IndexPath) {
         guard
             let account = dataSource.account(at: indexPath)
-            else { return }
+        else { return }
         
         router?.presentSettings(for: account)
     }

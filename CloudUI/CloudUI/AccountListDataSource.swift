@@ -17,10 +17,12 @@ class AccountListDataSource: NSObject, FTDataSource {
         self.cloudService = cloudService
         let center = NotificationCenter.default
         super.init()
-        center.addObserver(self,
-                           selector: #selector(cloudServiceDidChangeAccounts(_:)),
-                           name: Notification.Name.CloudServiceDidChangeAccounts,
-                           object: cloudService)
+        center.addObserver(
+            self,
+            selector: #selector(cloudServiceDidChangeAccounts(_:)),
+            name: Notification.Name.CloudServiceDidChangeAccounts,
+            object: cloudService
+        )
         reload()
     }
     
@@ -31,7 +33,7 @@ class AccountListDataSource: NSObject, FTDataSource {
     
     // MARK: Notification Handling
     
-    @objc private func cloudServiceDidChangeAccounts(_ notification: Notification) {
+    @objc private func cloudServiceDidChangeAccounts(_: Notification) {
         DispatchQueue.main.async {
             self.reload()
         }
@@ -68,7 +70,7 @@ class AccountListDataSource: NSObject, FTDataSource {
         return 1
     }
     
-    public func numberOfItems(inSection section: UInt) -> UInt {
+    public func numberOfItems(inSection _: UInt) -> UInt {
         return UInt(accounts.count)
     }
     
@@ -102,7 +104,7 @@ class AccountListDataSource: NSObject, FTDataSource {
     }
     
     class ViewModel: AccountListViewModel {
-
+        
         var title: String? {
             return account.label ?? account.url.host ?? account.url.absoluteString
         }

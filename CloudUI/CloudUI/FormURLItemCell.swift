@@ -6,13 +6,12 @@
 //  Copyright © 2017 Tobias Kräntzer. All rights reserved.
 //
 
-
 import UIKit
 
 class FormURLItemCell: UITableViewCell, UITextFieldDelegate {
     
     static var predicate: NSPredicate {
-        return NSPredicate(block: { (item, options) -> Bool in
+        return NSPredicate(block: { (item, _) -> Bool in
             return item is FormURLItem
         })
     }
@@ -23,7 +22,7 @@ class FormURLItemCell: UITableViewCell, UITextFieldDelegate {
         textField = UITextField()
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-    
+        
         preservesSuperviewLayoutMargins = true
         contentView.preservesSuperviewLayoutMargins = true
         
@@ -35,17 +34,21 @@ class FormURLItemCell: UITableViewCell, UITextFieldDelegate {
         textField.autocapitalizationType = .none
         
         addSubview(textField)
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[textField]-|",
-                                                      options: [],
-                                                      metrics: [:],
-                                                      views: ["textField":textField]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[textField]-|",
-                                                      options: [],
-                                                      metrics: [:],
-                                                      views: ["textField":textField]))
+        addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|-[textField]-|",
+            options: [],
+            metrics: [:],
+            views: ["textField": textField]
+        ))
+        addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "V:|-[textField]-|",
+            options: [],
+            metrics: [:],
+            views: ["textField": textField]
+        ))
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -58,7 +61,7 @@ class FormURLItemCell: UITableViewCell, UITextFieldDelegate {
     
     // UITextFieldDelegate
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_: UITextField) -> Bool {
         return item?.editable ?? false
     }
     

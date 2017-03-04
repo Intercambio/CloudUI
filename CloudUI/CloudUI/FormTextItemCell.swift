@@ -6,13 +6,12 @@
 //  Copyright © 2017 Tobias Kräntzer. All rights reserved.
 //
 
-
 import UIKit
 
 class FormTextItemCell: UITableViewCell, UITextFieldDelegate {
-
+    
     static var predicate: NSPredicate {
-        return NSPredicate(block: { (item, options) -> Bool in
+        return NSPredicate(block: { (item, _) -> Bool in
             return item is FormTextItem
         })
     }
@@ -33,17 +32,21 @@ class FormTextItemCell: UITableViewCell, UITextFieldDelegate {
         textField.keyboardType = .default
         
         addSubview(textField)
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[textField]-|",
-                                                      options: [],
-                                                      metrics: [:],
-                                                      views: ["textField":textField]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[textField]-|",
-                                                      options: [],
-                                                      metrics: [:],
-                                                      views: ["textField":textField]))
+        addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|-[textField]-|",
+            options: [],
+            metrics: [:],
+            views: ["textField": textField]
+        ))
+        addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "V:|-[textField]-|",
+            options: [],
+            metrics: [:],
+            views: ["textField": textField]
+        ))
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -56,7 +59,7 @@ class FormTextItemCell: UITableViewCell, UITextFieldDelegate {
     
     // UITextFieldDelegate
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_: UITextField) -> Bool {
         return item?.editable ?? false
     }
     

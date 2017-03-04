@@ -15,7 +15,7 @@ class SettingsViewController: FormViewController, SettingsView {
         super.init(style: .grouped)
         self.presenter.view = self
     }
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     override func viewDidLoad() {

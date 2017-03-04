@@ -6,10 +6,9 @@
 //  Copyright © 2017 Tobias Kräntzer. All rights reserved.
 //
 
-
 import Foundation
 
-class FormSectionData : FormSection {
+class FormSectionData: FormSection {
     var title: String?
     var instructions: String?
 }

@@ -56,20 +56,20 @@ class ResourceDetailsPresenter: NSObject, FTDataSourceObserver {
         get { return dataSource.resource }
         set { dataSource.resource = newValue }
     }
-    func dataSourceDidChange(_ dataSource: FTDataSource!) {
+    func dataSourceDidChange(_: FTDataSource!) {
         updateDownloadButton()
     }
-    func dataSourceDidReset(_ dataSource: FTDataSource!) {
+    func dataSourceDidReset(_: FTDataSource!) {
         updateDownloadButton()
     }
     private func updateDownloadButton() {
         guard
             let resource = self.resource,
             resource.properties.isCollection == false
-            else {
-                view?.actionType = .none
-                view?.actionProgress = nil
-                return
+        else {
+            view?.actionType = .none
+            view?.actionProgress = nil
+            return
         }
         
         switch resource.fileState {
@@ -87,7 +87,7 @@ class ResourceDetailsPresenter: NSObject, FTDataSourceObserver {
     func download() {
         guard
             let resource = self.resource
-            else { return }
+        else { return }
         cloudService.downloadResource(with: resource.resourceID)
     }
 }
@@ -107,7 +107,7 @@ class ResourceDetailsViewController: FormViewController, ResourceDetailsView {
         super.init(style: .grouped)
         self.presenter.view = self
     }
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     override func viewDidLoad() {
@@ -144,7 +144,7 @@ extension ResourceDetailsViewController: ResourceUserInterface {
         get { return presenter.resource }
     }
     
-    func present(_ resource: Resource, animated: Bool) {
+    func present(_ resource: Resource, animated _: Bool) {
         self.resource = resource
     }
 }

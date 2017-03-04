@@ -23,10 +23,10 @@ public class MainModule: UserInterfaceModule {
     public func makeViewController() -> UIViewController {
         guard
             let resourceBrowserViewController = resourceBrowserModule?.makeViewController()
-            else {
-                return UIViewController()
+        else {
+            return UIViewController()
         }
-
+        
         let splitViewController = MainViewController(cloudService: cloudService)
         splitViewController.delegate = self
         splitViewController.presentsWithGesture = true
@@ -53,13 +53,15 @@ class MainViewController: UISplitViewController {
         super.init(nibName: nil, bundle: nil)
         
         let center = NotificationCenter.default
-        center.addObserver(self,
-                           selector: #selector(cloudServiceDidRemoveAccount(_:)),
-                           name: Notification.Name.CloudServiceDidRemoveAccount,
-                           object: cloudService)
+        center.addObserver(
+            self,
+            selector: #selector(cloudServiceDidRemoveAccount(_:)),
+            name: Notification.Name.CloudServiceDidRemoveAccount,
+            object: cloudService
+        )
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -72,7 +74,7 @@ class MainViewController: UISplitViewController {
         DispatchQueue.main.async {
             guard
                 let accountID = notification.userInfo?[AccountIDKey] as? AccountID
-                else { return }
+            else { return }
             
             if self.accountID == accountID {
                 self.dismissSettings()
@@ -86,7 +88,7 @@ extension MainModule: MainViewControllerDelegate {
     func mainViewController(_ mainViewController: MainViewController, settingsViewControllerForAccountWith accountID: AccountID) -> UIViewController? {
         guard
             let settingsViewController = settingsModule?.makeViewController()
-            else { return nil }
+        else { return nil }
         
         if let settingsUserInterface = settingsViewController as? SettingsUserInterface {
             settingsUserInterface.presentSettings(forAccountWith: accountID, animated: false)
@@ -95,7 +97,7 @@ extension MainModule: MainViewControllerDelegate {
     }
     
     func mainViewController(_ mainViewController: MainViewController, detailViewControllerFor resource: Resource) -> UIViewController? {
-        var viewController: UIViewController? = nil
+        var viewController: UIViewController?
         if resource.properties.isCollection == false {
             viewController = resourceDetailsModule?.makeViewController()
         }
@@ -115,10 +117,10 @@ extension MainModule: MainViewControllerDelegate {
         }
     }
     
-    public func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+    public func splitViewController(_: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         guard
             let primaryResourcePresenter = primaryViewController as? ResourceUserInterface,
-            let secondaryResourcePresenter  = secondaryViewController as? ResourceUserInterface,
+            let secondaryResourcePresenter = secondaryViewController as? ResourceUserInterface,
             let resource = secondaryResourcePresenter.resource
         else {
             return true
@@ -134,7 +136,7 @@ extension MainViewController: ResourceUserInterface {
     public var resource: Resource? {
         guard
             let resourcePresenter = viewControllers.first as? ResourceUserInterface
-            else { return nil }
+        else { return nil }
         
         return resourcePresenter.resource
     }
@@ -143,7 +145,7 @@ extension MainViewController: ResourceUserInterface {
         guard
             let delegate = self.delegate as? MainViewControllerDelegate,
             let resourcePresenter = viewControllers.first as? ResourceUserInterface
-            else { return }
+        else { return }
         
         if isCollapsed == false, let detailViewController = delegate.mainViewController(self, detailViewControllerFor: resource) {
             let navigationController = UINavigationController(rootViewController: detailViewController)
@@ -164,7 +166,7 @@ extension MainViewController: PasswordUserInterface {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        alert.addTextField { (textField) in
+        alert.addTextField { textField in
             textField.placeholder = NSLocalizedString("Password", comment: "")
             textField.autocapitalizationType = .none
             textField.autocorrectionType = .no
@@ -172,13 +174,13 @@ extension MainViewController: PasswordUserInterface {
         }
         
         let loginAction = UIAlertAction(title: NSLocalizedString("Login", comment: ""), style: .default) {
-            action in
+            _ in
             let password = alert.textFields?.last?.text
             completion(password)
         }
         
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) {
-            action in
+            _ in
             
             completion(nil)
         }
@@ -197,7 +199,7 @@ extension MainViewController: SettingsUserInterface {
         guard
             let navigationController = presentedViewController as? UINavigationController,
             let settingsUserInterface = navigationController.viewControllers.first as? SettingsUserInterface
-            else { return nil }
+        else { return nil }
         
         return settingsUserInterface.accountID
     }
@@ -206,7 +208,7 @@ extension MainViewController: SettingsUserInterface {
         guard
             let delegate = self.delegate as? MainViewControllerDelegate,
             let settingsViewController = delegate.mainViewController(self, settingsViewControllerForAccountWith: accountID)
-            else { return }
+        else { return }
         
         let dismissButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissSettings))
         settingsViewController.navigationItem.leftBarButtonItem = dismissButton

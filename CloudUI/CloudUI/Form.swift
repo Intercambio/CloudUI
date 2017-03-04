@@ -15,29 +15,29 @@ protocol FormItem {
     var editable: Bool { get }
 }
 
-protocol FormValueItem : FormItem {
+protocol FormValueItem: FormItem {
     var title: String? { get }
     var value: String? { get }
     var icon: UIImage? { get }
     var hasDetails: Bool { get }
 }
 
-protocol FormTextItem : FormItem {
+protocol FormTextItem: FormItem {
     var placeholder: String? { get }
     var text: String? { get }
 }
 
-protocol FormPasswordItem : FormItem {
+protocol FormPasswordItem: FormItem {
     var placeholder: String? { get }
     var hasPassword: Bool { get }
 }
 
-protocol FormURLItem : FormItem {
+protocol FormURLItem: FormItem {
     var placeholder: String? { get }
     var url: URL? { get }
 }
 
-protocol FormButtonItem : FormItem {
+protocol FormButtonItem: FormItem {
     var title: String? { get }
     var action: Selector { get }
     var enabled: Bool { get }

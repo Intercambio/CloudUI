@@ -26,7 +26,7 @@ class SettingsDataSourceTests: XCTestCase, SettingsInteractor {
     func testSettingsItems() {
         guard
             let dataSource = self.dataSource
-            else { XCTFail(); return }
+        else { XCTFail(); return }
         
         XCTAssertEqual(dataSource.numberOfSections(), 4)
         XCTAssertEqual(dataSource.numberOfItems(inSection: 0), 1)
@@ -34,7 +34,7 @@ class SettingsDataSourceTests: XCTestCase, SettingsInteractor {
         XCTAssertEqual(dataSource.numberOfItems(inSection: 2), 1)
         XCTAssertEqual(dataSource.numberOfItems(inSection: 3), 1)
         
-        var item: FormItem? = nil
+        var item: FormItem?
         
         item = dataSource.item(at: IndexPath(item: 0, section: 0)) as? FormItem
         XCTAssertEqual(item?.identifier, SettingsKey.Label)
@@ -55,10 +55,10 @@ class SettingsDataSourceTests: XCTestCase, SettingsInteractor {
     func testUpdateLabel() {
         guard
             let dataSource = self.dataSource
-            else { XCTFail(); return }
+        else { XCTFail(); return }
         
-        var item: FormTextItem? = nil
-
+        var item: FormTextItem?
+        
         item = dataSource.item(at: IndexPath(item: 0, section: 0)) as? FormTextItem
         XCTAssertNil(item?.text)
         
@@ -71,28 +71,28 @@ class SettingsDataSourceTests: XCTestCase, SettingsInteractor {
     // MARK: - SettingsInteractor
     
     var identifier: AccountID? = "123"
-    var values: [SettingsKey:Any]? = nil
-    var password: String? = nil
+    var values: [SettingsKey: Any]?
+    var password: String?
     
-    func values(forAccountWith identifier: AccountID) -> [SettingsKey:Any]? {
+    func values(forAccountWith identifier: AccountID) -> [SettingsKey: Any]? {
         guard
             self.identifier == identifier
-            else { return nil }
+        else { return nil }
         return values
     }
     
     func password(forAccountWith identifier: AccountID) -> String? {
         guard
             self.identifier == identifier
-            else { return nil }
+        else { return nil }
         
         return password
     }
     
-    func update(accountWith identifier: AccountID, using values: [SettingsKey:Any]) throws -> [SettingsKey:Any]? {
+    func update(accountWith identifier: AccountID, using values: [SettingsKey: Any]) throws -> [SettingsKey: Any]? {
         guard
             self.identifier == identifier
-            else { return nil }
+        else { return nil }
         self.values = values
         return values
     }
@@ -100,14 +100,14 @@ class SettingsDataSourceTests: XCTestCase, SettingsInteractor {
     func setPassword(_ password: String?, forAccountWith identifier: AccountID) throws {
         guard
             self.identifier == identifier
-            else { return }
+        else { return }
         self.password = password
     }
     
     func remove(accountWith identifier: AccountID) throws {
         guard
             self.identifier == identifier
-            else { return }
+        else { return }
         self.identifier = nil
         self.values = nil
         self.password = nil

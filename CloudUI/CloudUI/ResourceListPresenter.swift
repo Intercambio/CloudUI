@@ -48,7 +48,7 @@ class ResourceListPresenter {
     func didSelect(itemAt indexPath: IndexPath) {
         guard
             let resource = dataSource?.resource(at: indexPath)
-            else { return }
+        else { return }
         router?.present(resource)
     }
     

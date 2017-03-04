@@ -11,12 +11,12 @@ import CloudService
 
 extension CloudService: SettingsInteractor {
     
-    public func values(forAccountWith identifier: AccountID) -> [SettingsKey:Any]? {
+    public func values(forAccountWith identifier: AccountID) -> [SettingsKey: Any]? {
         do {
             guard
                 let account = try self.account(with: identifier)
-                else { return nil }
-            var result: [String:Any] = [:]
+            else { return nil }
+            var result: [String: Any] = [:]
             result[SettingsKey.Label] = account.label
             result[SettingsKey.BaseURL] = account.url
             result[SettingsKey.Username] = account.username
@@ -30,17 +30,17 @@ extension CloudService: SettingsInteractor {
         do {
             guard
                 let account = try account(with: identifier)
-                else { return nil }
+            else { return nil }
             return password(for: account)
         } catch {
             return nil
         }
     }
     
-    public func update(accountWith identifier: AccountID, using values: [SettingsKey:Any]) throws -> [SettingsKey:Any]? {
+    public func update(accountWith identifier: AccountID, using values: [SettingsKey: Any]) throws -> [SettingsKey: Any]? {
         guard
             let account = try self.account(with: identifier)
-            else { return values }
+        else { return values }
         let label = values[SettingsKey.Label] as? String
         if account.label != label {
             try update(account, with: label)
@@ -51,14 +51,14 @@ extension CloudService: SettingsInteractor {
     public func setPassword(_ password: String?, forAccountWith identifier: AccountID) throws {
         guard
             let account = try account(with: identifier)
-            else { return }
+        else { return }
         setPassword(password, for: account)
     }
     
     public func remove(accountWith identifier: AccountID) throws {
         guard
             let account = try account(with: identifier)
-            else { return }
+        else { return }
         try remove(account)
     }
 }

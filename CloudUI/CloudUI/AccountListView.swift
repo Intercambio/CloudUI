@@ -9,11 +9,11 @@
 import UIKit
 import Fountain
 
-protocol AccountListViewModel : class {
+protocol AccountListViewModel: class {
     var title: String? { get }
     var subtitle: String? { get }
 }
 
-protocol AccountListView : class {
+protocol AccountListView: class {
     var dataSource: FTDataSource? { get set }
 }

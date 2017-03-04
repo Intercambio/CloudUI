@@ -21,7 +21,7 @@ class FormViewController: UITableViewController, UITableViewDelegateCellAction {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.allowsSelection = false
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 45
@@ -111,4 +111,3 @@ class FormViewController: UITableViewController, UITableViewDelegateCellAction {
         dataSource?.performAction(action, forItemAt: indexPath)
     }
 }
-

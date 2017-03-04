@@ -35,8 +35,8 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         
         tableView.register(ResourceListCell.self, forCellReuseIdentifier: "ResourceListCell")
         tableViewAdapter?.forRowsMatching(nil, useCellWithReuseIdentifier: "ResourceListCell") {
-            (view, item, indexPath, dataSource) in
-            if  let cell = view as? ResourceListCell,
+            view, item, _, _ in
+            if let cell = view as? ResourceListCell,
                 let resource = item as? ResourceListViewModel {
                 cell.model = resource
             }
@@ -58,10 +58,10 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
         presenter?.updateIfNeeded()
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter?.didSelect(itemAt: indexPath)
     }
-
+    
     public override func tableView(_: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender _: Any?) {
         dataSource?.performAction(action, forItemAt: indexPath)
     }
@@ -74,13 +74,13 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
     
     // MARK: - FTDataSourceObserver
     
-    func dataSourceDidReset(_ dataSource: FTDataSource!) {
+    func dataSourceDidReset(_: FTDataSource!) {
         updateTitle()
         updateFooter()
         updateRefreshControl()
     }
     
-    func dataSourceDidChange(_ dataSource: FTDataSource!) {
+    func dataSourceDidChange(_: FTDataSource!) {
         updateTitle()
         updateFooter()
         updateRefreshControl()

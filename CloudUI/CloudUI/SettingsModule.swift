@@ -24,7 +24,7 @@ extension SettingsViewController: SettingsUserInterface {
     public var accountID: AccountID? {
         return presenter.accountIdentifier
     }
-    public func presentSettings(forAccountWith accountID: AccountID, animated: Bool) {
+    public func presentSettings(forAccountWith accountID: AccountID, animated _: Bool) {
         presenter.accountIdentifier = accountID
     }
 }
@@ -38,9 +38,9 @@ extension SettingsKey {
 }
 
 public protocol SettingsInteractor: class {
-    func values(forAccountWith identifier: AccountID) -> [SettingsKey:Any]?
+    func values(forAccountWith identifier: AccountID) -> [SettingsKey: Any]?
     func password(forAccountWith identifier: AccountID) -> String?
-    func update(accountWith identifier: AccountID, using values: [SettingsKey:Any]) throws -> [SettingsKey:Any]?
+    func update(accountWith identifier: AccountID, using values: [SettingsKey: Any]) throws -> [SettingsKey: Any]?
     func setPassword(_ password: String?, forAccountWith identifier: AccountID) throws -> Void
     func remove(accountWith identifier: AccountID) throws -> Void
 }

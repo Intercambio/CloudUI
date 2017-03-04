@@ -6,22 +6,21 @@
 //  Copyright © 2017 Tobias Kräntzer. All rights reserved.
 //
 
-
 import UIKit
 
 class FormValueItemCell: UITableViewCell {
-
+    
     static var predicate: NSPredicate {
-        return NSPredicate(block: { (item, options) -> Bool in
+        return NSPredicate(block: { (item, _) -> Bool in
             return item is FormValueItem
         })
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style _: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

@@ -6,20 +6,19 @@
 //  Copyright © 2017 Tobias Kräntzer. All rights reserved.
 //
 
-
 import UIKit
 
 class FormButtonItemCell: UITableViewCell {
-
+    
     static var predicate: NSPredicate {
-        return NSPredicate(block: { (item, options) -> Bool in
+        return NSPredicate(block: { (item, _) -> Bool in
             return item is FormButtonItem
         })
     }
     
     let button: UIButton
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style _: UITableViewCellStyle, reuseIdentifier: String?) {
         button = UIButton(type: .system)
         
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
@@ -28,17 +27,21 @@ class FormButtonItemCell: UITableViewCell {
         button.addTarget(self, action: #selector(handleAction), for: .touchUpInside)
         
         addSubview(button)
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[button]-|",
-                                                      options: [],
-                                                      metrics: [:],
-                                                      views: ["button":button]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[button]-|",
-                                                      options: [],
-                                                      metrics: [:],
-                                                      views: ["button":button]))
+        addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "H:|-[button]-|",
+            options: [],
+            metrics: [:],
+            views: ["button": button]
+        ))
+        addConstraints(NSLayoutConstraint.constraints(
+            withVisualFormat: "V:|-[button]-|",
+            options: [],
+            metrics: [:],
+            views: ["button": button]
+        ))
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -60,8 +63,8 @@ class FormButtonItemCell: UITableViewCell {
             if item.destructive == false {
                 performAction(item.action, sender: self)
             } else {
-
-                let doAction = UIAlertAction(title: item.title, style: .destructive) { (action) in
+                
+                let doAction = UIAlertAction(title: item.title, style: .destructive) { _ in
                     self.performAction(item.action, sender: self)
                 }
                 

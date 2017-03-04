@@ -38,7 +38,7 @@ extension ResourceListViewController: ResourceUserInterface {
         return presenter?.resource
     }
     
-    func present(_ resource: Resource, animated: Bool) {
+    func present(_ resource: Resource, animated _: Bool) {
         presenter?.resource = resource
     }
 }

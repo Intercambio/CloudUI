@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FormPasswordItemData : FormPasswordItem {
+class FormPasswordItemData: FormPasswordItem {
     
     var selectable: Bool = false
     var editable: Bool = true

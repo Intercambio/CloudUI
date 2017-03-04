@@ -15,7 +15,7 @@ enum ResourceListcAcessoryType {
     case update
 }
 
-protocol ResourceListViewModel : class {
+protocol ResourceListViewModel: class {
     var title: String? { get }
     var subtitle: String? { get }
     var accessoryType: ResourceListcAcessoryType { get }
@@ -30,6 +30,6 @@ protocol ResourceDataSource: FTMutableDataSource {
     func performAction(_ action: Selector, forItemAt indexPath: IndexPath) -> Void
 }
 
-protocol ResourceListView : class {
+protocol ResourceListView: class {
     var dataSource: ResourceDataSource? { get set }
 }

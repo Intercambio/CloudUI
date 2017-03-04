@@ -21,8 +21,8 @@ public class ResourceBrowserModule: NSObject, UserInterfaceModule {
     public func makeViewController() -> UIViewController {
         guard
             let accountListViewController = accountListModule?.makeViewController()
-            else {
-                return UIViewController()
+        else {
+            return UIViewController()
         }
         
         let navigationController = ResourceBrowserNavigationController(rootViewController: accountListViewController)
@@ -38,7 +38,7 @@ protocol ResourceBrowserNavigationControllerDelegate: UINavigationControllerDele
 
 extension ResourceBrowserModule: ResourceBrowserNavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, viewControllerFor resource: Resource) -> UIViewController? {
-        var viewController: UIViewController? = nil
+        var viewController: UIViewController?
         if resource.properties.isCollection == true {
             viewController = resourceListModule?.makeViewController()
         } else {
@@ -56,8 +56,8 @@ extension ResourceBrowserNavigationController: ResourceUserInterface {
     public var resource: Resource? {
         guard
             let resourcePresenter = topViewController as? ResourceUserInterface
-            else {
-                return nil
+        else {
+            return nil
         }
         return resourcePresenter.resource
     }
@@ -66,8 +66,8 @@ extension ResourceBrowserNavigationController: ResourceUserInterface {
         guard
             let delegate = self.delegate as? ResourceBrowserNavigationControllerDelegate,
             let viewController = delegate.navigationController(self, viewControllerFor: resource)
-            else {
-                return
+        else {
+            return
         }
         pushViewController(viewController, animated: animated)
     }
@@ -78,7 +78,7 @@ class ResourceBrowserNavigationController: UINavigationController {
         guard
             let resourcePresenter = topViewController as? ResourceUserInterface,
             resourcePresenter.resource?.properties.isCollection == false
-            else { return nil }
+        else { return nil }
         
         let viewController = topViewController
         popViewController(animated: false)

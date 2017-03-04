@@ -22,9 +22,9 @@ class SettingsPresenter {
         didSet {
             guard
                 let accountIdentifier = self.accountIdentifier
-                else {
-                    dataSource = nil
-                    return
+            else {
+                dataSource = nil
+                return
             }
             dataSource = SettingsDataSource(interactor: interactor, accountIdentifier: accountIdentifier)
         }

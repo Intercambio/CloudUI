@@ -13,7 +13,7 @@ class SettingsDataSource: NSObject, FormDataSource {
     
     let interactor: SettingsInteractor
     let accountIdentifier: String
-    private var values: [String:Any]?
+    private var values: [String: Any]?
     
     private let proxy: FTObserverProxy
     public init(interactor: SettingsInteractor, accountIdentifier: String) {
@@ -43,7 +43,7 @@ class SettingsDataSource: NSObject, FormDataSource {
             return IndexPath(item: 0, section: 3)
         } else if option == "password" {
             return IndexPath(item: 0, section: 2)
-        } else  {
+        } else {
             return nil
         }
     }
@@ -87,7 +87,7 @@ class SettingsDataSource: NSObject, FormDataSource {
         
         guard
             let key = option(for: indexPath)
-            else { return }
+        else { return }
         
         var updatedValues = self.values ?? [:]
         updatedValues[key] = value
@@ -98,7 +98,7 @@ class SettingsDataSource: NSObject, FormDataSource {
             } else if key == "password" {
                 guard
                     let password = value as? String
-                    else { return }
+                else { return }
                 try interactor.setPassword(password, forAccountWith: accountIdentifier)
             }
             
@@ -169,7 +169,7 @@ class SettingsDataSource: NSObject, FormDataSource {
     public func item(at indexPath: IndexPath!) -> Any! {
         guard
             let key = option(for: indexPath)
-            else { return nil }
+        else { return nil }
         switch key {
         case SettingsKey.Label: return labelItem()
         case SettingsKey.BaseURL: return baseURLItem()
@@ -179,7 +179,7 @@ class SettingsDataSource: NSObject, FormDataSource {
         default: return nil
         }
     }
-
+    
     private func labelItem() -> FormTextItem {
         let item = FormTextItemData(identifier: SettingsKey.Label)
         item.editable = true

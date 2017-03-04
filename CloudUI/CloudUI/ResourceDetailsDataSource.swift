@@ -32,9 +32,12 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
         super.init()
         proxy.object = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(cloudServiceDidChangeResources(_:)),
-                                               name: Notification.Name.CloudServiceDidChangeResources,
-                                               object: cloudService)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(cloudServiceDidChangeResources(_:)),
+            name: Notification.Name.CloudServiceDidChangeResources,
+            object: cloudService
+        )
     }
     
     deinit {
@@ -46,7 +49,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     @objc private func remove() {
         guard
             let resource = self.resource
-            else { return }
+        else { return }
         do {
             try cloudService.deleteFileForResource(with: resource.resourceID)
         } catch {
@@ -78,7 +81,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     }
     
     private func option(for indexPath: IndexPath) -> String? {
-        switch (indexPath) {
+        switch indexPath {
         case IndexPath(item: 0, section: 0): return "name"
         case IndexPath(item: 0, section: 1): return "type"
         case IndexPath(item: 1, section: 1): return "size"
@@ -90,7 +93,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     
     // MARK: - FormDataSource
     
-    func setValue(_ value: Any?, forItemAt indexPath: IndexPath) {
+    func setValue(_: Any?, forItemAt _: IndexPath) {
         
     }
     
@@ -105,7 +108,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     public func numberOfSections() -> UInt {
         guard
             let resource = self.resource
-            else { return 0 }
+        else { return 0 }
         
         if resource.fileState == .none {
             return 2
@@ -131,7 +134,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
         guard
             let resource = self.resource,
             let key = option(for: indexPath)
-            else { return nil }
+        else { return nil }
         switch key {
         case "name":
             let item = FormTextItemData(identifier: key)

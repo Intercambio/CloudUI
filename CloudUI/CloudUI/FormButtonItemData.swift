@@ -6,10 +6,9 @@
 //  Copyright © 2017 Tobias Kräntzer. All rights reserved.
 //
 
-
 import UIKit
 
-class FormButtonItemData : FormButtonItem {
+class FormButtonItemData: FormButtonItem {
     
     var selectable: Bool = false
     var editable: Bool = false

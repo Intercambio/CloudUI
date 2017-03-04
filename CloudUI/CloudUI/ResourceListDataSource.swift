@@ -30,7 +30,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
             guard
                 let lhResource = lhs as? Resource,
                 let rhResource = rhs as? Resource
-                else { return .orderedSame }
+            else { return .orderedSame }
             
             let lhName = lhResource.resourceID.name.lowercased()
             let rhName = rhResource.resourceID.name.lowercased()
@@ -48,10 +48,12 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
         super.init()
         proxy.object = self
         backingStore.addObserver(proxy)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(cloudServiceDidChangeResources(_:)),
-                                               name: Notification.Name.CloudServiceDidChangeResources,
-                                               object: cloudService)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(cloudServiceDidChangeResources(_:)),
+            name: Notification.Name.CloudServiceDidChangeResources,
+            object: cloudService
+        )
         reload()
     }
     
@@ -64,8 +66,8 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
         guard
             let resource = self.resource,
             (resource.dirty == true || force == true)
-            else {
-                return
+        else {
+            return
         }
         
         if isUpdating == false {
@@ -74,7 +76,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
             isUpdating = true
             proxy.dataSourceDidChange(backingStore)
             
-            cloudService.updateResource(with: resource.resourceID) { error in
+            cloudService.updateResource(with: resource.resourceID) { _ in
                 DispatchQueue.main.async {
                     self.proxy.dataSourceWillChange(self.backingStore)
                     self.isUpdating = false
@@ -127,7 +129,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
     private func removeFile(forItemAt indexPath: IndexPath) {
         guard
             let resource = backingStore.item(at: indexPath) as? Resource
-            else { return }
+        else { return }
         do {
             try cloudService.deleteFileForResource(with: resource.resourceID)
         } catch {
@@ -141,7 +143,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
         guard
             let resource = self.resource,
             let account = self.account
-            else { return nil }
+        else { return nil }
         
         if resource.resourceID.isRoot {
             return account.label ?? account.url.host ?? account.url.absoluteString
@@ -167,7 +169,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
     func performAction(_ action: Selector, forItemAt indexPath: IndexPath) {
         guard
             let resource = backingStore.item(at: indexPath) as? Resource
-            else { return }
+        else { return }
         
         switch NSStringFromSelector(action) {
         case "download":
@@ -214,15 +216,15 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
     
     // MARK: - FTMutableDataSource
     
-    func canInsertItem(_ item: Any!) -> Bool {
+    func canInsertItem(_: Any!) -> Bool {
         return false
     }
     
-    func insertItem(_ item: Any!, atProposedIndexPath proposedIndexPath: IndexPath!) throws -> IndexPath {
+    func insertItem(_: Any!, atProposedIndexPath _: IndexPath!) throws -> IndexPath {
         return IndexPath()
     }
     
-    func canEditItem(at indexPath: IndexPath!) -> Bool {
+    func canEditItem(at _: IndexPath!) -> Bool {
         return false
     }
     
@@ -230,11 +232,11 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
         return []
     }
     
-    func canDeleteItem(at indexPath: IndexPath!) -> Bool {
+    func canDeleteItem(at _: IndexPath!) -> Bool {
         return false
     }
     
-    func deleteItem(at indexPath: IndexPath!) throws {
+    func deleteItem(at _: IndexPath!) throws {
     }
     
     // MARK: - Notification Handling

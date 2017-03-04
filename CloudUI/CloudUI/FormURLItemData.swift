@@ -6,10 +6,9 @@
 //  Copyright © 2017 Tobias Kräntzer. All rights reserved.
 //
 
-
 import Foundation
 
-class FormURLItemData : FormURLItem {
+class FormURLItemData: FormURLItem {
     
     var selectable: Bool = false
     var editable: Bool = true

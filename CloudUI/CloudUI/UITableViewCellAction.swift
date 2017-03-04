@@ -24,7 +24,7 @@ extension UITableView {
         delegate.tableView?(self, performAction: action, forRowAt: indexPath, withSender: sender)
     }
     
-    open func setValue(_ value: Any?, for cell: UITableViewCell, sender: Any?) {
+    open func setValue(_ value: Any?, for cell: UITableViewCell, sender _: Any?) {
         guard
             let delegate = self.delegate as? UITableViewDelegateCellAction,
             let indexPath = indexPath(for: cell)

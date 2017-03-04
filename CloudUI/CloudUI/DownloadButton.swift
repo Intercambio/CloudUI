@@ -14,7 +14,7 @@ enum DownloadButtonType {
 }
 
 class DownloadButton: UIControl {
-   
+    
     var type: DownloadButtonType = .download {
         didSet {
             updateButton()
@@ -106,7 +106,7 @@ class DownloadButton: UIControl {
         }
     }
     
-    @objc private func handleButtonTouchUpInside(sender: UIButton) {
+    @objc private func handleButtonTouchUpInside(sender _: UIButton) {
         if let progress = self.progress {
             if progress.isCancellable == true && progress.isCancelled == false {
                 progress.cancel()
@@ -116,12 +116,12 @@ class DownloadButton: UIControl {
         }
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         guard
             context == &self.context
-            else {
-                super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-                return
+        else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+            return
         }
         
         DispatchQueue.main.async {
