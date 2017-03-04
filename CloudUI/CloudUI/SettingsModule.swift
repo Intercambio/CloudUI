@@ -8,10 +8,9 @@
 
 import UIKit
 import Fountain
-import CloudService
 
 public class SettingsModule: UserInterfaceModule {
-    let interactor: SettingsInteractor
+    private let interactor: SettingsInteractor
     public init(interactor: SettingsInteractor) {
         self.interactor = interactor
     }
@@ -22,20 +21,22 @@ public class SettingsModule: UserInterfaceModule {
 }
 
 extension SettingsViewController: SettingsUserInterface {
-    public var account: Account? {
-        return presenter.account
+    public var accountID: AccountID? {
+        return presenter.accountIdentifier
     }
-    public func presentSettings(for account: Account, animated: Bool) {
-        presenter.account = account
+    public func presentSettings(forAccountWith accountID: AccountID, animated: Bool) {
+        presenter.accountIdentifier = accountID
     }
 }
+
+public let SettingsLabelKey = "im.intercambio.documents.account.label"
+public let SettingsBaseURLKey = "im.intercambio.documents.account.base-url"
+public let SettingsUsernameKey = "im.intercambio.documents.account.username"
 
 public protocol SettingsInteractor: class {
-    func update(_ account: Account, with label: String?) throws -> Void
-    func remove(_ account: Account) throws -> Void
-    func password(for account: Account) -> String?
-    func setPassword(_ password: String?, for account: Account)
-}
-
-extension CloudService: SettingsInteractor {
+    func values(forAccountWith identifier: AccountID) -> [String:Any]?
+    func password(forAccountWith identifier: AccountID) -> String?
+    func update(accountWith identifier: AccountID, using values: [String:Any]) throws -> [String:Any]?
+    func setPassword(_ password: String?, forAccountWith identifier: AccountID) throws -> Void
+    func remove(accountWith identifier: AccountID) throws -> Void
 }

@@ -8,33 +8,36 @@
 
 import UIKit
 import Fountain
-import CloudService
 
 class SettingsDataSource: NSObject, FormDataSource {
     
     let interactor: SettingsInteractor
-    var account: Account
+    let accountIdentifier: String
+    private var values: [String:Any]?
+    
     private let proxy: FTObserverProxy
-    public init(interactor: SettingsInteractor, account: Account) {
+    public init(interactor: SettingsInteractor, accountIdentifier: String) {
         self.interactor = interactor
-        self.account = account
+        self.accountIdentifier = accountIdentifier
         proxy = FTObserverProxy()
         super.init()
         proxy.object = self
+        
+        values = interactor.values(forAccountWith: accountIdentifier)
     }
     
     // Options
     
     var supportedKeys: [String] {
-        return ["label", "baseurl", "username", "remove", "password"]
+        return [SettingsLabelKey, SettingsBaseURLKey, SettingsUsernameKey, "remove", "password"]
     }
     
     private func indexPath(for option: String) -> IndexPath? {
-        if option == "label" {
+        if option == SettingsLabelKey {
             return IndexPath(item: 0, section: 0)
-        } else if option == "baseurl" {
+        } else if option == SettingsBaseURLKey {
             return IndexPath(item: 0, section: 1)
-        } else if option == "username" {
+        } else if option == SettingsUsernameKey {
             return IndexPath(item: 1, section: 1)
         } else if option == "remove" {
             return IndexPath(item: 0, section: 3)
@@ -49,13 +52,13 @@ class SettingsDataSource: NSObject, FormDataSource {
         switch indexPath.section {
         case 0:
             switch indexPath.item {
-            case 0: return "label"
+            case 0: return SettingsLabelKey
             default: return nil
             }
         case 1:
             switch indexPath.item {
-            case 0: return "baseurl"
-            case 1: return "username"
+            case 0: return SettingsBaseURLKey
+            case 1: return SettingsUsernameKey
             default: return nil
             }
         case 2:
@@ -86,17 +89,17 @@ class SettingsDataSource: NSObject, FormDataSource {
             let key = option(for: indexPath)
             else { return }
         
+        var updatedValues = self.values ?? [:]
+        updatedValues[key] = value
+        
         do {
-            if key == "label" {
-                guard
-                    let label = value as? String?
-                    else { return }
-                try interactor.update(account, with: label)
+            if key == SettingsLabelKey {
+                self.values = try interactor.update(accountWith: accountIdentifier, using: updatedValues)
             } else if key == "password" {
                 guard
                     let password = value as? String
                     else { return }
-                interactor.setPassword(password, for: account)
+                try interactor.setPassword(password, forAccountWith: accountIdentifier)
             }
             
         } catch {
@@ -117,7 +120,8 @@ class SettingsDataSource: NSObject, FormDataSource {
     
     func removeAccount() {
         do {
-            try interactor.remove(account)
+            try interactor.remove(accountWith: accountIdentifier)
+            values = nil
         } catch {
             NSLog("Failed to remove account: \(error)")
         }
@@ -167,40 +171,62 @@ class SettingsDataSource: NSObject, FormDataSource {
             let key = option(for: indexPath)
             else { return nil }
         switch key {
-        case "label":
-            let item = FormTextItemData(identifier: key)
-            item.editable = true
-            item.placeholder = account.url.host
-            item.text = account.label
-            return item
-        case "baseurl":
-            let item = FormURLItemData(identifier: key)
-            item.editable = false
-            item.placeholder = "Base URL"
-            item.url = account.url
-            return item
-        case "username":
-            let item = FormTextItemData(identifier: key)
-            item.editable = false
-            item.placeholder = "Username"
-            item.text = account.username
-            return item
-        case "remove":
-            let item = FormButtonItemData(identifier: key, action: #selector(removeAccount))
-            item.title = "Remove Account"
-            item.enabled = true
-            item.destructive = true
-            item.destructionMessage = "Are you sure, that you want to remove this account from the device?"
-            return item
-        case "password":
-            let item = FormPasswordItemData(identifier: key)
-            item.editable = true
-            item.hasPassword = interactor.password(for: account) != nil
-            item.placeholder = item.hasPassword ? "Enter new Password" : "Enter Password"
-            return item
-        default:
-            return nil
+        case SettingsLabelKey: return labelItem()
+        case SettingsBaseURLKey: return baseURLItem()
+        case SettingsUsernameKey: return usernameItem()
+        case "remove": return removeActionItem()
+        case "password": return passwordItem()
+        default: return nil
         }
+    }
+
+    private func labelItem() -> FormTextItem {
+        let item = FormTextItemData(identifier: SettingsLabelKey)
+        item.editable = true
+        if let url = values?[SettingsBaseURLKey] as? URL {
+            item.placeholder = url.host
+        }
+        if let label = values?[SettingsLabelKey] as? String {
+            item.text = label
+        }
+        return item
+    }
+    
+    private func baseURLItem() -> FormURLItem {
+        let item = FormURLItemData(identifier: SettingsBaseURLKey)
+        item.editable = false
+        item.placeholder = "Base URL"
+        if let url = values?[SettingsBaseURLKey] as? URL {
+            item.placeholder = url.host
+        }
+        return item
+    }
+    
+    private func usernameItem() -> FormTextItem {
+        let item = FormTextItemData(identifier: SettingsUsernameKey)
+        item.editable = true
+        item.placeholder = "Username"
+        if let username = values?[SettingsUsernameKey] as? String {
+            item.text = username
+        }
+        return item
+    }
+    
+    private func removeActionItem() -> FormButtonItem {
+        let item = FormButtonItemData(identifier: "remove", action: #selector(removeAccount))
+        item.title = "Remove Account"
+        item.enabled = true
+        item.destructive = true
+        item.destructionMessage = "Are you sure, that you want to remove this account from the device?"
+        return item
+    }
+    
+    private func passwordItem() -> FormPasswordItem {
+        let item = FormPasswordItemData(identifier: "password")
+        item.editable = true
+        item.hasPassword = interactor.password(forAccountWith: accountIdentifier) != nil
+        item.placeholder = item.hasPassword ? "Enter new Password" : "Enter Password"
+        return item
     }
     
     func observers() -> [Any]! {

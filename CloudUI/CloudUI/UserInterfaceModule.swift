@@ -22,7 +22,8 @@ public protocol PasswordUserInterface {
     func requestPassword(for account: Account, completion: @escaping (String?) -> Void) -> Void
 }
 
+public typealias AccountID = String
 public protocol SettingsUserInterface {
-    var account: Account? { get }
-    func presentSettings(for account: Account, animated: Bool) -> Void
+    var accountID: AccountID? { get }
+    func presentSettings(forAccountWith accountID: AccountID, animated: Bool) -> Void
 }

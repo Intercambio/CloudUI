@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CloudService
 
 class SettingsPresenter {
     let interactor: SettingsInteractor
@@ -19,15 +18,15 @@ class SettingsPresenter {
             view?.dataSource = dataSource
         }
     }
-    var account: Account? {
+    var accountIdentifier: String? {
         didSet {
             guard
-                let account = self.account
+                let accountIdentifier = self.accountIdentifier
                 else {
                     dataSource = nil
                     return
             }
-            dataSource = SettingsDataSource(interactor: interactor, account: account)
+            dataSource = SettingsDataSource(interactor: interactor, accountIdentifier: accountIdentifier)
         }
     }
     var dataSource: FormDataSource? {
