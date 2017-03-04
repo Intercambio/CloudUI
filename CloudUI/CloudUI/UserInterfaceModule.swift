@@ -9,6 +9,8 @@
 import Foundation
 import CloudService
 
+public typealias AccountID = String
+
 public protocol UserInterfaceModule {
     func makeViewController() -> UIViewController
 }
@@ -19,10 +21,9 @@ public protocol ResourceUserInterface {
 }
 
 public protocol PasswordUserInterface {
-    func requestPassword(for account: Account, completion: @escaping (String?) -> Void) -> Void
+    func requestPassword(forAccountWith accountID: AccountID, completion: @escaping (String?) -> Void) -> Void
 }
 
-public typealias AccountID = String
 public protocol SettingsUserInterface {
     var accountID: AccountID? { get }
     func presentSettings(forAccountWith accountID: AccountID, animated: Bool) -> Void

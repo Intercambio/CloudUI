@@ -159,38 +159,48 @@ extension MainViewController: ResourceUserInterface {
 
 extension MainViewController: PasswordUserInterface {
     
-    public func requestPassword(for account: Account, completion: @escaping (String?) -> Void) {
-        
-        let title = "Login"
-        let message = "Password for '\(account.username)' at '\(account.url.absoluteString)'"
-        
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        alert.addTextField { textField in
-            textField.placeholder = NSLocalizedString("Password", comment: "")
-            textField.autocapitalizationType = .none
-            textField.autocorrectionType = .no
-            textField.isSecureTextEntry = true
-        }
-        
-        let loginAction = UIAlertAction(title: NSLocalizedString("Login", comment: ""), style: .default) {
-            _ in
-            let password = alert.textFields?.last?.text
-            completion(password)
-        }
-        
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) {
-            _ in
+    public func requestPassword(forAccountWith accountID: AccountID, completion: @escaping (String?) -> Void) {
+        do {
+            guard
+                let account = try cloudService.account(with: accountID)
+            else {
+                completion(nil)
+                return
+            }
             
+            let title = "Login"
+            let message = "Password for '\(account.username)' at '\(account.url.absoluteString)'"
+            
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            alert.addTextField { textField in
+                textField.placeholder = NSLocalizedString("Password", comment: "")
+                textField.autocapitalizationType = .none
+                textField.autocorrectionType = .no
+                textField.isSecureTextEntry = true
+            }
+            
+            let loginAction = UIAlertAction(title: NSLocalizedString("Login", comment: ""), style: .default) {
+                _ in
+                let password = alert.textFields?.last?.text
+                completion(password)
+            }
+            
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) {
+                _ in
+                
+                completion(nil)
+            }
+            
+            alert.addAction(loginAction)
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
+            
+        } catch {
             completion(nil)
         }
-        
-        alert.addAction(loginAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true, completion: nil)
     }
-    
 }
 
 extension MainViewController: SettingsUserInterface {
