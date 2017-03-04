@@ -12,11 +12,11 @@ import CloudService
 
 class SettingsDataSource: NSObject, FormDataSource {
     
-    let cloudService: CloudService
+    let interactor: SettingsInteractor
     var account: Account
     private let proxy: FTObserverProxy
-    public init(cloudService: CloudService, account: Account) {
-        self.cloudService = cloudService
+    public init(interactor: SettingsInteractor, account: Account) {
+        self.interactor = interactor
         self.account = account
         proxy = FTObserverProxy()
         super.init()
@@ -91,12 +91,12 @@ class SettingsDataSource: NSObject, FormDataSource {
                 guard
                     let label = value as? String?
                     else { return }
-                try cloudService.update(account, with: label)
+                try interactor.update(account, with: label)
             } else if key == "password" {
                 guard
                     let password = value as? String
                     else { return }
-                cloudService.setPassword(password, for: account)
+                interactor.setPassword(password, for: account)
             }
             
         } catch {
@@ -117,7 +117,7 @@ class SettingsDataSource: NSObject, FormDataSource {
     
     func removeAccount() {
         do {
-            try cloudService.remove(account)
+            try interactor.remove(account)
         } catch {
             NSLog("Failed to remove account: \(error)")
         }
@@ -195,7 +195,7 @@ class SettingsDataSource: NSObject, FormDataSource {
         case "password":
             let item = FormPasswordItemData(identifier: key)
             item.editable = true
-            item.hasPassword = cloudService.password(for: account) != nil
+            item.hasPassword = interactor.password(for: account) != nil
             item.placeholder = item.hasPassword ? "Enter new Password" : "Enter Password"
             return item
         default:

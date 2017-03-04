@@ -11,14 +11,12 @@ import Fountain
 import CloudService
 
 public class SettingsModule: UserInterfaceModule {
-    
-    let cloudService: CloudService
-    public init(cloudService: CloudService) {
-        self.cloudService = cloudService
+    let interactor: SettingsInteractor
+    public init(interactor: SettingsInteractor) {
+        self.interactor = interactor
     }
-    
     public func makeViewController() -> UIViewController {
-        let presenter = SettingsPresenter(cloudService: cloudService)
+        let presenter = SettingsPresenter(interactor: interactor)
         return SettingsViewController(presenter: presenter)
     }
 }
@@ -30,4 +28,14 @@ extension SettingsViewController: SettingsUserInterface {
     public func presentSettings(for account: Account, animated: Bool) {
         presenter.account = account
     }
+}
+
+public protocol SettingsInteractor: class {
+    func update(_ account: Account, with label: String?) throws -> Void
+    func remove(_ account: Account) throws -> Void
+    func password(for account: Account) -> String?
+    func setPassword(_ password: String?, for account: Account)
+}
+
+extension CloudService: SettingsInteractor {
 }

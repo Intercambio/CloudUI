@@ -10,9 +10,9 @@ import Foundation
 import CloudService
 
 class SettingsPresenter {
-    let cloudService: CloudService
-    init(cloudService: CloudService) {
-        self.cloudService = cloudService
+    let interactor: SettingsInteractor
+    init(interactor: SettingsInteractor) {
+        self.interactor = interactor
     }
     weak var view: SettingsView? {
         didSet {
@@ -27,7 +27,7 @@ class SettingsPresenter {
                     dataSource = nil
                     return
             }
-            dataSource = SettingsDataSource(cloudService: cloudService, account: account)
+            dataSource = SettingsDataSource(interactor: interactor, account: account)
         }
     }
     var dataSource: FormDataSource? {
@@ -36,4 +36,3 @@ class SettingsPresenter {
         }
     }
 }
-
