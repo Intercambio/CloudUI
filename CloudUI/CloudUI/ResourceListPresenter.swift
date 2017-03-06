@@ -19,11 +19,17 @@ class ResourceListPresenter {
         }
     }
     
-    var resource: Resource? {
+    private var dataSource: ResourceListDataSource? {
         didSet {
-            if oldValue != resource {
-                if let resource = self.resource {
-                    dataSource = ResourceListDataSource(cloudService: cloudService, resource: resource)
+            view?.dataSource = dataSource
+        }
+    }
+    
+    var resourceID: ResourceID? {
+        didSet {
+            if oldValue != resourceID {
+                if let resourceID = self.resourceID {
+                    dataSource = ResourceListDataSource(interactor: interactor, resourceID: resourceID)
                 } else {
                     dataSource = nil
                 }
@@ -31,16 +37,10 @@ class ResourceListPresenter {
         }
     }
     
-    private var dataSource: ResourceListDataSource? {
-        didSet {
-            view?.dataSource = dataSource
-        }
-    }
+    let interactor: ResourceListInteractor
     
-    let cloudService: CloudService
-    
-    init(cloudService: CloudService) {
-        self.cloudService = cloudService
+    init(interactor: ResourceListInteractor) {
+        self.interactor = interactor
     }
     
     // MARK: - Actions

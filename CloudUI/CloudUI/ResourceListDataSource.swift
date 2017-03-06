@@ -15,17 +15,15 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
     
     private let backingStore: FTMutableSet
     private let proxy: FTObserverProxy
-    private(set) var resource: Resource? {
-        didSet {
-            reload()
-        }
-    }
-    private var account: Account?
     
-    let cloudService: CloudService
-    init(cloudService: CloudService, resource: Resource) {
-        self.cloudService = cloudService
-        self.resource = resource
+    private(set) var account: Account?
+    private(set) var resource: Resource?
+    
+    let interactor: ResourceListInteractor
+    let resourceID: ResourceID
+    init(interactor: ResourceListInteractor, resourceID: ResourceID) {
+        self.interactor = interactor
+        self.resourceID = resourceID
         let sortDescriptior = NSSortDescriptor(key: "self", ascending: true) { (lhs, rhs) -> ComparisonResult in
             guard
                 let lhResource = lhs as? Resource,
@@ -50,9 +48,9 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
         backingStore.addObserver(proxy)
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(cloudServiceDidChangeResources(_:)),
-            name: Notification.Name.CloudServiceDidChangeResources,
-            object: cloudService
+            selector: #selector(interactorDidChange(_:)),
+            name: Notification.Name.ResourceListInteractorDidChange,
+            object: interactor
         )
         reload()
     }
@@ -76,7 +74,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
             isUpdating = true
             proxy.dataSourceDidChange(backingStore)
             
-            cloudService.updateResource(with: resource.resourceID) { _ in
+            interactor.updateResource(with: resourceID) { _ in
                 DispatchQueue.main.async {
                     self.proxy.dataSourceWillChange(self.backingStore)
                     self.isUpdating = false
@@ -88,37 +86,47 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
     
     private func reload() {
         let account = fetchAccount()
+        let resource = fetchResource()
         let resources = self.fetchResources()
         backingStore.performBatchUpdate {
             self.account = account
+            self.resource = resource
             self.backingStore.removeAllObjects()
             self.backingStore.addObjects(from: resources)
-        }
-    }
-    
-    private func fetchResources() -> [Resource] {
-        do {
-            if let resource = self.resource {
-                return try cloudService.contentOfResource(with: resource.resourceID)
-            } else {
-                return []
-            }
-        } catch {
-            NSLog("Failed to get contents: \(error)")
-            return []
         }
     }
     
     private func fetchAccount() -> Account? {
         do {
             if let resource = self.resource {
-                return try cloudService.account(with: resource.resourceID.accountID)
+                return try interactor.account(with: resource.resourceID.accountID)
             } else {
                 return nil
             }
         } catch {
             NSLog("Failed to get the account: \(error)")
             return nil
+        }
+    }
+    
+    private func fetchResource() -> Resource? {
+        do {
+            return try interactor.resource(with: resourceID)
+        } catch {
+            return nil
+        }
+    }
+    
+    private func fetchResources() -> [Resource] {
+        do {
+            if let resource = self.resource {
+                return try interactor.contentOfResource(with: resource.resourceID)
+            } else {
+                return []
+            }
+        } catch {
+            NSLog("Failed to get contents: \(error)")
+            return []
         }
     }
     
@@ -131,7 +139,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
             let resource = backingStore.item(at: indexPath) as? Resource
         else { return }
         do {
-            try cloudService.deleteFileForResource(with: resource.resourceID)
+            try interactor.deleteFileForResource(with: resource.resourceID)
         } catch {
             NSLog("Failed to remove file of resource: \(error)")
         }
@@ -173,7 +181,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
         
         switch NSStringFromSelector(action) {
         case "download":
-            _ = cloudService.downloadResource(with: resource.resourceID)
+            _ = interactor.downloadResource(with: resource.resourceID)
         default:
             break
         }
@@ -195,7 +203,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
     
     func item(at indexPath: IndexPath!) -> Any! {
         if let item = backingStore.item(at: indexPath) as? Resource {
-            let progress = cloudService.progressForResource(with: item.resourceID)
+            let progress = interactor.progressForResource(with: item.resourceID)
             return ViewModel(resource: item, progress: progress)
         } else {
             return nil
@@ -241,43 +249,32 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
     
     // MARK: - Notification Handling
     
-    @objc private func cloudServiceDidChangeResources(_ notification: Notification) {
+    @objc private func interactorDidChange(_ notification: Notification) {
         DispatchQueue.main.async {
-            do {
-                var needsReload: Bool = false
-                if let resource = self.resource {
-                    
-                    if let deleted = notification.userInfo?[DeletedResourcesKey] as? [ResourceID] {
-                        for deletedResource in deleted {
-                            if resource.resourceID == deletedResource {
-                                self.resource = nil
-                                return
-                            } else if deletedResource.isAncestor(of: resource.resourceID) {
-                                self.resource = nil
-                            } else if deletedResource.isChild(of: resource.resourceID) {
-                                needsReload = true
-                                break
-                            }
-                        }
-                    }
-                    
-                    if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [ResourceID] {
-                        for updatedResource in insertedOrUpdate {
-                            if resource.resourceID == updatedResource {
-                                self.resource = try self.cloudService.resource(with: updatedResource)
-                                return
-                            } else if updatedResource.isAncestor(of: resource.resourceID) || updatedResource.isChild(of: resource.resourceID) {
-                                needsReload = true
-                                break
-                            }
-                        }
+            if let deleted = notification.userInfo?[ResourceListInteractorDeletedResourcesKey] as? [ResourceID] {
+                for deletedResource in deleted {
+                    if self.resourceID == deletedResource {
+                        self.reload()
+                        return
+                    } else if deletedResource.isAncestor(of: self.resourceID) {
+                        self.reload()
+                        return
+                    } else if deletedResource.isChild(of: self.resourceID) {
+                        self.reload()
+                        return
                     }
                 }
-                if needsReload {
-                    self.reload()
+            }
+            if let insertedOrUpdate = notification.userInfo?[ResourceListInteractorInsertedOrUpdatedResourcesKey] as? [ResourceID] {
+                for updatedResource in insertedOrUpdate {
+                    if self.resourceID == updatedResource {
+                        self.reload()
+                        return
+                    } else if updatedResource.isAncestor(of: self.resourceID) || updatedResource.isChild(of: self.resourceID) {
+                        self.reload()
+                        break
+                    }
                 }
-            } catch {
-                
             }
         }
     }

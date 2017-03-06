@@ -11,7 +11,16 @@ import Fountain
 
 class ResourceListViewController: UITableViewController, ResourceListView, FTDataSourceObserver {
     
-    var presenter: ResourceListPresenter?
+    let presenter: ResourceListPresenter
+    init(presenter: ResourceListPresenter) {
+        self.presenter = presenter
+        super.init(style: .plain)
+        self.presenter.view = self
+    }
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     var dataSource: ResourceDataSource? {
         didSet {
             tableViewAdapter?.dataSource = dataSource
@@ -55,11 +64,11 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        presenter?.updateIfNeeded()
+        presenter.updateIfNeeded()
     }
     
     override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter?.didSelect(itemAt: indexPath)
+        presenter.didSelect(itemAt: indexPath)
     }
     
     public override func tableView(_: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender _: Any?) {
@@ -69,7 +78,7 @@ class ResourceListViewController: UITableViewController, ResourceListView, FTDat
     // MARK: - Actions
     
     @objc private func refresh() {
-        presenter?.update()
+        presenter.update()
     }
     
     // MARK: - FTDataSourceObserver
