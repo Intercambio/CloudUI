@@ -10,7 +10,7 @@ import UIKit
 import CloudService
 
 public protocol AccountListRouter: class {
-    func present(resourceAt path: [String], of account: Account) -> Void
+    func present(_ resource: Resource) -> Void
     func presentNewAccount() -> Void
     func presentSettings(for account: Account) -> Void
 }
@@ -37,4 +37,5 @@ extension Notification.Name {
 
 public protocol AccountListInteractor: class {
     func allAccounts() throws -> [Account]
+    func resource(with resourceID: ResourceID) throws -> Resource?
 }

@@ -32,11 +32,19 @@ class AccountListPresenter {
     // MARK: - Actions
     
     func didSelect(itemAt indexPath: IndexPath) {
-        guard
-            let account = dataSource.account(at: indexPath)
-        else { return }
-        
-        router?.present(resourceAt: [], of: account)
+        do {
+            guard
+                let account = dataSource.account(at: indexPath)
+            else { return }
+            
+            let resourceID = ResourceID(accountID: account.identifier, path: Path())
+            
+            if let resource = try interactor.resource(with: resourceID) {
+                router?.present(resource)
+            }
+        } catch {
+            NSLog("Failed to get resource \(error)")
+        }
     }
     
     func didTapAccessoryButton(forItemAt indexPath: IndexPath) {
