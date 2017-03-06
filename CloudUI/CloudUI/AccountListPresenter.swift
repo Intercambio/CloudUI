@@ -22,21 +22,29 @@ class AccountListPresenter {
     
     private let dataSource: AccountListDataSource
     
-    let cloudService: CloudService
+    let interactor: AccountListInteractor
     
-    init(cloudService: CloudService) {
-        self.cloudService = cloudService
-        dataSource = AccountListDataSource(cloudService: cloudService)
+    init(interactor: AccountListInteractor) {
+        self.interactor = interactor
+        dataSource = AccountListDataSource(interactor: interactor)
     }
     
     // MARK: - Actions
     
     func didSelect(itemAt indexPath: IndexPath) {
-        guard
-            let account = dataSource.account(at: indexPath)
-        else { return }
-        
-        router?.present(resourceAt: [], of: account)
+        do {
+            guard
+                let account = dataSource.account(at: indexPath)
+            else { return }
+            
+            let resourceID = ResourceID(accountID: account.identifier, path: Path())
+            
+            if let resource = try interactor.resource(with: resourceID) {
+                router?.present(resource)
+            }
+        } catch {
+            NSLog("Failed to get resource \(error)")
+        }
     }
     
     func didTapAccessoryButton(forItemAt indexPath: IndexPath) {

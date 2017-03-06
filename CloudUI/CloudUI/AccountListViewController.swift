@@ -11,7 +11,16 @@ import Fountain
 
 class AccountListViewController: UITableViewController, AccountListView {
     
-    var presenter: AccountListPresenter?
+    let presenter: AccountListPresenter
+    init(presenter: AccountListPresenter) {
+        self.presenter = presenter
+        super.init(style: .grouped)
+        self.presenter.view = self
+    }
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     var dataSource: FTDataSource?
     
     private var tableViewAdapter: FTTableViewAdapter?
@@ -40,14 +49,14 @@ class AccountListViewController: UITableViewController, AccountListView {
     }
     
     override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter?.didSelect(itemAt: indexPath)
+        presenter.didSelect(itemAt: indexPath)
     }
     
     override func tableView(_: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        presenter?.didTapAccessoryButton(forItemAt: indexPath)
+        presenter.didTapAccessoryButton(forItemAt: indexPath)
     }
     
     @objc private func addAccount() {
-        presenter?.addAccount()
+        presenter.addAccount()
     }
 }

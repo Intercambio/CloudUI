@@ -10,7 +10,7 @@ import UIKit
 import CloudService
 
 public protocol AccountListRouter: class {
-    func present(resourceAt path: [String], of account: Account) -> Void
+    func present(_ resource: Resource) -> Void
     func presentNewAccount() -> Void
     func presentSettings(for account: Account) -> Void
 }
@@ -18,18 +18,24 @@ public protocol AccountListRouter: class {
 public class AccountListModule: UserInterfaceModule {
     
     public weak var router: AccountListRouter?
-    public let cloudService: CloudService
-    public init(cloudService: CloudService) {
-        self.cloudService = cloudService
+    public let interactor: AccountListInteractor
+    public init(interactor: AccountListInteractor) {
+        self.interactor = interactor
     }
     
     public func makeViewController() -> UIViewController {
-        let viewControler = AccountListViewController()
-        let presenter = AccountListPresenter(cloudService: cloudService)
-        presenter.view = viewControler
+        let presenter = AccountListPresenter(interactor: interactor)
         presenter.router = router
-        viewControler.presenter = presenter
+        let viewControler = AccountListViewController(presenter: presenter)
         return viewControler
     }
-    
+}
+
+extension Notification.Name {
+    public static let AccountListInteractorDidChange = Notification.Name(rawValue: "AccountListInteractorDidChange")
+}
+
+public protocol AccountListInteractor: class {
+    func allAccounts() throws -> [Account]
+    func resource(with resourceID: ResourceID) throws -> Resource?
 }
