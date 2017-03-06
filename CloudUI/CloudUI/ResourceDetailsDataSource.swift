@@ -13,7 +13,7 @@ import CloudService
 
 class ResourceDetailsDataSource: NSObject, FormDataSource {
     
-    let cloudService: CloudService
+    let interactor: ResourceDetailsInteractor
     
     var resource: Resource? {
         willSet {
@@ -25,8 +25,8 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     }
     
     private let proxy: FTObserverProxy
-    public init(cloudService: CloudService, resource: Resource?) {
-        self.cloudService = cloudService
+    public init(interactor: ResourceDetailsInteractor, resource: Resource?) {
+        self.interactor = interactor
         self.resource = resource
         proxy = FTObserverProxy()
         super.init()
@@ -36,7 +36,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
             self,
             selector: #selector(cloudServiceDidChangeResources(_:)),
             name: Notification.Name.CloudServiceDidChangeResources,
-            object: cloudService
+            object: interactor
         )
     }
     
@@ -51,7 +51,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
             let resource = self.resource
         else { return }
         do {
-            try cloudService.deleteFileForResource(with: resource.resourceID)
+            try interactor.deleteFileForResource(with: resource.resourceID)
         } catch {
             NSLog("Failed to delete downloaded file: \(error)")
         }
@@ -221,7 +221,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
                     if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [ResourceID] {
                         for updatedResource in insertedOrUpdate {
                             if resource.resourceID == updatedResource {
-                                self.resource = try self.cloudService.resource(with: updatedResource)
+                                self.resource = try self.interactor.resource(with: updatedResource)
                                 return
                             }
                         }
