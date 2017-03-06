@@ -22,11 +22,11 @@ class AccountListPresenter {
     
     private let dataSource: AccountListDataSource
     
-    let cloudService: CloudService
+    let interactor: AccountListInteractor
     
-    init(cloudService: CloudService) {
-        self.cloudService = cloudService
-        dataSource = AccountListDataSource(cloudService: cloudService)
+    init(interactor: AccountListInteractor) {
+        self.interactor = interactor
+        dataSource = AccountListDataSource(interactor: interactor)
     }
     
     // MARK: - Actions

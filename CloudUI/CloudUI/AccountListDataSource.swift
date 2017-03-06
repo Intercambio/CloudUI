@@ -12,16 +12,16 @@ import CloudService
 
 class AccountListDataSource: NSObject, FTDataSource {
     
-    let cloudService: CloudService
-    init(cloudService: CloudService) {
-        self.cloudService = cloudService
+    let interactor: AccountListInteractor
+    init(interactor: AccountListInteractor) {
+        self.interactor = interactor
         let center = NotificationCenter.default
         super.init()
         center.addObserver(
             self,
-            selector: #selector(cloudServiceDidChangeAccounts(_:)),
-            name: Notification.Name.CloudServiceDidChangeAccounts,
-            object: cloudService
+            selector: #selector(interactorDidChange(_:)),
+            name: Notification.Name.AccountListInteractorDidChange,
+            object: interactor
         )
         reload()
     }
@@ -33,7 +33,7 @@ class AccountListDataSource: NSObject, FTDataSource {
     
     // MARK: Notification Handling
     
-    @objc private func cloudServiceDidChangeAccounts(_: Notification) {
+    @objc private func interactorDidChange(_: Notification) {
         DispatchQueue.main.async {
             self.reload()
         }
@@ -43,7 +43,7 @@ class AccountListDataSource: NSObject, FTDataSource {
     
     private func reload() {
         do {
-            let accounts = try cloudService.allAccounts()
+            let accounts = try interactor.allAccounts()
             for observer in _observers.allObjects {
                 observer.dataSourceWillReset?(self)
             }
