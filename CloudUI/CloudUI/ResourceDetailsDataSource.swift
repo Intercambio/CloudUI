@@ -34,8 +34,8 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
         
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(cloudServiceDidChangeResources(_:)),
-            name: Notification.Name.CloudServiceDidChangeResources,
+            selector: #selector(interactorDidChange(_:)),
+            name: Notification.Name.ResourceDetailsInteractorDidChange,
             object: interactor
         )
     }
@@ -203,13 +203,12 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     
     // MARK: - Notification Handling
     
-    @objc private func cloudServiceDidChangeResources(_ notification: Notification) {
+    @objc private func interactorDidChange(_ notification: Notification) {
         DispatchQueue.main.async {
             do {
-                var needsReload: Bool = false
                 if let resource = self.resource {
                     
-                    if let deleted = notification.userInfo?[DeletedResourcesKey] as? [ResourceID] {
+                    if let deleted = notification.userInfo?[ResourceDetailsInteractorDeletedResourcesKey] as? [ResourceID] {
                         for deletedResource in deleted {
                             if resource.resourceID == deletedResource {
                                 self.resource = nil
@@ -218,7 +217,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
                         }
                     }
                     
-                    if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [ResourceID] {
+                    if let insertedOrUpdate = notification.userInfo?[ResourceDetailsInteractorInsertedOrUpdatedResourcesKey] as? [ResourceID] {
                         for updatedResource in insertedOrUpdate {
                             if resource.resourceID == updatedResource {
                                 self.resource = try self.interactor.resource(with: updatedResource)

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F61292CB1E4CA54C00051B24 /* FormPasswordItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61292CA1E4CA54C00051B24 /* FormPasswordItemData.swift */; };
 		F61292CD1E4CA57900051B24 /* FormPasswordItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61292CC1E4CA57900051B24 /* FormPasswordItemCell.swift */; };
+		F62A6F0C1E6DF1EA00FCCDDD /* CloudServiceResourceDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62A6F0B1E6DF1EA00FCCDDD /* CloudServiceResourceDetailsInteractor.swift */; };
 		F63A78A31E4B2FDA004FE25E /* SettingsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */; };
 		F63A78A61E4B3EA7004FE25E /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A51E4B3EA7004FE25E /* Form.swift */; };
 		F63A78AA1E4B3EE8004FE25E /* FormValueItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A91E4B3EE8004FE25E /* FormValueItemData.swift */; };
@@ -80,6 +81,7 @@
 /* Begin PBXFileReference section */
 		F61292CA1E4CA54C00051B24 /* FormPasswordItemData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormPasswordItemData.swift; sourceTree = "<group>"; };
 		F61292CC1E4CA57900051B24 /* FormPasswordItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormPasswordItemCell.swift; sourceTree = "<group>"; };
+		F62A6F0B1E6DF1EA00FCCDDD /* CloudServiceResourceDetailsInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudServiceResourceDetailsInteractor.swift; sourceTree = "<group>"; };
 		F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsModule.swift; sourceTree = "<group>"; };
 		F63A78A51E4B3EA7004FE25E /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
 		F63A78A91E4B3EE8004FE25E /* FormValueItemData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValueItemData.swift; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 			isa = PBXGroup;
 			children = (
 				F6E83A731E6AC0A2001CD205 /* CloudServiceSettingsInteractor.swift */,
+				F62A6F0B1E6DF1EA00FCCDDD /* CloudServiceResourceDetailsInteractor.swift */,
 			);
 			name = Interactors;
 			sourceTree = "<group>";
@@ -567,6 +570,7 @@
 				F63F52711E48B3AC006DAF83 /* AccountListModule.swift in Sources */,
 				F63D05B11E4B86230047F7F0 /* SettingsPresenter.swift in Sources */,
 				F63D05B51E4B86720047F7F0 /* SettingsViewController.swift in Sources */,
+				F62A6F0C1E6DF1EA00FCCDDD /* CloudServiceResourceDetailsInteractor.swift in Sources */,
 				F63D928D1E646622004618DF /* ResourceDetailsModule.swift in Sources */,
 				F63F52781E48B3B3006DAF83 /* MainModule.swift in Sources */,
 				F63F52741E48B3AC006DAF83 /* AccountListView.swift in Sources */,

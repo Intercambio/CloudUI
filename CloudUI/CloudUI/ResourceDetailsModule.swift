@@ -22,14 +22,18 @@ public class ResourceDetailsModule: UserInterfaceModule {
     }
 }
 
+extension Notification.Name {
+    public static let ResourceDetailsInteractorDidChange = Notification.Name(rawValue: "ResourceDetailsInteractorDidChange")
+}
+
+public let ResourceDetailsInteractorDeletedResourcesKey = "ResourceDetailsInteractorDeletedResourcesKey"
+public let ResourceDetailsInteractorInsertedOrUpdatedResourcesKey = "ResourceDetailsInteractorInsertedOrUpdatedResourcesKey"
+
 public protocol ResourceDetailsInteractor: class {
     func resource(with resourceID: ResourceID) throws -> Resource?
     func downloadResource(with resourceID: ResourceID) -> Void
     func deleteFileForResource(with resourceID: ResourceID) throws -> Void
     func progressForResource(with resourceID: ResourceID) -> Progress?
-}
-
-extension CloudService: ResourceDetailsInteractor {
 }
 
 extension ResourceDetailsViewController: ResourceUserInterface {
