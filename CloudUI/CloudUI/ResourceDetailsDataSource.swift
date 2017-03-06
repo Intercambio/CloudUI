@@ -13,35 +13,46 @@ import CloudService
 
 class ResourceDetailsDataSource: NSObject, FormDataSource {
     
-    let cloudService: CloudService
+    let interactor: ResourceDetailsInteractor
+    let resourceID: ResourceID
     
-    var resource: Resource? {
-        willSet {
-            proxy.dataSourceWillReset(self)
-        }
-        didSet {
-            proxy.dataSourceDidReset(self)
-        }
-    }
+    private(set) var resource: Resource?
     
     private let proxy: FTObserverProxy
-    public init(cloudService: CloudService, resource: Resource?) {
-        self.cloudService = cloudService
-        self.resource = resource
+    public init(interactor: ResourceDetailsInteractor, resourceID: ResourceID) {
+        self.interactor = interactor
+        self.resourceID = resourceID
         proxy = FTObserverProxy()
         super.init()
         proxy.object = self
         
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(cloudServiceDidChangeResources(_:)),
-            name: Notification.Name.CloudServiceDidChangeResources,
-            object: cloudService
+            selector: #selector(interactorDidChange(_:)),
+            name: Notification.Name.ResourceDetailsInteractorDidChange,
+            object: interactor
         )
+        
+        reload()
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    // Reload
+    
+    private func reload() {
+        proxy.dataSourceWillReset(self)
+        defer {
+            proxy.dataSourceDidReset(self)
+        }
+        
+        do {
+            resource = try self.interactor.resource(with: resourceID)
+        } catch {
+            NSLog("Failed to relad resource: \(error)")
+        }
     }
     
     // Actions
@@ -51,7 +62,7 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
             let resource = self.resource
         else { return }
         do {
-            try cloudService.deleteFileForResource(with: resource.resourceID)
+            try interactor.deleteFileForResource(with: resource.resourceID)
         } catch {
             NSLog("Failed to delete downloaded file: \(error)")
         }
@@ -203,32 +214,23 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     
     // MARK: - Notification Handling
     
-    @objc private func cloudServiceDidChangeResources(_ notification: Notification) {
+    @objc private func interactorDidChange(_ notification: Notification) {
         DispatchQueue.main.async {
-            do {
-                var needsReload: Bool = false
-                if let resource = self.resource {
-                    
-                    if let deleted = notification.userInfo?[DeletedResourcesKey] as? [ResourceID] {
-                        for deletedResource in deleted {
-                            if resource.resourceID == deletedResource {
-                                self.resource = nil
-                                return
-                            }
-                        }
-                    }
-                    
-                    if let insertedOrUpdate = notification.userInfo?[InsertedOrUpdatedResourcesKey] as? [ResourceID] {
-                        for updatedResource in insertedOrUpdate {
-                            if resource.resourceID == updatedResource {
-                                self.resource = try self.cloudService.resource(with: updatedResource)
-                                return
-                            }
-                        }
+            if let deleted = notification.userInfo?[ResourceDetailsInteractorDeletedResourcesKey] as? [ResourceID] {
+                for deletedResource in deleted {
+                    if self.resourceID == deletedResource {
+                        self.reload()
+                        return
                     }
                 }
-            } catch {
-                NSLog("Failed to update resource: \(error)")
+            }
+            if let insertedOrUpdate = notification.userInfo?[ResourceDetailsInteractorInsertedOrUpdatedResourcesKey] as? [ResourceID] {
+                for updatedResource in insertedOrUpdate {
+                    if self.resourceID == updatedResource {
+                        self.reload()
+                        return
+                    }
+                }
             }
         }
     }

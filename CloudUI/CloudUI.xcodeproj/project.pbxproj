@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F61292CB1E4CA54C00051B24 /* FormPasswordItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61292CA1E4CA54C00051B24 /* FormPasswordItemData.swift */; };
 		F61292CD1E4CA57900051B24 /* FormPasswordItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61292CC1E4CA57900051B24 /* FormPasswordItemCell.swift */; };
+		F62A6F0C1E6DF1EA00FCCDDD /* CloudServiceResourceDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62A6F0B1E6DF1EA00FCCDDD /* CloudServiceResourceDetailsInteractor.swift */; };
 		F63A78A31E4B2FDA004FE25E /* SettingsModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */; };
 		F63A78A61E4B3EA7004FE25E /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A51E4B3EA7004FE25E /* Form.swift */; };
 		F63A78AA1E4B3EE8004FE25E /* FormValueItemData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63A78A91E4B3EE8004FE25E /* FormValueItemData.swift */; };
@@ -62,6 +63,9 @@
 		F6E83A711E6ABD90001CD205 /* CloudService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E83A6D1E6ABD82001CD205 /* CloudService.framework */; };
 		F6E83A721E6ABD90001CD205 /* KeyChain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E83A6E1E6ABD82001CD205 /* KeyChain.framework */; };
 		F6E83A751E6AC236001CD205 /* CloudServiceSettingsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E83A731E6AC0A2001CD205 /* CloudServiceSettingsInteractor.swift */; };
+		F6E83A781E6C2667001CD205 /* ResourceDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E83A771E6C2667001CD205 /* ResourceDetailsViewController.swift */; };
+		F6E83A7A1E6C2692001CD205 /* ResourceDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E83A791E6C2692001CD205 /* ResourceDetailsPresenter.swift */; };
+		F6E83A7C1E6C26B9001CD205 /* ResourceDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E83A7B1E6C26B9001CD205 /* ResourceDetailsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +81,7 @@
 /* Begin PBXFileReference section */
 		F61292CA1E4CA54C00051B24 /* FormPasswordItemData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormPasswordItemData.swift; sourceTree = "<group>"; };
 		F61292CC1E4CA57900051B24 /* FormPasswordItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormPasswordItemCell.swift; sourceTree = "<group>"; };
+		F62A6F0B1E6DF1EA00FCCDDD /* CloudServiceResourceDetailsInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudServiceResourceDetailsInteractor.swift; sourceTree = "<group>"; };
 		F63A78A21E4B2FDA004FE25E /* SettingsModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsModule.swift; sourceTree = "<group>"; };
 		F63A78A51E4B3EA7004FE25E /* Form.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
 		F63A78A91E4B3EE8004FE25E /* FormValueItemData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormValueItemData.swift; sourceTree = "<group>"; };
@@ -128,6 +133,9 @@
 		F6E83A6D1E6ABD82001CD205 /* CloudService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudService.framework; path = ../Carthage/Build/iOS/CloudService.framework; sourceTree = "<group>"; };
 		F6E83A6E1E6ABD82001CD205 /* KeyChain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeyChain.framework; path = ../Carthage/Build/iOS/KeyChain.framework; sourceTree = "<group>"; };
 		F6E83A731E6AC0A2001CD205 /* CloudServiceSettingsInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudServiceSettingsInteractor.swift; sourceTree = "<group>"; };
+		F6E83A771E6C2667001CD205 /* ResourceDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceDetailsViewController.swift; sourceTree = "<group>"; };
+		F6E83A791E6C2692001CD205 /* ResourceDetailsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceDetailsPresenter.swift; sourceTree = "<group>"; };
+		F6E83A7B1E6C26B9001CD205 /* ResourceDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceDetailsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,8 +235,11 @@
 		F63D928B1E646604004618DF /* Resource Details */ = {
 			isa = PBXGroup;
 			children = (
-				F63D928C1E646622004618DF /* ResourceDetailsModule.swift */,
 				F63D928E1E646D45004618DF /* ResourceDetailsDataSource.swift */,
+				F63D928C1E646622004618DF /* ResourceDetailsModule.swift */,
+				F6E83A791E6C2692001CD205 /* ResourceDetailsPresenter.swift */,
+				F6E83A7B1E6C26B9001CD205 /* ResourceDetailsView.swift */,
+				F6E83A771E6C2667001CD205 /* ResourceDetailsViewController.swift */,
 			);
 			name = "Resource Details";
 			sourceTree = "<group>";
@@ -382,6 +393,7 @@
 			isa = PBXGroup;
 			children = (
 				F6E83A731E6AC0A2001CD205 /* CloudServiceSettingsInteractor.swift */,
+				F62A6F0B1E6DF1EA00FCCDDD /* CloudServiceResourceDetailsInteractor.swift */,
 			);
 			name = Interactors;
 			sourceTree = "<group>";
@@ -533,12 +545,15 @@
 				F63A78BE1E4B3FBA004FE25E /* UITableViewCellAction.swift in Sources */,
 				F63A78AF1E4B3F0C004FE25E /* FormButtonItemData.swift in Sources */,
 				F63F52831E48B3CB006DAF83 /* ResourceListModule.swift in Sources */,
+				F6E83A7C1E6C26B9001CD205 /* ResourceDetailsView.swift in Sources */,
 				F63A78B71E4B3F30004FE25E /* FormButtonItemCell.swift in Sources */,
 				F63F52651E48B350006DAF83 /* UserInterfaceModule.swift in Sources */,
 				F6E83A751E6AC236001CD205 /* CloudServiceSettingsInteractor.swift in Sources */,
 				F63F52861E48B3CB006DAF83 /* ResourceListView.swift in Sources */,
 				F63A78AA1E4B3EE8004FE25E /* FormValueItemData.swift in Sources */,
 				F63A78BF1E4B3FBA004FE25E /* UICollectionViewCellAction.swift in Sources */,
+				F6E83A7A1E6C2692001CD205 /* ResourceDetailsPresenter.swift in Sources */,
+				F6E83A781E6C2667001CD205 /* ResourceDetailsViewController.swift in Sources */,
 				F67DACF41E5D91F400C16B8E /* StyleKit.swift in Sources */,
 				F63A78B01E4B3F0C004FE25E /* FormSectionData.swift in Sources */,
 				F63D928F1E646D45004618DF /* ResourceDetailsDataSource.swift in Sources */,
@@ -555,6 +570,7 @@
 				F63F52711E48B3AC006DAF83 /* AccountListModule.swift in Sources */,
 				F63D05B11E4B86230047F7F0 /* SettingsPresenter.swift in Sources */,
 				F63D05B51E4B86720047F7F0 /* SettingsViewController.swift in Sources */,
+				F62A6F0C1E6DF1EA00FCCDDD /* CloudServiceResourceDetailsInteractor.swift in Sources */,
 				F63D928D1E646622004618DF /* ResourceDetailsModule.swift in Sources */,
 				F63F52781E48B3B3006DAF83 /* MainModule.swift in Sources */,
 				F63F52741E48B3AC006DAF83 /* AccountListView.swift in Sources */,
