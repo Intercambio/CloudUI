@@ -11,36 +11,51 @@ import CloudService
 import Fountain
 
 class ResourceDetailsPresenter: NSObject, FTDataSourceObserver {
+    
     let interactor: ResourceDetailsInteractor
-    let dataSource: ResourceDetailsDataSource
     init(interactor: ResourceDetailsInteractor) {
         self.interactor = interactor
-        self.dataSource = ResourceDetailsDataSource(interactor: interactor, resource: nil)
         super.init()
-        dataSource.addObserver(self)
-        updateDownloadButton()
     }
-    deinit {
-        dataSource.removeObserver(self)
-    }
+    
     weak var view: ResourceDetailsView? {
         didSet {
             view?.dataSource = dataSource
         }
     }
-    var resource: Resource? {
-        get { return dataSource.resource }
-        set { dataSource.resource = newValue }
+    
+    var dataSource: ResourceDetailsDataSource? {
+        willSet {
+            dataSource?.removeObserver(self)
+        }
+        didSet {
+            dataSource?.addObserver(self)
+            view?.dataSource = dataSource
+            updateDownloadButton()
+        }
     }
+    
+    var resourceID: ResourceID? {
+        didSet {
+            if let resourceID = self.resourceID {
+                dataSource = ResourceDetailsDataSource(interactor: interactor, resourceID: resourceID)
+            } else {
+                dataSource = nil
+            }
+        }
+    }
+    
     func dataSourceDidChange(_: FTDataSource!) {
         updateDownloadButton()
     }
+    
     func dataSourceDidReset(_: FTDataSource!) {
         updateDownloadButton()
     }
+    
     private func updateDownloadButton() {
         guard
-            let resource = self.resource,
+            let resource = dataSource?.resource,
             resource.properties.isCollection == false
         else {
             view?.actionType = .none
@@ -60,9 +75,10 @@ class ResourceDetailsPresenter: NSObject, FTDataSourceObserver {
             view?.actionProgress = nil
         }
     }
+    
     func download() {
         guard
-            let resource = self.resource
+            let resource = dataSource?.resource
         else { return }
         interactor.downloadResource(with: resource.resourceID)
     }

@@ -14,20 +14,14 @@ import CloudService
 class ResourceDetailsDataSource: NSObject, FormDataSource {
     
     let interactor: ResourceDetailsInteractor
+    let resourceID: ResourceID
     
-    var resource: Resource? {
-        willSet {
-            proxy.dataSourceWillReset(self)
-        }
-        didSet {
-            proxy.dataSourceDidReset(self)
-        }
-    }
+    private(set) var resource: Resource?
     
     private let proxy: FTObserverProxy
-    public init(interactor: ResourceDetailsInteractor, resource: Resource?) {
+    public init(interactor: ResourceDetailsInteractor, resourceID: ResourceID) {
         self.interactor = interactor
-        self.resource = resource
+        self.resourceID = resourceID
         proxy = FTObserverProxy()
         super.init()
         proxy.object = self
@@ -38,10 +32,27 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
             name: Notification.Name.ResourceDetailsInteractorDidChange,
             object: interactor
         )
+        
+        reload()
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    // Reload
+    
+    private func reload() {
+        proxy.dataSourceWillReset(self)
+        defer {
+            proxy.dataSourceDidReset(self)
+        }
+        
+        do {
+            resource = try self.interactor.resource(with: resourceID)
+        } catch {
+            NSLog("Failed to relad resource: \(error)")
+        }
     }
     
     // Actions
@@ -205,29 +216,21 @@ class ResourceDetailsDataSource: NSObject, FormDataSource {
     
     @objc private func interactorDidChange(_ notification: Notification) {
         DispatchQueue.main.async {
-            do {
-                if let resource = self.resource {
-                    
-                    if let deleted = notification.userInfo?[ResourceDetailsInteractorDeletedResourcesKey] as? [ResourceID] {
-                        for deletedResource in deleted {
-                            if resource.resourceID == deletedResource {
-                                self.resource = nil
-                                return
-                            }
-                        }
-                    }
-                    
-                    if let insertedOrUpdate = notification.userInfo?[ResourceDetailsInteractorInsertedOrUpdatedResourcesKey] as? [ResourceID] {
-                        for updatedResource in insertedOrUpdate {
-                            if resource.resourceID == updatedResource {
-                                self.resource = try self.interactor.resource(with: updatedResource)
-                                return
-                            }
-                        }
+            if let deleted = notification.userInfo?[ResourceDetailsInteractorDeletedResourcesKey] as? [ResourceID] {
+                for deletedResource in deleted {
+                    if self.resourceID == deletedResource {
+                        self.reload()
+                        return
                     }
                 }
-            } catch {
-                NSLog("Failed to update resource: \(error)")
+            }
+            if let insertedOrUpdate = notification.userInfo?[ResourceDetailsInteractorInsertedOrUpdatedResourcesKey] as? [ResourceID] {
+                for updatedResource in insertedOrUpdate {
+                    if self.resourceID == updatedResource {
+                        self.reload()
+                        return
+                    }
+                }
             }
         }
     }

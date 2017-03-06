@@ -37,10 +37,21 @@ public protocol ResourceDetailsInteractor: class {
 }
 
 extension ResourceDetailsViewController: ResourceUserInterface {
+    
     private(set) var resource: Resource? {
-        set { presenter.resource = newValue }
-        get { return presenter.resource }
+        get {
+            guard
+                let resourceID = presenter.resourceID
+            else { return nil }
+            do {
+                return try presenter.interactor.resource(with: resourceID)
+            } catch {
+                return nil
+            }
+        }
+        set { presenter.resourceID = newValue?.resourceID }
     }
+    
     func present(_ resource: Resource, animated _: Bool) {
         self.resource = resource
     }
