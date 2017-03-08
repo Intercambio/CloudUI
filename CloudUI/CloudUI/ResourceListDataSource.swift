@@ -98,11 +98,7 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
     
     private func fetchAccount() -> Account? {
         do {
-            if let resource = self.resource {
-                return try interactor.account(with: resource.resourceID.accountID)
-            } else {
-                return nil
-            }
+            return try interactor.account(with: resourceID.accountID)
         } catch {
             NSLog("Failed to get the account: \(error)")
             return nil
@@ -113,17 +109,14 @@ class ResourceListDataSource: NSObject, ResourceDataSource, FTMutableDataSource 
         do {
             return try interactor.resource(with: resourceID)
         } catch {
+            NSLog("Failed to get the resource: \(error)")
             return nil
         }
     }
     
     private func fetchResources() -> [Resource] {
         do {
-            if let resource = self.resource {
-                return try interactor.contentOfResource(with: resource.resourceID)
-            } else {
-                return []
-            }
+            return try interactor.contentOfResource(with: resourceID)
         } catch {
             NSLog("Failed to get contents: \(error)")
             return []
