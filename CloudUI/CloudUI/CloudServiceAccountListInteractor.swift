@@ -12,9 +12,11 @@ import CloudService
 extension CloudService: AccountListInteractor {
 }
 
-private let AccountListInteractorObserver: NSObjectProtocol = {
+private var accountListInteractorObserver: NSObjectProtocol?
+
+public func setupAccountListInteractorNotifications() {
     let center = NotificationCenter.default
-    return center.addObserver(
+    accountListInteractorObserver = center.addObserver(
         forName: Notification.Name.CloudServiceDidChangeAccounts,
         object: nil,
         queue: nil
@@ -25,4 +27,4 @@ private let AccountListInteractorObserver: NSObjectProtocol = {
             userInfo: nil
         )
     }
-}()
+}

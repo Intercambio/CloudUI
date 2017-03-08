@@ -12,9 +12,11 @@ import CloudService
 extension CloudService: ResourceListInteractor {
 }
 
-private let ResourceListInteractorObserver: NSObjectProtocol = {
+private var resourceListInteractorObserver: NSObjectProtocol?
+
+public func setupResourceListInteractorNotifications() {
     let center = NotificationCenter.default
-    return center.addObserver(
+    resourceListInteractorObserver = center.addObserver(
         forName: Notification.Name.CloudServiceDidChangeResources,
         object: nil,
         queue: nil
@@ -28,4 +30,4 @@ private let ResourceListInteractorObserver: NSObjectProtocol = {
             userInfo: userInfo
         )
     }
-}()
+}
