@@ -14,7 +14,7 @@ class AccountListViewController: UITableViewController, AccountListView {
     let presenter: AccountListPresenter
     init(presenter: AccountListPresenter) {
         self.presenter = presenter
-        super.init(style: .grouped)
+        super.init(style: .plain)
         self.presenter.view = self
     }
     required init?(coder _: NSCoder) {
