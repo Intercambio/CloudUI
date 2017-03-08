@@ -197,7 +197,7 @@ class SettingsDataSource: NSObject, FormDataSource {
         item.editable = false
         item.placeholder = "Base URL"
         if let url = values?[SettingsKey.BaseURL] as? URL {
-            item.placeholder = url.host
+            item.url = url
         }
         return item
     }
